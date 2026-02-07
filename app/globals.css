@@ -10,6 +10,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-montserrat: var(--font-montserrat)
 }
 
 @media (prefers-color-scheme: dark) {
@@ -19,8 +20,36 @@
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer utilities {
+  @keyframes marquee {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-marquee {
+    animation: marquee 60s linear infinite;
+  }
+
+  .pause-on-hover:hover {
+    animation-play-state: paused;
+  }
 }
+
+
+
+body {
+  font-family: var(--font-montserrat);
+}
+
+
+.social-icon {
+  width: 16px !important;
+}
+.icon {
+  width: 20px !important;
+}
+
