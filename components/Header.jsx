@@ -13,6 +13,7 @@
  */
 "use client";
 import { faFacebook, faInstagram, faYoutube } from "@fortawesome/free-brands-svg-icons"
+import { width } from "@fortawesome/free-brands-svg-icons/fa11ty";
 import { faArrowRightToBracket, faSearch } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import Image from "next/image"
@@ -29,6 +30,7 @@ export default function Header() {
             <ContactBar />
             <Navbar />
             <MobileNavbar />
+            <NavigationLinks />
         </>
     )
 }
@@ -40,8 +42,8 @@ export function RunningRibon() {
     const message = "KMM College of Arts and Science has been NAAC Accredited with B Grade.";
     return (
         <>
-            <div className="bg-[#ba3e3e] text-white font-bold text-sm md:text-base lg:text-lg 2xl:text-xl overflow-hidden cursor-pointer">
-                <div className="flex w-max whitespace-nowrap animate-marquee py-2 lg:py-3 pause-on-hover">
+            <div className="bg-[#ba3e3e] text-white font-bold text-xs md:text-sm lg:text-base 2xl:text-lg overflow-hidden cursor-pointer">
+                <div className="flex w-max whitespace-nowrap animate-marquee py-1 lg:py-2 pause-on-hover">
                     {Array(6).fill().map((_, i) => (
                         <div key={i} className="flex gap-20 mr-20">
                             <p>{message}</p>
@@ -57,15 +59,18 @@ export function RunningRibon() {
 
 
 export function ContactBar() {
+
+    const [display, setDisplay] = useState(false);
+
     // Second Layer
     return (
         <>
-            <div className="hidden  bg-[#18213b] text-white lg:flex items-center justify-between px-4 py-2 lg:py-3 text-sm md:text-base lg:text-lg 2xl:text-xl">
+            <div className="hidden  bg-[#18213b] text-white lg:flex items-center justify-between px-4 py-1 lg:py-2 text-xs md:text-sm lg:text-base 2xl:text-lg">
                 <div className="flex items-center gap-2 flex-1">
                     <span className="font-sans font-medium cursor-default">Embase</span>
                     {/* Provide the Embase page link later */}
                     <Link href={"#"}>
-                        <FontAwesomeIcon icon={faArrowRightToBracket} className="w-6 h-6  lg:w-7 lg:h-7 cursor-pointer hover:text-[#1ab69d] transition-colors duration-300 ease-in-out" />
+                        <FontAwesomeIcon icon={faArrowRightToBracket} className="text-lg lg:text-xl cursor-pointer hover:text-[#1ab69d] transition-colors duration-300 ease-in-out" />
                     </Link>
                 </div>
 
@@ -86,7 +91,7 @@ export function ContactBar() {
                     >
                         <FontAwesomeIcon
                             icon={faInstagram}
-                            className="w-6 h-6  lg:w-7 lg:h-7 cursor-pointer hover:text-[#1ab69d] transition-colors duration-300 ease-in-out"
+                            className="text-lg lg:text-xl cursor-pointer hover:text-[#1ab69d] transition-colors duration-300 ease-in-out"
                         />
                     </a>
 
@@ -97,7 +102,7 @@ export function ContactBar() {
                     >
                         <FontAwesomeIcon
                             icon={faFacebook}
-                            className="w-6 h-6  lg:w-7 lg:h-7 cursor-pointer hover:text-[#1ab69d] transition-colals duration-300 ease-in-out"
+                            className="text-lg lg:text-xl cursor-pointer hover:text-[#1ab69d] transition-colors duration-300 ease-in-out"
                         />
                     </a>
 
@@ -108,14 +113,21 @@ export function ContactBar() {
                     >
                         <FontAwesomeIcon
                             icon={faYoutube}
-                            className="w-6 h-6  lg:w-7 lg:h-7 cursor-pointer hover:text-[#1ab69d] transition-colors duration-300 ease-in-out"
+                            className="text-lg lg:text-xl cursor-pointer hover:text-[#1ab69d] transition-colors duration-300 ease-in-out"
                         />
                     </a>
 
-                    <a href="#">
+                    <input
+                        type="search"
+                        className={`bg-white ring ring-gray-400 text-[#18213b] rounded-full text-center px-2  transition-all duration-300 ease-in-out
+                        ${display ? 'w-40 opacity-100' : 'w-0 opacity-0 pointer-events-none'}`}
+                        placeholder="search"
+                    />
+
+                    <a onClick={() => setDisplay(!display)} href="#">
                         <FontAwesomeIcon
                             icon={faSearch}
-                            className="w-6 h-6  lg:w-7 lg:h-7 cursor-pointer hover:text-[#1ab69d] transition-colors duration-300 ease-in-out"
+                            className="text-lg lg:text-xl cursor-pointer hover:text-[#1ab69d] transition-colors duration-300 ease-in-out"
                         />
                     </a>
 
@@ -130,9 +142,9 @@ export function Navbar() {
     // Third Layer
     return (
         <>
-            <div className=" hidden lg:flex items-center justify-between bg-[#18213b] text-white border-t border-t-gray-500 px-4  text-sm md:text-base lg:text-lg 2xl:text-xl  ">
+            <div className=" hidden lg:flex items-center justify-between bg-[#18213b] text-white border-t border-t-gray-500 px-4  text-xs md:text-sm lg:text-base 2xl:text-lg  ">
                 <ul className="flex gap-2 font-medium">
-                    <li className="border-r border-r-gray-500 pr-2 py-2 lg:py-3 cursor-pointer hover:border-gray-500 hover:text-[#1ab69d] transition-colors duration-300 ease-in-out relative group">ADMISSION
+                    <li className="border-r border-r-gray-500 pr-2 py-1 lg:py-2 cursor-pointer hover:border-gray-500 hover:text-[#1ab69d] transition-colors duration-300 ease-in-out relative group">ADMISSION
                         <div className="hidden group-hover:block absolute top-13 -left-2  w-50 shadow-lg bg-white">
                             <ul className="flex flex-col gap-2 p-2  text-blue-800 ">
                                 <li className="hover:bg-[#f1f1f1] px-2 rounded">UG Admission</li>
@@ -141,7 +153,7 @@ export function Navbar() {
                             </ul>
                         </div>
                     </li>
-                    <li className="border-r border-r-gray-500 pr-2 py-2 lg:py-3 cursor-pointer hover:border-gray-500 hover:text-[#1ab69d] transition-colors duration-300 ease-in-out relative group">CLUBS
+                    <li className="border-r border-r-gray-500 pr-2 py-1 lg:py-2 cursor-pointer hover:border-gray-500 hover:text-[#1ab69d] transition-colors duration-300 ease-in-out relative group">CLUBS
                         <div className="hidden group-hover:block absolute top-13 -left-2  w-80 shadow-lg bg-white">
                             <ul className="flex flex-col gap-2 p-2  text-blue-800">
                                 <li className="hover:bg-[#f1f1f1] px-2 rounded">Nature Club</li>
@@ -160,7 +172,7 @@ export function Navbar() {
                             </ul>
                         </div>
                     </li>
-                    <li className="border-r border-r-gray-500 pr-2 py-2 lg:py-3 cursor-pointer hover:border-gray-500 hover:text-[#1ab69d] transition-colors duration-300 ease-in-out relative group">CELLS
+                    <li className="border-r border-r-gray-500 pr-2 py-1 lg:py-2 cursor-pointer hover:border-gray-500 hover:text-[#1ab69d] transition-colors duration-300 ease-in-out relative group">CELLS
                         <div className="hidden group-hover:block absolute top-13 -left-2  w-70 shadow-lg bg-white">
                             <ul className="flex flex-col gap-2 p-2  text-blue-800">
                                 <li className="hover:bg-[#f1f1f1] px-2 rounded">Internal Exam and Test Paper</li>
@@ -177,7 +189,7 @@ export function Navbar() {
                             </ul>
                         </div>
                     </li>
-                    <li className="py-2 lg:py-3 cursor-pointer hover:border-gray-500 hover:text-[#1ab69d] transition-colors duration-300 ease-in-out relative group">COMMITTEES
+                    <li className="py-1 lg:py-2 cursor-pointer hover:border-gray-500 hover:text-[#1ab69d] transition-colors duration-300 ease-in-out relative group">COMMITTEES
                         <div className="hidden group-hover:block absolute top-13 -left-2  w-80 shadow-lg bg-white">
                             <ul className="flex flex-col gap-2 p-2  text-blue-800">
                                 <li className="hover:bg-[#f1f1f1] px-2 rounded">Anti Ragging</li>
@@ -189,7 +201,7 @@ export function Navbar() {
                     </li>
                 </ul>
                 <ul className="flex gap-2 font-medium">
-                    <li className="border-r border-r-gray-500 pr-2 py-2 lg:py-3 cursor-pointer hover:border-gray-500 hover:text-[#1ab69d] transition-colors duration-300 ease-in-out relative group">RESEARCH
+                    <li className="border-r border-r-gray-500 pr-2 py-1 lg:py-2 cursor-pointer hover:border-gray-500 hover:text-[#1ab69d] transition-colors duration-300 ease-in-out relative group">RESEARCH
                         <div className="hidden group-hover:block absolute top-13 -left-2  w-80 shadow-lg bg-white">
                             <ul className="flex flex-col gap-2 p-2  text-blue-800">
                                 <li className="hover:bg-[#f1f1f1] px-2 rounded">Research Cell</li>
@@ -199,19 +211,54 @@ export function Navbar() {
                             </ul>
                         </div>
                     </li>
-                    <li className="border-r border-r-gray-500 pr-2 py-2 lg:py-3 cursor-pointer hover:border-gray-500 hover:text-[#1ab69d] transition-colors duration-300 ease-in-out relative group">STUDENT SUPPORT
+                    <li className="border-r border-r-gray-500 pr-2 py-1 lg:py-2 cursor-pointer hover:border-gray-500 hover:text-[#1ab69d] transition-colors duration-300 ease-in-out relative group">STUDENT SUPPORT
                         <div className="hidden group-hover:block absolute top-13 -left-2  w-50 shadow-lg bg-white">
                             <ul className="flex flex-col gap-2 p-2  text-blue-800">
                                 <li className="hover:bg-[#f1f1f1] px-2 rounded">SQAC</li>
                             </ul>
                         </div>
                     </li>
-                    <li className="border-r border-r-gray-500 pr-2 py-2 lg:py-3 cursor-pointer hover:border-gray-500 hover:text-[#1ab69d] transition-colors duration-300 ease-in-out">IQAC</li>
-                    <li className="border-r border-r-gray-500 pr-2 py-2 lg:py-3 cursor-pointer hover:border-gray-500 hover:text-[#1ab69d] transition-colors duration-300 ease-in-out">FACILITIES</li>
-                    <li className="py-2 lg:py-3 cursor-pointer hover:border-gray-500 hover:text-[#1ab69d] transition-colors duration-300 ease-in-out">EVENTS</li>
+                    <li className="border-r border-r-gray-500 pr-2 py-1 lg:py-2 cursor-pointer hover:border-gray-500 hover:text-[#1ab69d] transition-colors duration-300 ease-in-out">IQAC</li>
+                    <li className="border-r border-r-gray-500 pr-2 py-1 lg:py-2 cursor-pointer hover:border-gray-500 hover:text-[#1ab69d] transition-colors duration-300 ease-in-out">FACILITIES</li>
+                    <li className="py-1 lg:py-2 cursor-pointer hover:border-gray-500 hover:text-[#1ab69d] transition-colors duration-300 ease-in-out">EVENTS</li>
                 </ul>
             </div>
 
+        </>
+    )
+}
+
+
+export function NavigationLinks() {
+    return (
+        <>
+            <div className=" hidden px-4 lg:flex justify-between items-center py-2 font-medium text-sm xl:text-base">
+                <ul className=" flex gap-4 xl:gap-8">
+                    <li className="hover:text-[#1ab69d] transition-colors duration-300 ease-in-out cursor-pointer"><a href="#">HOME</a></li>
+                    <li className="hover:text-[#1ab69d] transition-colors duration-300 ease-in-out cursor-pointer"><a href="#">ABOUT US</a></li>
+                    <li className="hover:text-[#1ab69d] transition-colors duration-300 ease-in-out cursor-pointer"><a href="#">CO-CURRICULAR</a></li>
+                    
+                    <li className="hover:text-[#1ab69d] transition-colors duration-300 ease-in-out cursor-pointer"><a href="#">DEPARTMENTS</a></li>
+                </ul>
+                <div className="flex">
+                    <div className=" justify-center items-center ">
+                    <Image
+                        src="/images/kmm-nav-logo.png"
+                        alt="logo"
+                        width={150}
+                        height={100}
+                        priority
+                    />
+                </div>
+                </div>
+                
+                <ul className="flex gap-4  xl:gap-8">
+                    <li className="hover:text-[#1ab69d] transition-colors duration-300 ease-in-out cursor-pointer"><a href="#">PLACEMENTS</a></li>
+                    <li className="hover:text-[#1ab69d] transition-colors duration-300 ease-in-out cursor-pointer"><a href="#">ADD ON COURSES</a></li>
+                    <li className="hover:text-[#1ab69d] transition-colors duration-300 ease-in-out cursor-pointer"><a href="#">ACADEMICS</a></li>
+                    <li className="hover:text-[#1ab69d] transition-colors duration-300 ease-in-out cursor-pointer"><a href="#">CONTACT</a></li>
+                </ul>
+            </div>
         </>
     )
 }
@@ -226,41 +273,35 @@ export function MobileNavbar() {
     }
     return (
         <>
-            <nav className="flex items-center justify-between px-4 shadow-xl lg:hidden">
+            <nav className="flex items-center justify-between px-4 shadow-xl lg:hidden py-1.5">
 
                 <div className="flex items-center">
-                    <Image className="object-contain"
-                        src="/images/kmm-logo.webp"
+                    <Image
+                        src="/images/kmm-nav-logo.png"
                         alt="logo"
-                        width={80}
-                        height={80}
+                        width={145}
+                        height={100}
                         priority
                     />
-                    <div className="flex flex-col items-center text-[#18213b] font-semibold justify-center">
-                        <h1 className="text-xl">KMM COLLEGE</h1>
-                        <h3 className="border-t border-[#18213b] text-base">
-                            Kumbalam, Panagad
-                        </h3>
-                    </div>
                 </div>
 
                 {/* Hamburger */}
                 <div
-                    className="flex flex-col gap-1.5 cursor-pointer"
+                    className="flex flex-col gap-1.5 cursor-pointer  "
                     onClick={crossOver}
                 >
                     <span
-                        className={`w-8 h-[3px] bg-black rounded transition-all duration-300 
+                        className={`w-7 h-[2px] bg-black rounded transition-all duration-300  
           ${open ? "rotate-45 translate-y-[8px]" : ""}`}
                     ></span>
 
                     <span
-                        className={`w-8 h-[3px] bg-black rounded transition-all duration-200 
+                        className={`w-7 h-[2px] bg-black rounded transition-all duration-200 
           ${open ? "opacity-0" : ""}`}
                     ></span>
 
                     <span
-                        className={`w-8 h-[3px] bg-black rounded transition-all duration-300 
+                        className={`w-7 h-[2px] bg-black rounded transition-all duration-300 
           ${open ? "-rotate-45 -translate-y-[8px]" : ""}`}
                     ></span>
                 </div>
