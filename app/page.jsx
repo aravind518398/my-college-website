@@ -42,8 +42,8 @@ export default function Home() {
                         </div>
                         <div className="p-2">
                            <h6 className="text-xs">March 17, 2025</h6>
-                           <h3  className="font-medium mt-2">ADMISSIONS STARTED
-                              {/* <img src="assets/images/icons/new.png" alt=""> */}
+                           <h3  className="font-medium mt-2">ADMISSIONS STARTE
+                              
                            </h3>
                           
                         </div>
