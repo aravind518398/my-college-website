@@ -75,7 +75,7 @@ export default function Carousel() {
   };
 
   return (
-    <section id="home-carousel" className="relative isolate h-full min-h-[520px] overflow-hidden  text-white">
+    <section className="relative isolate h-full min-h-[520px] overflow-hidden  text-white">
       {slides.map((slide, index) => (
         <Image
           key={slide.title}
