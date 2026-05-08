@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  faArrowRight,
   faChevronLeft,
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
@@ -11,31 +12,36 @@ import { useEffect, useRef, useState } from "react";
 const slides = [
   {
     title: "KMM College of Arts and Science",
+    eyebrow: "Welcome to KMM",
+    description: "A student-focused campus built around academic excellence, professional confidence, and values-led growth.",
     image: "/images/college.png",
     alt: "KMM College campus",
+    position: "object-center",
   },
   {
     title: "KMM College Kumbalam",
+    eyebrow: "Campus Life",
+    description: "Modern facilities, smart classrooms, and a safe learning environment for every student.",
     image: "/images/college2.png",
     alt: "KMM College Kumbalam",
+    position: "object-center",
   },
   {
     title: "Catalyst Arts",
+    eyebrow: "Events",
+    description: "Celebrating creativity, teamwork, and student talent through vibrant cultural programmes.",
     image: "/images/catalyst_arts_2026.png",
     alt: "Catalyst Arts",
+    position: "object-center",
   },
   {
     title: "Dance",
+    eyebrow: "Student Culture",
+    description: "A lively campus community where students discover confidence beyond the classroom.",
     image: "/images/image.png",
-    alt:"Arabic Dance"
+    alt: "Arabic Dance",
+    position: "object-center",
   }
-  // Add more carousel images here after placing them in public/images.
-  // Example:
-  // {
-  //   title: "College Event",
-  //   image: "/images/event.jpg",
-  //   alt: "Students attending a college event",
-  // },
 ];
 
 export default function Carousel() {
@@ -75,12 +81,12 @@ export default function Carousel() {
   };
 
   return (
-    <section className="relative isolate h-full min-h-[520px] overflow-hidden  text-white">
+    <section id="home-carousel" className="relative isolate min-h-[480px] overflow-hidden text-white sm:min-h-[560px] lg:min-h-[680px]">
       {slides.map((slide, index) => (
         <Image
           key={slide.title}
           src={slide.image}
-          className={`object-cover transition-opacity duration-500 ease-in-out ${
+          className={`object-cover ${slide.position} transition-opacity duration-700 ease-in-out ${
             activeSlide === index ? "opacity-100" : "opacity-0"
           }`}
           alt={slide.alt}
@@ -89,13 +95,36 @@ export default function Carousel() {
           sizes="100vw"
         />
       ))}
-     
+      <div className="absolute inset-0 bg-gradient-to-r from-[#18213b]/90 via-[#18213b]/55 to-[#18213b]/10"></div>
+      <div className="absolute inset-0 bg-gradient-to-t from-[#18213b]/65 via-transparent to-[#18213b]/35"></div>
+      <div className="absolute -left-28 top-20 h-72 w-72 rounded-full bg-[#179BD7]/20 blur-3xl"></div>
+      <div className="absolute bottom-10 right-0 h-80 w-80 rounded-full bg-[#1ab69d]/20 blur-3xl"></div>
+
+      <div className="relative z-10 mx-auto flex min-h-[480px] max-w-7xl items-center px-4 py-20 sm:min-h-[560px] sm:px-6 lg:min-h-[680px] lg:px-8">
+        <div className="max-w-3xl">
+          <div className="mb-5 flex items-center gap-3">
+            <span className="h-11 w-1.5 rounded-full bg-[#1ab69d]"></span>
+            <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#1ab69d] sm:text-sm">{slides[activeSlide].eyebrow}</p>
+          </div>
+          <h1 className="max-w-3xl text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl">{slides[activeSlide].title}</h1>
+          <p className="mt-5 max-w-2xl text-sm leading-7 text-white/82 sm:text-base lg:text-lg lg:leading-8">{slides[activeSlide].description}</p>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+            <button className="group inline-flex w-fit cursor-pointer items-center gap-2 rounded-br-2xl rounded-tl-2xl bg-gradient-to-r from-[#179BD7] to-[#1ab69d] px-5 py-3 text-sm font-bold text-white shadow-xl shadow-[#179BD7]/25 transition-all duration-300 hover:-translate-y-1">
+              Explore Admissions
+              <FontAwesomeIcon icon={faArrowRight} className="text-xs transition-transform duration-300 group-hover:translate-x-1" />
+            </button>
+            <button className="inline-flex w-fit cursor-pointer items-center gap-2 rounded-br-2xl rounded-tl-2xl bg-white/12 px-5 py-3 text-sm font-bold text-white ring-1 ring-white/25 backdrop-blur transition-all duration-300 hover:bg-white hover:text-[#18213b]">
+              View Programmes
+            </button>
+          </div>
+        </div>
+      </div>
 
       <button
         type="button"
         onClick={goToPrevious}
         disabled={isChanging}
-        className="absolute left-4 top-1/2 z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/15 text-white ring-1 ring-white/30 transition-colors duration-300 hover:bg-white hover:text-[#18213b] sm:flex"
+        className="absolute bottom-6 left-4 z-20 flex h-11 w-11 items-center justify-center rounded-full bg-white/15 text-white ring-1 ring-white/30 backdrop-blur transition-colors duration-300 hover:bg-white hover:text-[#18213b] disabled:cursor-not-allowed disabled:opacity-50 sm:left-auto sm:right-20 lg:bottom-auto lg:left-4 lg:right-auto lg:top-1/2 lg:-translate-y-1/2"
         aria-label="Previous slide"
       >
         <FontAwesomeIcon icon={faChevronLeft} />
@@ -104,21 +133,21 @@ export default function Carousel() {
         type="button"
         onClick={goToNext}
         disabled={isChanging}
-        className="absolute right-4 top-1/2 z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/15 text-white ring-1 ring-white/30 transition-colors duration-300 hover:bg-white hover:text-[#18213b] sm:flex"
+        className="absolute bottom-6 left-18 z-20 flex h-11 w-11 items-center justify-center rounded-full bg-white/15 text-white ring-1 ring-white/30 backdrop-blur transition-colors duration-300 hover:bg-white hover:text-[#18213b] disabled:cursor-not-allowed disabled:opacity-50 sm:left-auto sm:right-4 lg:bottom-auto lg:right-4 lg:top-1/2 lg:-translate-y-1/2"
         aria-label="Next slide"
       >
         <FontAwesomeIcon icon={faChevronRight} />
       </button>
 
-      <div className="absolute bottom-6 left-1/2 z-20 flex -translate-x-1/2 gap-3">
+      <div className="absolute bottom-8 left-1/2 z-20 flex -translate-x-1/2 gap-3 sm:bottom-7">
         {slides.map((slide, index) => (
           <button
             key={slide.title}
             type="button"
             onClick={() => changeSlide(() => index)}
             disabled={isChanging || activeSlide === index}
-            className={`h-2.5 rounded-full transition-all duration-300 ${
-              activeSlide === index ? "w-9 bg-white" : "w-2.5 bg-white/45"
+            className={`h-2.5 rounded-full ring-1 ring-white/20 transition-all duration-300 ${
+              activeSlide === index ? "w-9 bg-[#1ab69d]" : "w-2.5 bg-white/45 hover:bg-white/75"
             }`}
             aria-label={`Go to slide ${index + 1}`}
           />

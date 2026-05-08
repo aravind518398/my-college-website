@@ -3,6 +3,8 @@ import Carousel from "@/components/Carousel";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faCalendarDays, faChevronRight, faGraduationCap, faStar } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
+import Footer from "@/components/Footer";
+import Cards from "@/components/Cards";
 
 
 export default function Home() {
@@ -111,19 +113,99 @@ export default function Home() {
             </div>
           </div>
         </section>
+
         <section className="relative overflow-hidden bg-[radial-gradient(circle_at_top_left,rgba(26,182,157,0.22),transparent_34%),radial-gradient(circle_at_bottom_right,rgba(23,155,215,0.24),transparent_32%),linear-gradient(135deg,#f7fbff_0%,#eef9f7_46%,#f5f7fb_100%)] px-4 py-12 sm:px-6 lg:px-8 lg:py-20">
+          <div className="absolute -left-28 top-16 h-72 w-72 rounded-full bg-[#179BD7]/10 blur-3xl"></div>
+          <div className="absolute -right-28 bottom-20 h-80 w-80 rounded-full bg-[#1ab69d]/10 blur-3xl"></div>
           <div className="relative mx-auto max-w-7xl">
-                  <div className="mb-8 flex max-w-3xl items-center sm:mb-10">
+            <div className="mb-8 flex max-w-3xl items-center sm:mb-10">
               <div className="h-12 w-1.5 shrink-0 rounded-full bg-[#179BD7]"></div>
               <div className="ml-4">
-                
+                <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#1ab69d]">Facilities</p>
                 <h2 className="text-2xl font-bold leading-tight text-[#18213b] sm:text-3xl">Campus overview</h2>
               </div>
             </div>
+
+            <div className="grid gap-6 lg:grid-cols-2">
+              {[
+                {
+                  title: "Our Campus",
+                  label: "Student friendly infrastructure",
+                  img: "/images/college2.png",
+                  alt: "KMM College campus",
+                  description:
+                    "The college has a well designed infrastructure and numerous facilities for students, including seminar halls, a college radio station, smart halls, smart classrooms and a waiting room. The CCTV enabled campus ensures the safety of its well-endowed environment.",
+                },
+                {
+                  title: "Our Lab",
+                  label: "Modern computer facilities",
+                  img: "/images/lab.webp",
+                  alt: "KMM College computer lab",
+                  description:
+                    "The college has three computer labs with updated software, internet access, printing and scanning facilities through the network. The labs support add-on programmes and certificate programmes.",
+                },
+              ].map((item) => (
+                <article key={item.title} className="group overflow-hidden rounded-2xl bg-white shadow-2xl ring-1 ring-black/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-[#179BD7]/20">
+                  <div className="relative min-h-[240px] overflow-hidden sm:min-h-[320px]">
+                    <Image src={item.img} fill alt={item.alt} className="object-cover transition-transform duration-700 group-hover:scale-105" sizes="(max-width: 1024px) 100vw, 50vw" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#18213b]/90 via-[#18213b]/35 to-transparent"></div>
+                    <div className="absolute bottom-4 left-4 right-4">
+                      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#1ab69d]">{item.label}</p>
+                      <h3 className="mt-1 text-3xl font-bold uppercase leading-tight text-white sm:text-4xl">{item.title}</h3>
+                    </div>
+                  </div>
+                  <div className="p-5 sm:p-7">
+                    <p className="text-sm leading-7 text-[#343434] sm:text-base">{item.description}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
           </div>
-          
+        </section>
+
+        <section className="bg-white px-4 py-12 sm:px-6 lg:px-8 lg:py-20">
+          <div className="mx-auto max-w-7xl">
+            <div className="mb-8 flex flex-col gap-5 sm:mb-10 md:flex-row md:items-end md:justify-between">
+              <div className="flex max-w-3xl items-center">
+                <div className="h-12 w-1.5 shrink-0 rounded-full bg-[#179BD7]"></div>
+                <div className="ml-4">
+                  <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#1ab69d]">Academics</p>
+                  <h2 className="text-2xl font-bold leading-tight text-[#18213b] sm:text-3xl">Programmes offered</h2>
+                </div>
+              </div>
+              <p className="max-w-xl text-sm leading-7 text-[#343434] sm:text-base">Choose from career-focused undergraduate and postgraduate programmes designed to build strong fundamentals, practical skills, and professional confidence.</p>
+            </div>
+
+            <div className="space-y-12">
+              <div>
+                <div className="mb-5 flex items-center justify-between gap-4">
+                  <h3 className="text-xl font-bold text-[#18213b] sm:text-2xl">UG Programmes</h3>
+                  <div className="h-px flex-1 bg-gradient-to-r from-[#179BD7]/40 to-transparent"></div>
+                </div>
+                <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                  <Cards course="B.Com" detail="Finance and commerce focused undergraduate pathway" img="/images/close-up-graduation-woman.png" />
+                  <Cards course="BCA" detail="Computer applications, software, and digital skills" img="/images/girl-graduating.png" />
+                  <Cards course="BBA" detail="Business administration, management, and leadership" img="/images/close-up-graduation-certificate.png" />
+                </div>
+              </div>
+
+              <div>
+                <div className="mb-5 flex items-center justify-between gap-4">
+                  <h3 className="text-xl font-bold text-[#18213b] sm:text-2xl">PG Programmes</h3>
+                  <div className="h-px flex-1 bg-gradient-to-r from-[#1ab69d]/40 to-transparent"></div>
+                </div>
+                <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                  <Cards course="MBA" detail="Advanced business administration and management" img="/images/close-up-graduation-woman.png" />
+                  <Cards course="M.Sc" detail="Postgraduate study with focused subject expertise" img="/images/girl-graduating.png" />
+                  <Cards course="MCA" detail="Advanced computer application and technology skills" img="/images/close-up-graduation-certificate.png" />
+                </div>
+              </div>
+            </div>
+          </div>
         </section>
       </main>
+
+      <Footer/>
     </div>
   );
 }

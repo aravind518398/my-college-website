@@ -2,26 +2,30 @@
 
 import { faFacebook, faInstagram, faYoutube } from "@fortawesome/free-brands-svg-icons";
 import {
+  faArrowRight,
   faArrowRightToBracket,
+  faBars,
   faChevronDown,
   faEnvelope,
+  faMagnifyingGlass,
   faPhone,
-  faSearch,
+  faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-const primaryLinks = ["HOME", "ABOUT US", "CO-CURRICULAR", "DEPARTMENTS", "PLACEMENTS", "ADD ON COURSES", "ACADEMICS", "CONTACT"];
+const primaryLinks = ["Home", "About Us", "Departments", "Placements", "Academics", "Contact"];
+const quickLinks = ["Co-Curricular", "Add On Courses"];
 
 const menuGroups = [
   {
-    title: "ADMISSION",
+    title: "Admission",
     items: ["UG Admission", "PG Admission", "Fee Structure"],
   },
   {
-    title: "CLUBS",
+    title: "Clubs",
     items: [
       "Nature Club",
       "Literary Club",
@@ -39,7 +43,7 @@ const menuGroups = [
     ],
   },
   {
-    title: "CELLS",
+    title: "Cells",
     items: [
       "Internal Exam and Test Paper",
       "OBC Cell",
@@ -55,25 +59,28 @@ const menuGroups = [
     ],
   },
   {
-    title: "COMMITTEES",
+    title: "Committees",
     items: ["Anti Ragging", "Grievance Redressal Committee", "Internal Complaints Committee", "Energy Monitoring Committee"],
   },
   {
-    title: "RESEARCH",
+    title: "Research",
     items: ["Research Cell", "IIC", "IEDC"],
   },
   {
-    title: "STUDENT SUPPORT",
+    title: "Student Support",
     items: ["SQAC"],
   },
   {
     title: "IQAC",
   },
   {
-    title: "FACILITIES",
+    title: "Facilities",
   },
   {
-    title: "EVENTS",
+    title: "Events",
+  },
+  {
+    title: "Approved Fee Structure",
   },
 ];
 
@@ -111,39 +118,31 @@ export function RunningRibon() {
 }
 
 export function ContactBar() {
-  const [display, setDisplay] = useState(false);
-
   return (
-    <div className="hidden bg-[#18213b] text-white lg:block">
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-6 py-2 text-sm">
-        <Link href="#" className="flex items-center gap-2 font-semibold transition-colors duration-300 hover:text-[#1ab69d]">
-          <span>Embase</span>
-          <FontAwesomeIcon icon={faArrowRightToBracket} />
-        </Link>
-
-        <div className="flex items-center gap-4 font-medium">
-          <FontAwesomeIcon icon={faPhone} className="text-[#1ab69d]" />
-          {contactNumbers.map((number) => (
-            <a key={number} href="tel:#" className="transition-colors duration-300 hover:text-[#1ab69d]">
-              {number}
-            </a>
-          ))}
+    <div className="hidden bg-[#18213b] text-white xl:block">
+      <div className="mx-auto flex min-h-14 max-w-7xl items-center justify-between gap-6 px-6 text-sm">
+        <div className="flex min-w-0 items-center gap-5">
+          <Link href="#" className="flex items-center gap-2 font-semibold transition-colors duration-300 hover:text-[#1ab69d]">
+            <FontAwesomeIcon icon={faArrowRightToBracket} className="text-[#1ab69d]" />
+            <span>Embase Login</span>
+          </Link>
+          <a href="mailto:kmmkumbalam@kmmcollege.edu.in" className="hidden items-center gap-2 text-white/75 transition-colors duration-300 hover:text-white xl:flex">
+            <FontAwesomeIcon icon={faEnvelope} className="text-[#1ab69d]" />
+            <span>kmmkumbalam@kmmcollege.edu.in</span>
+          </a>
         </div>
 
-        <div className="flex items-center gap-4">
-          <SocialLinks />
-          <div className="flex items-center rounded-full bg-white/10 px-2 py-1 ring-1 ring-white/15">
-            <input
-              type="search"
-              className={`bg-transparent text-sm text-white outline-none placeholder:text-white/55 transition-all duration-300 ${
-                display ? "w-40 px-2 opacity-100" : "w-0 opacity-0"
-              }`}
-              placeholder="Search"
-            />
-            <button type="button" onClick={() => setDisplay(!display)} className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full transition-colors duration-300 hover:bg-white hover:text-[#18213b]" aria-label="Toggle search">
-              <FontAwesomeIcon icon={faSearch} />
-            </button>
+        <div className="flex items-center gap-5 font-medium">
+          <div className="flex items-center gap-3">
+            <FontAwesomeIcon icon={faPhone} className="text-[#1ab69d]" />
+            {contactNumbers.map((number) => (
+              <a key={number} href="tel:#" className="whitespace-nowrap transition-colors duration-300 hover:text-[#1ab69d]">
+                {number}
+              </a>
+            ))}
           </div>
+          <SocialLinks />
+          <DesktopSearch />
         </div>
       </div>
     </div>
@@ -152,17 +151,18 @@ export function ContactBar() {
 
 export function DesktopHeader() {
   const [isSticky, setIsSticky] = useState(false);
+  const desktopHeaderRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => {
-      const carousel = document.getElementById("home-carousel");
+      const header = desktopHeaderRef.current;
 
-      if (!carousel) {
-        setIsSticky(window.scrollY > 180);
+      if (!header) {
+        setIsSticky(window.scrollY > 120);
         return;
       }
 
-      setIsSticky(carousel.getBoundingClientRect().bottom <= 0);
+      setIsSticky(header.getBoundingClientRect().bottom <= 0);
     };
 
     handleScroll();
@@ -177,12 +177,12 @@ export function DesktopHeader() {
 
   return (
     <>
-      <div className="hidden lg:block">
+      <div ref={desktopHeaderRef} className="hidden xl:block">
         <DesktopHeaderContent />
       </div>
 
       <div
-        className={`fixed left-0 right-0 top-0 z-[60] hidden bg-white shadow-2xl ring-1 ring-black/5 transition-all duration-700 ease-out lg:block ${
+        className={`fixed left-0 right-0 top-0 z-[60] hidden bg-white shadow-2xl ring-1 ring-black/5 transition-all duration-700 ease-out xl:block ${
           isSticky ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-full opacity-0"
         }`}
       >
@@ -193,43 +193,50 @@ export function DesktopHeader() {
 }
 
 function DesktopHeaderContent({ compact = false }) {
-  const leftLinks = primaryLinks.slice(0, 4);
-  const rightLinks = primaryLinks.slice(4);
-
   return (
-    <div>
-      <div className={`mx-auto grid max-w-7xl grid-cols-[1fr_auto_1fr] items-center gap-6 px-6 transition-all duration-500 ${compact ? "py-2" : "py-4"}`}>
-        <LinkList links={leftLinks} align="start" compact={compact} />
-        <Link href="#" className="flex justify-center">
-          <Image src="/images/kmm-nav-logo.png" alt="KMM College logo" width={160} height={100} priority className={`h-auto transition-all duration-500 ${compact ? "w-30" : "w-40"}`} />
+    <div className="bg-white">
+      <div className={`mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 transition-all duration-500 2xl:gap-6 ${compact ? "min-h-14" : "min-h-16"}`}>
+        <Link href="#" className="flex min-w-0 items-center gap-3">
+          <Image src="/images/kmm-nav-logo.png" alt="KMM College logo" width={160} height={100} priority className={`w-auto shrink-0 transition-all duration-500 ${compact ? "h-11" : "h-12"}`} />
         </Link>
-        <LinkList links={rightLinks} align="end" compact={compact} />
-      </div>
 
-      <nav className="border-t border-white/10 bg-[#18213b] text-white">
-        <div className="mx-auto flex max-w-7xl items-center justify-center px-6">
-          <ul className={`flex flex-wrap items-center justify-center gap-1 font-semibold transition-all duration-500 ${compact ? "min-h-10 text-xs" : "min-h-12 text-sm"}`}>
-            {menuGroups.map((group) => (
-              <DesktopMenuItem key={group.title} group={group} compact={compact} />
+        <nav aria-label="Primary navigation" className="min-w-0 flex-1">
+          <ul className={`flex flex-nowrap items-center justify-end gap-x-1 font-bold text-[#18213b] transition-all duration-500 ${compact ? "text-xs" : "text-sm"}`}>
+            {primaryLinks.map((link) => (
+              <li key={link}>
+                <Link href="#" className="block whitespace-nowrap rounded-full px-2.5 py-2 transition-colors duration-300 hover:bg-[#179BD7]/10 hover:text-[#179BD7] 2xl:px-3">
+                  {link}
+                </Link>
+              </li>
+            ))}
+            {quickLinks.map((link) => (
+              <li key={link} className="hidden 2xl:block">
+                <Link href="#" className="block whitespace-nowrap rounded-full px-2.5 py-2 text-[#1469b8] transition-colors duration-300 hover:bg-[#179BD7]/10 2xl:px-3">
+                  {link}
+                </Link>
+              </li>
             ))}
           </ul>
-        </div>
-      </nav>
-    </div>
-  );
-}
+        </nav>
 
-function LinkList({ links, align, compact = false }) {
-  return (
-    <ul className={`flex flex-wrap items-center gap-y-2 font-bold text-[#18213b] ${compact ? "gap-x-4 text-xs" : "gap-x-6 text-sm"} ${align === "end" ? "justify-end" : "justify-start"}`}>
-      {links.map((link) => (
-        <li key={link}>
-          <Link href="#" className="transition-colors duration-300 hover:text-[#1ab69d]">
-            {link}
-          </Link>
-        </li>
-      ))}
-    </ul>
+        <Link href="#" className="group flex shrink-0 items-center gap-2 rounded-br-2xl rounded-tl-2xl bg-gradient-to-r from-[#179BD7] to-[#1ab69d] px-3.5 py-3 text-sm font-bold text-white shadow-lg shadow-[#179BD7]/20 transition-all duration-300 hover:-translate-y-0.5 2xl:px-4">
+          Admission
+          <FontAwesomeIcon icon={faArrowRight} className="text-xs transition-transform duration-300 group-hover:translate-x-1" />
+        </Link>
+      </div>
+
+      <div className="border-t border-gray-100 bg-[#18213b] text-white">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6">
+          <nav aria-label="Secondary navigation" className="min-w-0 flex-1">
+            <ul className={`flex flex-wrap items-center gap-1 font-semibold transition-all duration-500 ${compact ? "min-h-10 text-xs" : "min-h-12 text-[13px] 2xl:text-sm"}`}>
+              {menuGroups.map((group) => (
+                <DesktopMenuItem key={group.title} group={group} compact={compact} />
+              ))}
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -238,12 +245,12 @@ function DesktopMenuItem({ group, compact = false }) {
 
   return (
     <li className="group relative">
-      <Link href="#" className={`flex items-center gap-2 rounded-full transition-colors duration-300 hover:bg-white/10 hover:text-[#1ab69d] ${compact ? "px-3 py-2" : "px-4 py-2.5"}`}>
+      <Link href="#" className={`flex items-center gap-1 rounded-full whitespace-nowrap transition-colors duration-300 hover:bg-white/10 hover:text-[#1ab69d] ${compact ? "px-2.5 py-2" : "px-2.5 py-2.5 2xl:px-3.5"}`}>
         {group.title}
         {hasItems && <FontAwesomeIcon icon={faChevronDown} className="text-xs transition-transform duration-300 group-hover:rotate-180" />}
       </Link>
       {hasItems && (
-        <div className="invisible absolute left-1/2 top-full z-50 w-72 -translate-x-1/2 translate-y-3 rounded-2xl bg-white p-3 text-[#18213b] opacity-0 shadow-2xl ring-1 ring-black/5 transition-all duration-300 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
+        <div className="invisible absolute left-0 top-full z-50 w-72 translate-y-3 rounded-2xl bg-white p-3 text-[#18213b] opacity-0 shadow-2xl ring-1 ring-black/5 transition-all duration-300 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
           <ul className="grid max-h-[420px] gap-1 overflow-y-auto">
             {group.items.map((item) => (
               <li key={item}>
@@ -259,69 +266,123 @@ function DesktopMenuItem({ group, compact = false }) {
   );
 }
 
+function DesktopSearch({ compact = false }) {
+  const [display, setDisplay] = useState(false);
+
+  return (
+    <div className={`relative z-[80] flex shrink-0 items-center rounded-full bg-white/10 px-2 ring-1 ring-white/15 transition-all duration-300 ${compact ? "py-1" : "py-1"}`}>
+      <input
+        type="search"
+        className={`bg-transparent text-sm text-white outline-none placeholder:text-white/55 transition-all duration-300 ${
+          display ? "w-44 px-2 opacity-100" : "w-0 opacity-0"
+        }`}
+        placeholder="Search"
+      />
+      <button type="button" onClick={() => setDisplay(!display)} className="relative z-[90] flex h-8 w-8 cursor-pointer items-center justify-center rounded-full transition-colors duration-300 hover:bg-white hover:text-[#18213b]" aria-label="Toggle search">
+        <FontAwesomeIcon icon={faMagnifyingGlass} className="relative z-[100]" />
+      </button>
+    </div>
+  );
+}
+
 export function MobileHeader() {
   const [open, setOpen] = useState(false);
   const [activeGroup, setActiveGroup] = useState(null);
 
+  const closeMenu = () => {
+    setOpen(false);
+    setActiveGroup(null);
+  };
+
+  const toggleMenu = () => {
+    if (open) {
+      setActiveGroup(null);
+    }
+
+    setOpen(!open);
+  };
+
   return (
-    <div className="lg:hidden">
-      <div className="flex items-center justify-between px-4 py-3">
-        <Link href="#" className="flex items-center">
+    <div className="sticky top-0 z-[60] bg-white shadow-lg ring-1 ring-black/5 xl:hidden">
+      <div className="flex items-center justify-between gap-4 px-4 py-3">
+        <Link href="#" className="flex min-w-0 items-center">
           <Image src="/images/kmm-nav-logo.png" alt="KMM College logo" width={145} height={100} priority className="h-auto w-36 sm:w-40" />
         </Link>
 
-        <button type="button" onClick={() => setOpen(!open)} className="flex h-11 w-11 cursor-pointer flex-col items-center justify-center gap-1.5 rounded-full bg-[#18213b] shadow-lg" aria-label="Toggle navigation" aria-expanded={open}>
-          <span className={`h-0.5 w-6 rounded bg-white transition-all duration-300 ${open ? "translate-y-2 rotate-45" : ""}`}></span>
-          <span className={`h-0.5 w-6 rounded bg-white transition-all duration-200 ${open ? "opacity-0" : ""}`}></span>
-          <span className={`h-0.5 w-6 rounded bg-white transition-all duration-300 ${open ? "-translate-y-2 -rotate-45" : ""}`}></span>
-        </button>
+        <div className="flex items-center gap-2">
+          <Link href="#" className="hidden rounded-br-2xl rounded-tl-2xl bg-gradient-to-r from-[#179BD7] to-[#1ab69d] px-4 py-2.5 text-xs font-bold text-white shadow-lg shadow-[#179BD7]/20 sm:inline-flex">
+            Admission
+          </Link>
+          <button type="button" onClick={toggleMenu} className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full bg-[#18213b] text-white shadow-lg transition-colors duration-300 hover:bg-[#179BD7]" aria-label="Toggle navigation" aria-expanded={open}>
+            <FontAwesomeIcon icon={open ? faXmark : faBars} className="text-lg" />
+          </button>
+        </div>
       </div>
 
-      <div className={`overflow-hidden border-t border-gray-100 bg-white shadow-2xl transition-all duration-300 ${open ? "max-h-[85vh] opacity-100" : "max-h-0 opacity-0"}`}>
-        <div className="max-h-[85vh] overflow-y-auto px-4 pb-6 pt-4">
-          <div className="mb-4 rounded-2xl bg-[#18213b] p-4 text-white">
-            <div className="flex items-center gap-2 text-sm font-semibold">
-              <FontAwesomeIcon icon={faPhone} className="text-[#1ab69d]" />
-              <a href="tel:#">{contactNumbers[0]}</a>
+      <div className={`overflow-hidden border-t border-gray-100 bg-white transition-all duration-300 ${open ? "max-h-[calc(100vh-76px)] opacity-100" : "max-h-0 opacity-0"}`}>
+        <div className="max-h-[calc(100vh-76px)] overflow-y-auto px-4 pb-6 pt-4">
+          <div className="rounded-2xl bg-[#18213b] p-4 text-white shadow-xl">
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#1ab69d]">Quick Contact</p>
+            <div className="mt-4 space-y-3 text-sm font-semibold">
+              <a href="tel:#" className="flex items-center gap-2 transition-colors duration-300 hover:text-[#1ab69d]">
+                <FontAwesomeIcon icon={faPhone} className="text-[#1ab69d]" />
+                <span>{contactNumbers[0]}</span>
+              </a>
+              <a href="mailto:kmmkumbalam@kmmcollege.edu.in" className="flex min-w-0 items-center gap-2 transition-colors duration-300 hover:text-[#1ab69d]">
+                <FontAwesomeIcon icon={faEnvelope} className="text-[#1ab69d]" />
+                <span className="break-all">kmmkumbalam@kmmcollege.edu.in</span>
+              </a>
             </div>
-            <div className="mt-3 flex items-center gap-2 text-sm font-semibold">
-              <FontAwesomeIcon icon={faEnvelope} className="text-[#1ab69d]" />
-              <a href="mailto:info@kmmcollege.ac.in">info@kmmcollege.ac.in</a>
-            </div>
-            <div className="mt-4 flex items-center gap-4">
+            <div className="mt-4 flex items-center justify-between gap-4">
               <SocialLinks />
+              <Link href="#" className="flex items-center gap-2 rounded-br-2xl rounded-tl-2xl bg-white px-4 py-2 text-xs font-bold text-[#1469b8]">
+                Embase
+                <FontAwesomeIcon icon={faArrowRightToBracket} />
+              </Link>
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-2 text-sm font-bold text-[#18213b] sm:grid-cols-4">
-            {primaryLinks.map((link) => (
-              <Link key={link} href="#" className="rounded-xl bg-gray-50 px-3 py-3 text-center transition-colors duration-300 hover:bg-[#179BD7]/10 hover:text-[#179BD7]">
+          <div className="relative z-[80] mt-4 flex items-center rounded-full bg-gray-100 px-4 py-2 text-[#18213b] ring-1 ring-gray-200">
+            <FontAwesomeIcon icon={faMagnifyingGlass} className="relative z-[90] text-[#179BD7]" />
+            <input type="search" placeholder="Search" className="min-w-0 flex-1 bg-transparent px-3 py-2 text-sm font-medium outline-none placeholder:text-gray-500" />
+          </div>
+
+          <div className="mt-5 grid grid-cols-2 gap-2 text-sm font-bold text-[#18213b] sm:grid-cols-3">
+            {[...primaryLinks, ...quickLinks].map((link) => (
+              <Link key={link} href="#" onClick={closeMenu} className="rounded-xl bg-gray-50 px-3 py-3 text-center transition-colors duration-300 hover:bg-[#179BD7]/10 hover:text-[#179BD7]">
                 {link}
               </Link>
             ))}
           </div>
 
-          <div className="mt-5 divide-y divide-gray-100 rounded-2xl border border-gray-100">
+          <div className="mt-5 overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm">
             {menuGroups.map((group) => {
               const hasItems = group.items?.length;
               const isActive = activeGroup === group.title;
 
               return (
-                <div key={group.title}>
-                  <button
-                    type="button"
-                    onClick={() => (hasItems ? setActiveGroup(isActive ? null : group.title) : undefined)}
-                    className="flex w-full cursor-pointer items-center justify-between px-4 py-3 text-left text-sm font-bold text-[#18213b] transition-colors duration-300 hover:text-[#179BD7]"
-                  >
-                    {group.title}
-                    {hasItems && <FontAwesomeIcon icon={faChevronDown} className={`text-xs transition-transform duration-300 ${isActive ? "rotate-180" : ""}`} />}
-                  </button>
+                <div key={group.title} className="border-b border-gray-100 last:border-b-0">
+                  {hasItems ? (
+                    <button
+                      type="button"
+                      onClick={() => setActiveGroup(isActive ? null : group.title)}
+                      className="flex w-full cursor-pointer items-center justify-between px-4 py-3.5 text-left text-sm font-bold text-[#18213b] transition-colors duration-300 hover:text-[#179BD7]"
+                    >
+                      {group.title}
+                      <FontAwesomeIcon icon={faChevronDown} className={`text-xs transition-transform duration-300 ${isActive ? "rotate-180" : ""}`} />
+                    </button>
+                  ) : (
+                    <Link href="#" onClick={closeMenu} className="block px-4 py-3.5 text-sm font-bold text-[#18213b] transition-colors duration-300 hover:text-[#179BD7]">
+                      {group.title}
+                    </Link>
+                  )}
+
                   {hasItems && (
-                    <div className={`overflow-hidden bg-gray-50 transition-all duration-300 ${isActive ? "max-h-96" : "max-h-0"}`}>
+                    <div className={`overflow-hidden bg-gray-50 transition-all duration-300 ${isActive ? "max-h-[28rem]" : "max-h-0"}`}>
                       <ul className="grid gap-1 p-3">
                         {group.items.map((item) => (
                           <li key={item}>
-                            <Link href="#" className="block rounded-xl px-3 py-2 text-sm font-semibold text-[#343434] transition-colors duration-300 hover:bg-white hover:text-[#179BD7]">
+                            <Link href="#" onClick={closeMenu} className="block rounded-xl px-3 py-2 text-sm font-semibold text-[#343434] transition-colors duration-300 hover:bg-white hover:text-[#179BD7]">
                               {item}
                             </Link>
                           </li>
@@ -332,11 +393,6 @@ export function MobileHeader() {
                 </div>
               );
             })}
-          </div>
-
-          <div className="mt-5 flex items-center rounded-full bg-gray-100 px-4 py-2 text-[#18213b]">
-            <FontAwesomeIcon icon={faSearch} className="text-[#179BD7]" />
-            <input type="search" placeholder="Search" className="min-w-0 flex-1 bg-transparent px-3 py-2 text-sm font-medium outline-none placeholder:text-gray-500" />
           </div>
         </div>
       </div>
