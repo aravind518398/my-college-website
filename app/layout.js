@@ -1,4 +1,4 @@
-import { Geist, Geist_Mono, Montserrat } from "next/font/google";
+import { Geist, Geist_Mono, Montserrat, Smooch } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -23,7 +23,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" style={{scrollBehavior:"smooth"}}>
 
       <body
         className={`${montserrat.variable} ${geistSans.variable} ${geistMono.variable} antialiased`}

@@ -16,8 +16,53 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
-const primaryLinks = ["Home", "About Us", "Departments", "Placements", "Academics", "Contact"];
-const quickLinks = ["Co-Curricular", "Add On Courses"];
+const primaryLinks = [
+  { label: "Home", href: "/" },
+  {
+    label: "About Us",
+    href: "/about",
+    items: [
+      { label: "About us", href: "/about" },
+      { label: "Vision", href: "/about#vision" },
+      { label: "Messages", href: "/about#messages" },
+      { label: "Code of Conduct", href: "/about/code-of-conduct" },
+      { label: "RTI", href: "/about/rti" },
+    ],
+  },
+  {
+    label: "Department",
+    href: "/departments",
+    items: [
+      { label: "Department of Commerce", href: "/departments/commerce" },
+      { label: "Department of Computer Application", href: "/departments/computer-application" },
+      { label: "Department of Psychology", href: "/departments/psychology" },
+      { label: "Department of Business Administration", href: "/departments/business-administration" },
+      { label: "Department of Mathematics", href: "/departments/mathematics" },
+      { label: "Department of Languages", href: "/departments/languages" },
+    ],
+  },
+  { label: "Placements", href: "/placements" },
+  {
+    label: "Academics",
+    href: "/academics",
+    items: [
+      { label: "UG Programmes", href: "/academics/ug-programmes" },
+      { label: "PG Programmes", href: "/academics/pg-programmes" },
+      { label: "Academic Calendar", href: "/academics/academic-calendar" },
+    ],
+  },
+  {
+    label: "Co-Curricular",
+    href: "/co-curricular",
+    items: [
+      { label: "NSS", href: "/co-curricular/nss" },
+    ],
+  },
+  { label: "Contact", href: "/contact" },
+];
+const quickLinks = [
+  { label: "Add On Courses", href: "/add-on-courses" },
+];
 
 const menuGroups = [
   {
@@ -84,7 +129,12 @@ const menuGroups = [
   },
 ];
 
-const contactNumbers = ["0484-2XXXXX7", "0484-XXXX2XX", "04X4-2X5XX5X7"];
+const contactNumbers = [
+  { label: "9037002130", href: "tel:9037002130" },
+  { label: "8590601342", href: "tel:8590601342" },
+  { label: "04X4-2X5XX5X7", href: "tel:04X42X5XX5X7" },
+];
+
 
 export default function Header() {
   return (
@@ -136,8 +186,8 @@ export function ContactBar() {
           <div className="flex items-center gap-3">
             <FontAwesomeIcon icon={faPhone} className="text-[#1ab69d]" />
             {contactNumbers.map((number) => (
-              <a key={number} href="tel:#" className="whitespace-nowrap transition-colors duration-300 hover:text-[#1ab69d]">
-                {number}
+              <a key={number.label} href={number.href} className="whitespace-nowrap transition-colors duration-300 hover:text-[#1ab69d]">
+                {number.label}
               </a>
             ))}
           </div>
@@ -203,16 +253,12 @@ function DesktopHeaderContent({ compact = false }) {
         <nav aria-label="Primary navigation" className="min-w-0 flex-1">
           <ul className={`flex flex-nowrap items-center justify-end gap-x-1 font-bold text-[#18213b] transition-all duration-500 ${compact ? "text-xs" : "text-sm"}`}>
             {primaryLinks.map((link) => (
-              <li key={link}>
-                <Link href="#" className="block whitespace-nowrap rounded-full px-2.5 py-2 transition-colors duration-300 hover:bg-[#179BD7]/10 hover:text-[#179BD7] 2xl:px-3">
-                  {link}
-                </Link>
-              </li>
+              <DesktopPrimaryMenuItem key={link.label} link={link} />
             ))}
             {quickLinks.map((link) => (
-              <li key={link} className="hidden 2xl:block">
-                <Link href="#" className="block whitespace-nowrap rounded-full px-2.5 py-2 text-[#1469b8] transition-colors duration-300 hover:bg-[#179BD7]/10 2xl:px-3">
-                  {link}
+              <li key={link.label} className="hidden xl:block">
+                <Link href={link.href} className="block whitespace-nowrap rounded-full px-2.5 py-2 text-[#1469b8] transition-colors duration-300 hover:bg-[#179BD7]/10 2xl:px-3">
+                  {link.label}
                 </Link>
               </li>
             ))}
@@ -237,6 +283,32 @@ function DesktopHeaderContent({ compact = false }) {
         </div>
       </div>
     </div>
+  );
+}
+
+function DesktopPrimaryMenuItem({ link }) {
+  const hasItems = link.items?.length;
+
+  return (
+    <li className="group relative">
+      <Link href={link.href} className="flex items-center gap-1 whitespace-nowrap rounded-full px-2.5 py-2 transition-colors duration-300 hover:bg-[#179BD7]/10 hover:text-[#179BD7] 2xl:px-3">
+        {link.label}
+        {hasItems && <FontAwesomeIcon icon={faChevronDown} className="text-xs transition-transform duration-300 group-hover:rotate-180" />}
+      </Link>
+      {hasItems && (
+        <div className="invisible absolute left-0 top-full z-50 w-72 translate-y-3 rounded-2xl bg-white p-3 text-[#18213b] opacity-0 shadow-2xl ring-1 ring-black/5 transition-all duration-300 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
+          <ul className="grid max-h-[420px] gap-1 overflow-y-auto">
+            {link.items.map((item, index) => (
+              <li key={item.label ?? index}>
+                <Link href={item.href} className="block rounded-xl px-3 py-2 text-sm font-semibold transition-colors duration-300 hover:bg-[#179BD7]/10 hover:text-[#179BD7]">
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </li>
   );
 }
 
@@ -270,7 +342,7 @@ function DesktopSearch({ compact = false }) {
   const [display, setDisplay] = useState(false);
 
   return (
-    <div className={`relative z-[80] flex shrink-0 items-center rounded-full bg-white/10 px-2 ring-1 ring-white/15 transition-all duration-300 ${compact ? "py-1" : "py-1"}`}>
+    <div className={`relative z-[80] flex shrink-0 items-center rounded-full bg-white/10 px-2 ring-1 ring-white/15 transition-all duration-300 ${compact ? "py-1" : "py-1.5"}`}>
       <input
         type="search"
         className={`bg-transparent text-sm text-white outline-none placeholder:text-white/55 transition-all duration-300 ${
@@ -324,9 +396,9 @@ export function MobileHeader() {
           <div className="rounded-2xl bg-[#18213b] p-4 text-white shadow-xl">
             <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#1ab69d]">Quick Contact</p>
             <div className="mt-4 space-y-3 text-sm font-semibold">
-              <a href="tel:#" className="flex items-center gap-2 transition-colors duration-300 hover:text-[#1ab69d]">
+              <a href={contactNumbers[0].href} className="flex items-center gap-2 transition-colors duration-300 hover:text-[#1ab69d]">
                 <FontAwesomeIcon icon={faPhone} className="text-[#1ab69d]" />
-                <span>{contactNumbers[0]}</span>
+                <span>{contactNumbers[0].label}</span>
               </a>
               <a href="mailto:kmmkumbalam@kmmcollege.edu.in" className="flex min-w-0 items-center gap-2 transition-colors duration-300 hover:text-[#1ab69d]">
                 <FontAwesomeIcon icon={faEnvelope} className="text-[#1ab69d]" />
@@ -347,12 +419,44 @@ export function MobileHeader() {
             <input type="search" placeholder="Search" className="min-w-0 flex-1 bg-transparent px-3 py-2 text-sm font-medium outline-none placeholder:text-gray-500" />
           </div>
 
-          <div className="mt-5 grid grid-cols-2 gap-2 text-sm font-bold text-[#18213b] sm:grid-cols-3">
-            {[...primaryLinks, ...quickLinks].map((link) => (
-              <Link key={link} href="#" onClick={closeMenu} className="rounded-xl bg-gray-50 px-3 py-3 text-center transition-colors duration-300 hover:bg-[#179BD7]/10 hover:text-[#179BD7]">
-                {link}
-              </Link>
-            ))}
+          <div className="mt-5 overflow-hidden rounded-2xl border border-gray-100 bg-white text-sm font-bold text-[#18213b] shadow-sm">
+            {[...primaryLinks, ...quickLinks].map((link) => {
+              const hasItems = link.items?.length;
+              const isActive = activeGroup === link.label;
+
+              return (
+                <div key={link.label} className="border-b border-gray-100 last:border-b-0">
+                  {hasItems ? (
+                    <button
+                      type="button"
+                      onClick={() => setActiveGroup(isActive ? null : link.label)}
+                      className="flex w-full cursor-pointer items-center justify-between px-4 py-3.5 text-left transition-colors duration-300 hover:text-[#179BD7]"
+                    >
+                      {link.label}
+                      <FontAwesomeIcon icon={faChevronDown} className={`text-xs transition-transform duration-300 ${isActive ? "rotate-180" : ""}`} />
+                    </button>
+                  ) : (
+                    <Link href={link.href} onClick={closeMenu} className="block px-4 py-3.5 transition-colors duration-300 hover:text-[#179BD7]">
+                      {link.label}
+                    </Link>
+                  )}
+
+                  {hasItems && (
+                    <div className={`overflow-hidden bg-gray-50 transition-all duration-300 ${isActive ? "max-h-[24rem]" : "max-h-0"}`}>
+                      <ul className="grid gap-1 p-3">
+                        {link.items.map((item) => (
+                          <li key={item.label}>
+                            <Link href={item.href} onClick={closeMenu} className="block rounded-xl px-3 py-2 text-sm font-semibold text-[#343434] transition-colors duration-300 hover:bg-white hover:text-[#179BD7]">
+                              {item.label}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
 
           <div className="mt-5 overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm">
