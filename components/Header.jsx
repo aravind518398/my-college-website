@@ -30,6 +30,15 @@ const primaryLinks = [
     ],
   },
   {
+    label: "Academics",
+    href: "/academics",
+    items: [
+      { label: "UG Programmes", href: "/academics#ug-programmes" },
+      { label: "PG Programmes", href: "/academics#pg-programmes" },
+      { label: "Academic Calendar", href: "/academics#academic-calendar" },
+    ],
+  },
+  {
     label: "Department",
     href: "/departments",
     items: [
@@ -41,23 +50,16 @@ const primaryLinks = [
       { label: "Department of Languages", href: "/departments/languages" },
     ],
   },
-  { label: "Placements", href: "/placements" },
-  {
-    label: "Academics",
-    href: "/academics",
-    items: [
-      { label: "UG Programmes", href: "/academics/ug-programmes" },
-      { label: "PG Programmes", href: "/academics/pg-programmes" },
-      { label: "Academic Calendar", href: "/academics/academic-calendar" },
-    ],
-  },
-  {
+   {
     label: "Co-Curricular",
     href: "/co-curricular",
     items: [
       { label: "NSS", href: "/co-curricular/nss" },
     ],
   },
+  { label: "Placements", href: "/placements" },
+  
+ 
   { label: "Contact", href: "/contact" },
 ];
 const quickLinks = [
