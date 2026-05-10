@@ -324,49 +324,78 @@ export default function RtiPage() {
               ))}
             </div>
 
-            <div className="mt-8 grid gap-6 rounded-3xl bg-white p-6 shadow-sm sm:p-8 lg:grid-cols-[1fr_auto] lg:items-center">
-              <div>
-                <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#1ab69d]">
-                  Contact & Reference
-                </p>
-                <h3 className="mt-3 text-2xl font-semibold">
-                  RTI communication details
-                </h3>
-                <div className="mt-5 grid gap-4 text-slate-700 sm:grid-cols-2">
-                  <a
-                    href="mailto:kmmkumbalam@kmmcollege.edu.in"
-                    className="flex items-center gap-3 font-semibold transition-colors duration-300 hover:text-[#1ab69d]"
-                  >
-                    <FontAwesomeIcon icon={faEnvelope} className="text-[#1ab69d]" />
-                    kmmkumbalam@kmmcollege.edu.in
-                  </a>
-                  <a
-                    href="tel:8590601342"
-                    className="flex items-center gap-3 font-semibold transition-colors duration-300 hover:text-[#1ab69d]"
-                  >
-                    <FontAwesomeIcon icon={faPhone} className="text-[#1ab69d]" />
-                    8590601342
-                  </a>
-                  <a
-                    href="https://www.kmmcollegekumbalam.edu.in"
-                    className="flex items-center gap-3 font-semibold transition-colors duration-300 hover:text-[#1ab69d]"
-                  >
-                    <FontAwesomeIcon icon={faGlobe} className="text-[#1ab69d]" />
-                    www.kmmcollegekumbalam.edu.in
-                  </a>
-                </div>
-              </div>
+            <div className="mt-8 rounded-3xl bg-white p-6 shadow-sm sm:p-8">
+  <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-center">
+    
+    <div>
+      <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#1ab69d]">
+        Contact & Reference
+      </p>
 
-              <a
-                href="https://rti.gov.in/"
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center justify-center gap-3 rounded-2xl bg-[#18213b] px-6 py-4 text-center font-bold text-white shadow-sm transition duration-300 hover:-translate-y-1 hover:bg-[#1ab69d]"
-              >
-                Visit RTI Website
-                <FontAwesomeIcon icon={faExternalLinkAlt} />
-              </a>
-            </div>
+      <h3 className="mt-3 text-2xl font-semibold">
+        RTI communication details
+      </h3>
+
+      <div className="mt-5 grid gap-4 text-slate-700 sm:grid-cols-2">
+
+        {/* Email */}
+        <a
+          href="mailto:kmmkumbalam@kmmcollege.edu.in"
+          className="flex items-center gap-3 font-semibold transition-colors duration-300 hover:text-[#1ab69d] min-w-0"
+        >
+          <FontAwesomeIcon
+            icon={faEnvelope}
+            className="text-[#1ab69d] shrink-0"
+          />
+          <span className="break-all">
+            kmmkumbalam@kmmcollege.edu.in
+          </span>
+        </a>
+
+        {/* Phone */}
+        <a
+          href="tel:8590601342"
+          className="flex items-center gap-3 font-semibold transition-colors duration-300 hover:text-[#1ab69d]"
+        >
+          <FontAwesomeIcon
+            icon={faPhone}
+            className="text-[#1ab69d] shrink-0"
+          />
+          <span>8590601342</span>
+        </a>
+
+        {/* Website */}
+        <a
+          href="https://www.kmmcollegekumbalam.edu.in"
+          target="_blank"
+          rel="noreferrer"
+          className="flex items-center gap-3 font-semibold transition-colors duration-300 hover:text-[#1ab69d] min-w-0"
+        >
+          <FontAwesomeIcon
+            icon={faGlobe}
+            className="text-[#1ab69d] shrink-0"
+          />
+          <span className="break-all">
+            www.kmmcollegekumbalam.edu.in
+          </span>
+        </a>
+
+      </div>
+    </div>
+
+    {/* RTI Button */}
+    <a
+      href="https://rti.gov.in/"
+      target="_blank"
+      rel="noreferrer"
+      className="inline-flex w-full items-center justify-center gap-3 rounded-2xl bg-[#18213b] px-6 py-4 text-center font-bold text-white shadow-sm transition duration-300 hover:-translate-y-1 hover:bg-[#1ab69d] lg:w-auto"
+    >
+      Visit RTI Website
+      <FontAwesomeIcon icon={faExternalLinkAlt} />
+    </a>
+
+  </div>
+</div>
           </div>
         </section>
       </main>
