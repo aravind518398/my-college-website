@@ -1,0 +1,14 @@
+<svg width="640" height="420" viewBox="0 0 640 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg2" x1="52" y1="20" x2="590" y2="392" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F4F9ED"/>
+      <stop offset="1" stop-color="#E2F0D8"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="420" rx="28" fill="url(#bg2)"/>
+  <circle cx="320" cy="164" r="82" fill="#9AB98C"/>
+  <path d="M186 346C186 271.472 246.472 211 321 211C395.528 211 456 271.472 456 346V372H186V346Z" fill="#79976B"/>
+  <rect x="214" y="64" width="212" height="34" rx="17" fill="#FCFDF9"/>
+  <text x="320" y="87" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#385133">NSS Officer</text>
+  <text x="320" y="112" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" font-weight="600" fill="#4F6D49">Placeholder 02</text>
+</svg>

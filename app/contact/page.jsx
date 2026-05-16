@@ -1,0 +1,387 @@
+"use client";
+import Footer from "@/components/Footer";
+import Header from "@/components/Header";
+import {
+  faClock,
+  faEnvelope,
+  faGraduationCap,
+  faLocationDot,
+  faPaperPlane,
+  faPhone,
+  faRoute,
+  faShieldHalved,
+  faUserTie,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Image from "next/image";
+
+const contactCards = [
+  {
+    title: "Call Us",
+    detail: "9037002130",
+    subDetail: "8590601342",
+    href: "tel:9037002130",
+    icon: faPhone,
+  },
+  {
+    title: "Email",
+    detail: "kmmkumbalam@kmmcollege.edu.in",
+    subDetail: "For general college enquiries",
+    href: "mailto:kmmkumbalam@kmmcollege.edu.in",
+    icon: faEnvelope,
+  },
+  {
+    title: "Visit Campus",
+    detail: "K.M.M. College, Kumbalam",
+    subDetail: "Kerala - 682021",
+    href: "https://www.google.com/maps/search/?api=1&query=KMM+College+Kumbalam+Kerala",
+    icon: faLocationDot,
+  },
+];
+
+const enquiryTypes = [
+  "Admissions",
+  "Academics",
+  "Placements",
+  "Student Support",
+];
+
+const quickInfo = [
+  {
+    title: "Office Hours",
+    description: "Monday to Saturday, 9:00 AM - 4:30 PM",
+    icon: faClock,
+  },
+  {
+    title: "Admissions Desk",
+    description: "Speak to our team for UG, PG, eligibility, and fee enquiries.",
+    icon: faGraduationCap,
+  },
+  {
+    title: "Student Support",
+    description: "Get directed to the right department, cell, or faculty office.",
+    icon: faUserTie,
+  },
+  {
+    title: "Campus Safety",
+    description: "Reach the college office for urgent campus-related support.",
+    icon: faShieldHalved,
+  },
+];
+
+function ContactCard({ card }) {
+  return (
+    <a
+      href={card.href}
+      target={card.href.startsWith("http") ? "_blank" : undefined}
+      rel={card.href.startsWith("http") ? "noreferrer" : undefined}
+      className="group rounded-2xl border border-[#dceae5] bg-white p-5 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-[#1ab69d] hover:shadow-xl hover:shadow-[#18213b]/10 sm:p-6"
+    >
+      <span className="grid h-12 w-12 place-items-center rounded-xl bg-[#1ab69d]/12 text-[#12826f] transition duration-300 group-hover:bg-[#1ab69d] group-hover:text-white">
+        <FontAwesomeIcon icon={card.icon} />
+      </span>
+      <h3 className="mt-5 text-lg font-bold text-[#18213b]">{card.title}</h3>
+      <p className="mt-2 break-words text-sm font-bold leading-6 text-[#18213b]">
+        {card.detail}
+      </p>
+      <p className="mt-1 text-sm leading-6 text-[#40506f]">{card.subDetail}</p>
+    </a>
+  );
+}
+
+export default function Contact() {
+  return (
+    <>
+      <Header />
+      <main className="overflow-hidden bg-[#f8faf7] text-[#18213b]">
+        <section className="relative   px-4 py-12 text-white sm:px-6 lg:py-20">
+          <div className="absolute inset-x-0 bottom-0 h-24" />
+
+          <div className="relative mx-auto grid max-w-7xl gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-stretch">
+            <div className="flex min-h-[430px] flex-col justify-between rounded-[28px] bg-[#10172b] p-6 shadow-2xl shadow-[#10172b]/25 sm:p-8 lg:p-10">
+              <div>
+                <p className="inline-flex rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.22em] text-[#1ab69d]">
+                  Contact KMM College
+                </p>
+                <h1 className="mt-6 max-w-3xl text-3xl font-bold leading-tight sm:text-5xl lg:text-6xl">
+                  Reach the right desk without waiting around.
+                </h1>
+                <p className="mt-6 max-w-2xl text-base font-medium leading-8 text-white/75 sm:text-lg">
+                  For admissions, academics, placements, campus facilities, or
+                  student support, contact the college office and we will guide
+                  your enquiry to the right department.
+                </p>
+              </div>
+
+              <div className="mt-8 grid gap-3 sm:grid-cols-2">
+                <a
+                  href="tel:9037002130"
+                  className="group rounded-2xl border border-white/10 bg-white/[0.08] p-4 transition hover:border-[#1ab69d] hover:bg-[#1ab69d]"
+                >
+                  <span className="grid h-11 w-11 place-items-center rounded-xl bg-white text-[#18213b]">
+                    <FontAwesomeIcon icon={faPhone} />
+                  </span>
+                  <span className="mt-4 block text-xs font-bold uppercase tracking-[0.2em] text-white/55">
+                    Call Office
+                  </span>
+                  <span className="mt-1 block text-lg font-bold text-white">
+                    9037002130
+                  </span>
+                </a>
+                <a
+                  href="mailto:kmmkumbalam@kmmcollege.edu.in"
+                  className="group rounded-2xl border border-white/10 bg-white/[0.08] p-4 transition hover:border-[#1ab69d] hover:bg-[#1ab69d]"
+                >
+                  <span className="grid h-11 w-11 place-items-center rounded-xl bg-white text-[#18213b]">
+                    <FontAwesomeIcon icon={faEnvelope} />
+                  </span>
+                  <span className="mt-4 block text-xs font-bold uppercase tracking-[0.2em] text-white/55">
+                    Email Us
+                  </span>
+                  <span className="mt-1 block break-words text-sm font-bold leading-6 text-white">
+                    kmmkumbalam@kmmcollege.edu.in
+                  </span>
+                </a>
+              </div>
+            </div>
+
+            <div className="grid  gap-6 ">
+              <div className="rounded-[28px] bg-white p-5 text-[#18213b] shadow-xl shadow-[#18213b]/10 sm:p-6">
+                <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#1ab69d]">
+                  Campus Address
+                </p>
+                <h2 className="mt-4 text-2xl font-bold leading-tight">
+                  K.M.M. College, Kumbalam
+                </h2>
+                <p className="mt-3 text-sm font-semibold leading-7 text-[#40506f]">
+                  Kerala - 682021
+                </p>
+
+                <div className="mt-8 space-y-4">
+                  {quickInfo.slice(0, 3).map((item) => (
+                    <div key={item.title} className="flex gap-3 ">
+                      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[#1ab69d]/12 text-[#12826f]">
+                        <FontAwesomeIcon icon={item.icon} />
+                      </span>
+                      <div>
+                        <p className="text-sm font-bold text-[#18213b]">
+                          {item.title}
+                        </p>
+                        <p className="mt-1 text-xs leading-5 text-[#40506f]">
+                          {item.description}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <a
+                  href="https://www.google.com/maps/search/?api=1&query=KMM+College+Kumbalam+Kerala"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-8 inline-flex items-center justify-center gap-3 rounded-full bg-[#18213b] px-5 py-3 text-sm font-bold text-white transition hover:bg-[#1ab69d]"
+                >
+                  <FontAwesomeIcon icon={faRoute} />
+                  Get Directions
+                </a>
+              </div>
+              <div className="overflow-hidden rounded-[28px] shadow-xl shadow-[#18213b]/10">
+    <iframe
+      title="KMM College location map"
+      src="https://www.google.com/maps?q=KMM%20College%20Kumbalam%20Kerala&output=embed"
+      className="h-[320px] w-full border-0 sm:h-[420px] md:h-full md:min-h-[480px]"
+      loading="lazy"
+      referrerPolicy="no-referrer-when-downgrade"
+    />
+  </div>
+             
+            </div>
+          </div>
+        </section>
+
+        <section className="px-4 pb-14 pt-8 sm:px-6 lg:pb-20">
+          <div className="mx-auto max-w-7xl">
+            <div className="mb-8 max-w-2xl">
+              <p className="mb-2 text-xs font-bold uppercase tracking-[0.28em] text-[#1ab69d]">
+                Quick Contacts
+              </p>
+              <h2 className="text-2xl font-bold leading-tight text-[#18213b] sm:text-3xl">
+                Choose the easiest way to reach us.
+              </h2>
+              <Image
+                src="/images/underlinee.png"
+                width={120}
+                height={36}
+                alt="Decorated underline"
+                className="mt-3 brightness-0"
+              />
+            </div>
+
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {contactCards.map((card) => (
+                <ContactCard key={card.title} card={card} />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="bg-white px-4 py-14 sm:px-6 lg:py-20">
+          <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.92fr_1.08fr] lg:gap-12">
+            <div>
+              <p className="mb-2 text-xs font-bold uppercase tracking-[0.28em] text-[#1ab69d]">
+                Enquiry Form
+              </p>
+              <h2 className="max-w-2xl text-2xl font-bold leading-tight text-[#18213b] sm:text-3xl lg:text-4xl">
+                Send us your enquiry and we will get back to you.
+              </h2>
+              <Image
+                src="/images/underlinee.png"
+                width={120}
+                height={36}
+                alt="Decorated underline"
+                className="mt-3 brightness-0"
+              />
+              <p className="mt-5 text-sm leading-7 text-[#40506f] sm:text-base">
+                Share a few details about your question. This form is designed
+                for general enquiries and can be connected to your backend or
+                email service later.
+              </p>
+
+              <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+                {quickInfo.map((item) => (
+                  <article
+                    key={item.title}
+                    className="rounded-2xl border border-[#dceae5] bg-[#f8faf7] p-5"
+                  >
+                    <span className="grid h-10 w-10 place-items-center rounded-xl bg-white text-[#12826f] shadow-sm">
+                      <FontAwesomeIcon icon={item.icon} />
+                    </span>
+                    <h3 className="mt-4 text-base font-bold text-[#18213b]">
+                      {item.title}
+                    </h3>
+                    <p className="mt-2 text-sm leading-6 text-[#40506f]">
+                      {item.description}
+                    </p>
+                  </article>
+                ))}
+              </div>
+            </div>
+
+            <form
+              action="mailto:kmmkumbalam@kmmcollege.edu.in"
+              method="post"
+              encType="text/plain"
+              className="rounded-[28px] border border-[#d6e8e2] bg-[#f8faf7] p-5 shadow-[0_20px_55px_-35px_rgba(24,33,59,0.6)] sm:p-7 lg:p-8"
+            >
+              <div className="grid gap-5 sm:grid-cols-2">
+                <label className="block">
+                  <span className="text-sm font-bold text-[#18213b]">Full Name</span>
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="Enter your name"
+                    className="mt-2 w-full rounded-2xl border border-[#d6e8e2] bg-white px-4 py-3 text-sm text-[#18213b] outline-none transition placeholder:text-[#7a879d] focus:border-[#1ab69d] focus:ring-4 focus:ring-[#1ab69d]/15"
+                  />
+                </label>
+                <label className="block">
+                  <span className="text-sm font-bold text-[#18213b]">Phone Number</span>
+                  <input
+                    type="tel"
+                    name="phone"
+                    placeholder="Enter phone number"
+                    className="mt-2 w-full rounded-2xl border border-[#d6e8e2] bg-white px-4 py-3 text-sm text-[#18213b] outline-none transition placeholder:text-[#7a879d] focus:border-[#1ab69d] focus:ring-4 focus:ring-[#1ab69d]/15"
+                  />
+                </label>
+              </div>
+
+              <div className="mt-5 grid gap-5 sm:grid-cols-2">
+                <label className="block">
+                  <span className="text-sm font-bold text-[#18213b]">Email Address</span>
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="Enter email address"
+                    className="mt-2 w-full rounded-2xl border border-[#d6e8e2] bg-white px-4 py-3 text-sm text-[#18213b] outline-none transition placeholder:text-[#7a879d] focus:border-[#1ab69d] focus:ring-4 focus:ring-[#1ab69d]/15"
+                  />
+                </label>
+                <label className="block">
+                  <span className="text-sm font-bold text-[#18213b]">Enquiry Type</span>
+                  <select
+                    name="type"
+                    defaultValue=""
+                    className="mt-2 w-full rounded-2xl border border-[#d6e8e2] bg-white px-4 py-3 text-sm text-[#18213b] outline-none transition focus:border-[#1ab69d] focus:ring-4 focus:ring-[#1ab69d]/15"
+                  >
+                    <option value="" disabled>
+                      Select enquiry type
+                    </option>
+                    {enquiryTypes.map((type) => (
+                      <option key={type} value={type}>
+                        {type}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              </div>
+
+              <label className="mt-5 block">
+                <span className="text-sm font-bold text-[#18213b]">Message</span>
+                <textarea
+                  name="message"
+                  rows={6}
+                  placeholder="Write your message"
+                  className="mt-2 w-full resize-none rounded-2xl border border-[#d6e8e2] bg-white px-4 py-3 text-sm text-[#18213b] outline-none transition placeholder:text-[#7a879d] focus:border-[#1ab69d] focus:ring-4 focus:ring-[#1ab69d]/15"
+                />
+              </label>
+
+              <button
+                type="submit"
+                className="mt-6 inline-flex w-full items-center justify-center gap-3 rounded-full bg-[#18213b] px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-[#18213b]/15 transition hover:bg-[#1ab69d] focus:outline-none focus:ring-4 focus:ring-[#1ab69d]/25 sm:w-auto"
+              >
+                <FontAwesomeIcon icon={faPaperPlane} />
+                Submit Enquiry
+              </button>
+            </form>
+          </div>
+        </section>
+
+        <section className="px-4 py-14 sm:px-6 lg:py-20">
+          <div className="mx-auto grid max-w-7xl overflow-hidden rounded-[28px] border border-[#d6e8e2] bg-[#18213b] shadow-[0_24px_60px_-40px_rgba(24,33,59,0.75)] lg:grid-cols-[0.85fr_1.15fr]">
+            <div className="p-6 text-white sm:p-8 lg:p-12">
+              <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#1ab69d]">
+                Find Us
+              </p>
+              <h2 className="mt-3 text-2xl font-bold leading-tight sm:text-3xl lg:text-4xl">
+                Plan your visit to K.M.M. College.
+              </h2>
+              <p className="mt-4 text-sm leading-7 text-white/75 sm:text-base">
+                The campus is located at Kumbalam, Kerala. Use the map for
+                directions, or contact the college office before your visit for
+                department-specific appointments.
+              </p>
+              <a
+                href="https://www.google.com/maps/search/?api=1&query=KMM+College+Kumbalam+Kerala"
+                target="_blank"
+                rel="noreferrer"
+                className="mt-7 inline-flex items-center gap-3 rounded-full bg-white px-5 py-3 text-sm font-bold text-[#18213b] transition hover:bg-[#1ab69d] hover:text-white"
+              >
+                <FontAwesomeIcon icon={faRoute} />
+                Get Directions
+              </a>
+            </div>
+
+            <div className="min-h-[320px] bg-white p-3 sm:min-h-[400px] lg:min-h-full">
+              <iframe
+                title="KMM College location map"
+                src="https://www.google.com/maps?q=KMM%20College%20Kumbalam%20Kerala&output=embed"
+                className="h-[320px] w-full rounded-2xl border-0 sm:h-[400px] lg:h-full"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            </div>
+          </div>
+        </section>
+      </main>
+      <Footer />
+    </>
+  );
+}

@@ -86,7 +86,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="mt-6 grid gap-4  sm:grid-cols-2 lg:mx-auto lg:w-[calc(100%-22rem)] xl:w-[calc(100%-24rem)]">
+            <div className="mt-6 grid gap-4  sm:grid-cols-2  lg:w-[calc(100%-22rem)] xl:w-[calc(100%-24rem)]">
               <div className="group relative flex min-h-32 cursor-pointer items-center gap-4 overflow-hidden rounded-2xl bg-gradient-to-br from-[#179BD7] via-[#1469b8] to-[#18213b] p-5 text-white shadow-2xl transition-all duration-300 hover:-translate-y-1 hover:shadow-[#179BD7]/40">
                 <div className="absolute -right-8 -top-8 h-28 w-28 rounded-full bg-white/15"></div>
                 <div className="absolute -bottom-10 left-8 h-24 w-24 rounded-full bg-white/10"></div>

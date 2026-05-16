@@ -42,19 +42,19 @@ const primaryLinks = [
     label: "Department",
     href: "/departments",
     items: [
-      { label: "Department of Commerce", href: "/departments/commerce" },
-      { label: "Department of Computer Application", href: "/departments/computer-application" },
-      { label: "Department of Psychology", href: "/departments/psychology" },
-      { label: "Department of Business Administration", href: "/departments/business-administration" },
-      { label: "Department of Mathematics", href: "/departments/mathematics" },
-      { label: "Department of Languages", href: "/departments/languages" },
+      { label: "Department of Commerce", href: "/departments#commerce" },
+      { label: "Department of Computer Application", href: "/departments#computer-application" },
+      { label: "Department of Psychology", href: "/departments#psychology" },
+      { label: "Department of Business Administration", href: "/departments#business-administration" },
+      { label: "Department of Mathematics", href: "/departments#mathematics" },
+      { label: "Department of Languages", href: "/departments#languages" },
     ],
   },
    {
     label: "Co-Curricular",
     href: "/co-curricular",
     items: [
-      { label: "NSS", href: "/co-curricular/nss" },
+      { label: "NSS", href: "/co-curricular#nss" },
     ],
   },
   { label: "Placements", href: "/placements" },
@@ -150,7 +150,7 @@ export default function Header() {
 }
 
 export function RunningRibon() {
-  const message = "KMM College of Arts and Science has been NAAC Accredited with B Grade.";
+  const message = "KMM College Kumbalam Affiliated to MG University, Approved by AICTE & Govt. Of Kerala";
 
   return (
     <div className="overflow-hidden bg-[#ba3e3e] text-xs font-bold text-white sm:text-sm">
@@ -248,7 +248,7 @@ function DesktopHeaderContent({ compact = false }) {
   return (
     <div className="bg-white">
       <div className={`mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 transition-all duration-500 2xl:gap-6 ${compact ? "min-h-14" : "min-h-16"}`}>
-        <Link href="#" className="flex min-w-0 items-center gap-3">
+        <Link href="/" className="flex min-w-0 items-center gap-3">
           <Image src="/images/kmm-nav-logo.png" alt="KMM College logo" width={160} height={100} priority className={`w-auto shrink-0 transition-all duration-500 ${compact ? "h-11" : "h-12"}`} />
         </Link>
 
@@ -259,7 +259,7 @@ function DesktopHeaderContent({ compact = false }) {
             ))}
             {quickLinks.map((link) => (
               <li key={link.label} className="hidden xl:block">
-                <Link href={link.href} className="block whitespace-nowrap rounded-full px-2.5 py-2 text-[#1469b8] transition-colors duration-300 hover:bg-[#179BD7]/10 2xl:px-3">
+                <Link href={link.href} className="block whitespace-nowrap rounded-full px-2.5 py-2 text-[#1469b8] transition-colors duration-300 hover:bg-[#179BD7]/10 2xl:px-0.5">
                   {link.label}
                 </Link>
               </li>
@@ -379,7 +379,7 @@ export function MobileHeader() {
   return (
     <div className="sticky top-0 z-[60] bg-white shadow-lg ring-1 ring-black/5 xl:hidden">
       <div className="flex items-center justify-between gap-4 px-4 py-3">
-        <Link href="#" className="flex min-w-0 items-center">
+        <Link href="/" className="flex min-w-0 items-center">
           <Image src="/images/kmm-nav-logo.png" alt="KMM College logo" width={145} height={100} priority className="h-auto w-36 sm:w-40" />
         </Link>
 

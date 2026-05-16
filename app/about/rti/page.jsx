@@ -259,27 +259,24 @@ export default function RtiPage() {
               {officers.map((officer, index) => (
                 <article
                   key={officer.role}
-                  className={`rounded-3xl border p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl sm:p-8 ${
-                    index === 0
+                  className={`rounded-3xl border p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl sm:p-8 ${index === 0
                       ? "border-[#18213b] bg-[#18213b] text-white"
                       : "border-slate-200 bg-white"
-                  }`}
+                    }`}
                 >
                   <div className="flex items-start gap-4">
                     <span
-                      className={`grid h-14 w-14 shrink-0 place-items-center rounded-2xl ${
-                        index === 0
+                      className={`grid h-14 w-14 shrink-0 place-items-center rounded-2xl ${index === 0
                           ? "bg-white/10 text-[#1ab69d]"
                           : "bg-[#1ab69d]/12 text-[#1ab69d]"
-                      }`}
+                        }`}
                     >
                       <FontAwesomeIcon icon={faUserShield} className="text-xl" />
                     </span>
                     <div>
                       <p
-                        className={`text-xs font-bold uppercase tracking-[0.2em] ${
-                          index === 0 ? "text-white/55" : "text-slate-400"
-                        }`}
+                        className={`text-xs font-bold uppercase tracking-[0.2em] ${index === 0 ? "text-white/55" : "text-slate-400"
+                          }`}
                       >
                         {officer.role}
                       </p>
@@ -287,9 +284,8 @@ export default function RtiPage() {
                         {officer.name}
                       </h3>
                       <p
-                        className={`mt-1 font-medium ${
-                          index === 0 ? "text-white/70" : "text-slate-500"
-                        }`}
+                        className={`mt-1 font-medium ${index === 0 ? "text-white/70" : "text-slate-500"
+                          }`}
                       >
                         {officer.designation}
                       </p>
@@ -298,9 +294,8 @@ export default function RtiPage() {
 
                   <div className="mt-7 space-y-4">
                     <p
-                      className={`flex gap-3 leading-7 ${
-                        index === 0 ? "text-white/82" : "text-slate-700"
-                      }`}
+                      className={`flex gap-3 leading-7 ${index === 0 ? "text-white/82" : "text-slate-700"
+                        }`}
                     >
                       <FontAwesomeIcon
                         icon={faLocationDot}
@@ -309,9 +304,8 @@ export default function RtiPage() {
                       <span>{officer.address}</span>
                     </p>
                     <p
-                      className={`flex gap-3 leading-7 ${
-                        index === 0 ? "text-white/82" : "text-slate-700"
-                      }`}
+                      className={`flex gap-3 leading-7 ${index === 0 ? "text-white/82" : "text-slate-700"
+                        }`}
                     >
                       <FontAwesomeIcon
                         icon={faCircleCheck}
@@ -325,77 +319,77 @@ export default function RtiPage() {
             </div>
 
             <div className="mt-8 rounded-3xl bg-white p-6 shadow-sm sm:p-8">
-  <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-center">
-    
-    <div>
-      <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#1ab69d]">
-        Contact & Reference
-      </p>
+              <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-center">
 
-      <h3 className="mt-3 text-2xl font-semibold">
-        RTI communication details
-      </h3>
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#1ab69d]">
+                    Contact & Reference
+                  </p>
 
-      <div className="mt-5 grid gap-4 text-slate-700 sm:grid-cols-2">
+                  <h3 className="mt-3 text-2xl font-semibold">
+                    RTI communication details
+                  </h3>
 
-        {/* Email */}
-        <a
-          href="mailto:kmmkumbalam@kmmcollege.edu.in"
-          className="flex items-center gap-3 font-semibold transition-colors duration-300 hover:text-[#1ab69d] min-w-0"
-        >
-          <FontAwesomeIcon
-            icon={faEnvelope}
-            className="text-[#1ab69d] shrink-0"
-          />
-          <span className="break-all">
-            kmmkumbalam@kmmcollege.edu.in
-          </span>
-        </a>
+                  <div className="mt-5 grid gap-4 text-slate-700 sm:grid-cols-2">
 
-        {/* Phone */}
-        <a
-          href="tel:8590601342"
-          className="flex items-center gap-3 font-semibold transition-colors duration-300 hover:text-[#1ab69d]"
-        >
-          <FontAwesomeIcon
-            icon={faPhone}
-            className="text-[#1ab69d] shrink-0"
-          />
-          <span>8590601342</span>
-        </a>
+                    {/* Email */}
+                    <a
+                      href="mailto:kmmkumbalam@kmmcollege.edu.in"
+                      className="flex items-center gap-3 font-semibold transition-colors duration-300 hover:text-[#1ab69d] min-w-0"
+                    >
+                      <FontAwesomeIcon
+                        icon={faEnvelope}
+                        className="text-[#1ab69d] shrink-0"
+                      />
+                      <span className="break-all">
+                        kmmkumbalam@kmmcollege.edu.in
+                      </span>
+                    </a>
 
-        {/* Website */}
-        <a
-          href="https://www.kmmcollegekumbalam.edu.in"
-          target="_blank"
-          rel="noreferrer"
-          className="flex items-center gap-3 font-semibold transition-colors duration-300 hover:text-[#1ab69d] min-w-0"
-        >
-          <FontAwesomeIcon
-            icon={faGlobe}
-            className="text-[#1ab69d] shrink-0"
-          />
-          <span className="break-all">
-            www.kmmcollegekumbalam.edu.in
-          </span>
-        </a>
+                    {/* Phone */}
+                    <a
+                      href="tel:8590601342"
+                      className="flex items-center gap-3 font-semibold transition-colors duration-300 hover:text-[#1ab69d]"
+                    >
+                      <FontAwesomeIcon
+                        icon={faPhone}
+                        className="text-[#1ab69d] shrink-0"
+                      />
+                      <span>8590601342</span>
+                    </a>
 
-      </div>
-    </div>
+                    {/* Website */}
+                    <a
+                      href="https://www.kmmcollegekumbalam.edu.in"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="flex items-center gap-3 font-semibold transition-colors duration-300 hover:text-[#1ab69d] min-w-0"
+                    >
+                      <FontAwesomeIcon
+                        icon={faGlobe}
+                        className="text-[#1ab69d] shrink-0"
+                      />
+                      <span className="break-all">
+                        www.kmmcollegekumbalam.edu.in
+                      </span>
+                    </a>
 
-    {/* RTI Button */}
-    <a
-      href="https://rti.gov.in/"
-      target="_blank"
-      rel="noreferrer"
-      className="inline-flex w-full items-center justify-center gap-3 rounded-2xl bg-[#18213b] px-6 py-4 text-center font-bold text-white shadow-sm transition duration-300 hover:-translate-y-1 hover:bg-[#1ab69d] lg:w-auto"
-    >
-      Visit RTI Website
-      <FontAwesomeIcon icon={faExternalLinkAlt} />
-    </a>
+                  </div>
+                </div>
 
-  </div>
-</div>
+                {/* RTI Button */}
+                <a
+                  href="https://rti.gov.in/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex w-full items-center justify-center gap-3 rounded-2xl bg-[#18213b] px-6 py-4 text-center font-bold text-white shadow-sm transition duration-300 hover:-translate-y-1 hover:bg-[#1ab69d] lg:w-auto"
+                >
+                  Visit RTI Website
+                  <FontAwesomeIcon icon={faExternalLinkAlt} />
+                </a>
+
+              </div>
+            </div>
           </div>
         </section>
       </main>

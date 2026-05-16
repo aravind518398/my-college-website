@@ -6,13 +6,11 @@ import Link from "next/link";
 
 const departments = [
   "Department of Commerce",
-  "Department of Computer Science",
-  "Department of Apparel & Fashion Design",
+  "Department of Computer Applications",
   "Department of Business Administration",
-  "Department of English",
+  "Department of Languages",
   "Department of Mathematics",
   "Department of Psychology",
-  "Department of Social Work",
 ];
 
 const ugProgrammes = ["B.Com Finance and Taxation", "BSc Psychology", "BCA", "BBA"];

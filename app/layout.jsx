@@ -1,4 +1,10 @@
 import { Geist, Geist_Mono, Montserrat, Smooch } from "next/font/google";
+
+import "@fortawesome/fontawesome-svg-core/styles.css";
+import { config } from "@fortawesome/fontawesome-svg-core";
+
+config.autoAddCss = false;
+
 import "./globals.css";
 
 const geistSans = Geist({
