@@ -208,7 +208,7 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <section className="relative bg-white px-4 py-16 sm:px-6 lg:py-24 scroll-mt-24" id="vision">
+        <section className="relative bg-white px-4 py-16 sm:px-6 lg:py-24 scroll-mt-[70px] lg:scroll-mt-24" id="vision">
           <ParallaxShape
             mouse={mouse}
             speed={-18}
@@ -268,7 +268,7 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <section className="relative px-4 py-16 sm:px-6 lg:py-24 scroll-mt-24" id="messages">
+        <section className="relative px-4 py-16 sm:px-6 lg:py-24 scroll-mt-[70px] lg:scroll-mt-24" id="messages">
           <div className="mx-auto max-w-7xl">
             <SectionTitle kicker="Leadership" title="Messages" />
 

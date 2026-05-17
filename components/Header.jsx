@@ -51,7 +51,7 @@ const primaryLinks = [
       { label: "Department of Languages", href: "/departments#languages" },
     ],
   },
-   {
+  {
     label: "Co-Curricular",
     href: "/co-curricular",
     items: [
@@ -59,8 +59,8 @@ const primaryLinks = [
     ],
   },
   { label: "Placements", href: "/placements" },
-  
- 
+
+
   { label: "Contact", href: "/contact" },
 ];
 const quickLinks = [
@@ -247,9 +247,8 @@ export function DesktopHeader() {
       </div>
 
       <div
-        className={`fixed left-0 right-0 top-0 z-[60] hidden bg-white shadow-2xl ring-1 ring-black/5 transition-all duration-700 ease-out xl:block ${
-          isSticky ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-full opacity-0"
-        }`}
+        className={`fixed left-0 right-0 top-0 z-[60] hidden bg-white shadow-2xl ring-1 ring-black/5 transition-all duration-700 ease-out xl:block ${isSticky ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-full opacity-0"
+          }`}
       >
         <DesktopHeaderContent compact />
       </div>
@@ -261,7 +260,7 @@ function DesktopHeaderContent({ compact = false }) {
   return (
     <div className="bg-white">
       <div className={`mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 transition-all duration-500 2xl:gap-6 ${compact ? "min-h-14" : "min-h-16"}`}>
-        <a href="#" onClick={(e) => { e.preventDefault(); window.location.reload(); }}className="flex min-w-0 items-center gap-3">
+        <a href="#" onClick={(e) => { e.preventDefault(); window.location.reload(); }} className="flex min-w-0 items-center gap-3">
           <Image src="/images/kmm-nav-logo.png" alt="KMM College logo" width={160} height={100} priority className={`w-auto shrink-0 transition-all duration-500 ${compact ? "h-11" : "h-12"}`} />
         </a>
 
@@ -360,9 +359,8 @@ function DesktopSearch({ compact = false }) {
     <div className={`relative z-[80] flex shrink-0 items-center rounded-full bg-white/10 px-2 ring-1 ring-white/15 transition-all duration-300 ${compact ? "py-1" : "py-1.5"}`}>
       <input
         type="search"
-        className={`bg-transparent text-sm text-white outline-none placeholder:text-white/55 transition-all duration-300 ${
-          display ? "w-44 px-2 opacity-100" : "w-0 opacity-0"
-        }`}
+        className={`bg-transparent text-sm text-white outline-none placeholder:text-white/55 transition-all duration-300 ${display ? "w-44 px-2 opacity-100" : "w-0 opacity-0"
+          }`}
         placeholder="Search"
       />
       <button type="button" onClick={() => setDisplay(!display)} className="relative z-[90] flex h-8 w-8 cursor-pointer items-center justify-center rounded-full transition-colors duration-300 hover:bg-white hover:text-[#18213b]" aria-label="Toggle search">
@@ -373,58 +371,34 @@ function DesktopSearch({ compact = false }) {
 }
 
 export function MobileHeader() {
+  const menuScrollRef = useRef(null);
   const [open, setOpen] = useState(false);
   const [activeGroup, setActiveGroup] = useState(null);
-  const menuScrollRef = useRef(null);
 
-  // useEffect(() => {
-  //   if (!open) {
-  //     return undefined;
-  //   }
+  useEffect(() => {
+    if (!open) {
+      return;
+    }
 
-  //   menuScrollRef.current?.scrollTo({ top: 0 });
+    menuScrollRef.current?.scrollTo({ top: 0, behavior: "auto" });
+  }, [open]);
 
-  //   const scrollY = window.scrollY;
-  //   const { body } = document;
-  //   const previousStyles = {
-  //     position: body.style.position,
-  //     top: body.style.top,
-  //     left: body.style.left,
-  //     right: body.style.right,
-  //     width: body.style.width,
-  //     overflow: body.style.overflow,
-  //   };
-
-  //   body.style.position = "fixed";
-  //   body.style.top = `-${scrollY}px`;
-  //   body.style.left = "0";
-  //   body.style.right = "0";
-  //   body.style.width = "100%";
-  //   body.style.overflow = "hidden";
-
-  //   return () => {
-  //     body.style.position = previousStyles.position;
-  //     body.style.top = previousStyles.top;
-  //     body.style.left = previousStyles.left;
-  //     body.style.right = previousStyles.right;
-  //     body.style.width = previousStyles.width;
-  //     body.style.overflow = previousStyles.overflow;
-  //     window.scrollTo(0, scrollY);
-  //   };
-  // }, [open]);
 
   const closeMenu = () => {
     setOpen(false);
     setActiveGroup(null);
   };
 
+
   const toggleMenu = () => {
     if (open) {
       setActiveGroup(null);
     }
 
-    setOpen(!open);
+    setOpen((currentOpen) => !currentOpen);
   };
+
+
 
   return (
     <div className="sticky top-0 z-60 bg-white shadow-lg ring-1 ring-black/5 xl:hidden">
@@ -443,8 +417,8 @@ export function MobileHeader() {
         </div>
       </div>
 
-      <div className={`overflow-hidden border-t border-gray-100 bg-white transition-all duration-300 ${open ? "max-h-[calc(100vh-76px)] opacity-100" : "max-h-0 opacity-0"}`}>
-        <div ref={menuScrollRef} className="max-h-[calc(100vh-76px)] overflow-y-auto px-4 pb-6 pt-4">
+      <div className={`overflow-hidden border-t border-gray-100 bg-white transition-all duration-300 ${open ? "max-h-[calc(100vh-76px)] opacity-100 " : "max-h-0 opacity-0"}`}>
+        <div ref={menuScrollRef} className="max-h-[calc(100vh-76px)] overflow-y-auto px-4  pb-6 pt-4">
           <div className="rounded-2xl bg-[#18213b] p-4 text-white shadow-xl">
             <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#1ab69d]">Quick Contact</p>
             <div className="mt-4 space-y-3 text-sm font-semibold">
