@@ -375,11 +375,14 @@ function DesktopSearch({ compact = false }) {
 export function MobileHeader() {
   const [open, setOpen] = useState(false);
   const [activeGroup, setActiveGroup] = useState(null);
+  const menuScrollRef = useRef(null);
 
   useEffect(() => {
     if (!open) {
       return undefined;
     }
+
+    menuScrollRef.current?.scrollTo({ top: 0 });
 
     const scrollY = window.scrollY;
     const { body } = document;
@@ -441,7 +444,7 @@ export function MobileHeader() {
       </div>
 
       <div className={`overflow-hidden border-t border-gray-100 bg-white transition-all duration-300 ${open ? "max-h-[calc(100vh-76px)] opacity-100" : "max-h-0 opacity-0"}`}>
-        <div className="max-h-[calc(100vh-76px)] overflow-y-auto px-4 pb-6 pt-4">
+        <div ref={menuScrollRef} className="max-h-[calc(100vh-76px)] overflow-y-auto px-4 pb-6 pt-4">
           <div className="rounded-2xl bg-[#18213b] p-4 text-white shadow-xl">
             <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#1ab69d]">Quick Contact</p>
             <div className="mt-4 space-y-3 text-sm font-semibold">
