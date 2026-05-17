@@ -427,7 +427,7 @@ export function MobileHeader() {
   };
 
   return (
-    <div className="sticky top-0 z-[60] bg-white shadow-lg ring-1 ring-black/5 xl:hidden">
+    <div className="sticky top-0 z-60 bg-white shadow-lg ring-1 ring-black/5 xl:hidden">
       <div className="flex items-center justify-between gap-4 px-4 py-3">
         <a href="#" onClick={(e) => { e.preventDefault(); window.location.reload(); }} className="flex min-w-0 items-center">
           <Image src="/images/kmm-nav-logo.png" alt="KMM College logo" width={145} height={100} priority className="h-auto w-36 sm:w-40" />

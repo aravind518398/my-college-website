@@ -178,7 +178,7 @@ function DepartmentQuickCard({ department }) {
 
 function DepartmentSection({ department, index }) {
   return (
-    <section id={department.id} className={` lg:scroll-mt-20 px-4 py-14 sm:px-6 lg:px-8 lg:py-20 ${index % 2 === 0 ? "bg-white" : "bg-[#f8faf7]"}`}>
+    <section id={department.id} className={` scroll-mt-[70px] lg:scroll-mt-20 px-4 py-14 sm:px-6 lg:px-8 lg:py-20 ${index % 2 === 0 ? "bg-white" : "bg-[#f8faf7]"}`}>
       <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
         <div>
           <div className="flex items-center gap-3">

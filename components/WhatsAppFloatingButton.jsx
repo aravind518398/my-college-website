@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { motion } from "motion/react";
 const whatsappHref =
-  "https://wa.me/919037002130?text=Hi%2C%20I%20would%20like%20to%20know%20more%20about%20KMM%20College.";
+  "https://wa.me/919037002130?text=Hi";
 
 export default function WhatsAppFloatingButton() {
 
