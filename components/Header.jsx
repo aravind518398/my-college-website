@@ -1,6 +1,7 @@
 "use client";
 
 import { faFacebook, faInstagram, faYoutube } from "@fortawesome/free-brands-svg-icons";
+import { faWhatsapp } from "@fortawesome/free-brands-svg-icons/faWhatsapp";
 import {
   faArrowRight,
   faArrowRightToBracket,
@@ -70,6 +71,7 @@ const menuGroups = [
   {
     title: "Admission",
     items: ["UG Admission", "PG Admission", "Fee Structure"],
+    href: "/admission",
   },
   {
     title: "Clubs",
@@ -88,6 +90,7 @@ const menuGroups = [
       "Electoral Literacy Club",
       "Arts Club",
     ],
+    href: "/clubs",
   },
   {
     title: "Cells",
@@ -104,37 +107,45 @@ const menuGroups = [
       "IPR Cell",
       "Counseling Cell",
     ],
+    href: "/cells",
   },
   {
     title: "Committees",
     items: ["Anti Ragging", "Grievance Redressal Committee", "Internal Complaints Committee", "Energy Monitoring Committee"],
+    href: "/committees",
   },
   {
     title: "Research",
     items: ["Research Cell", "IIC", "IEDC"],
+    href: "/research",
   },
   {
     title: "Student Support",
     items: ["SQAC"],
+    href: "/student-support",
   },
   {
     title: "IQAC",
+    href: "/iqac",
   },
   {
     title: "Facilities",
+    href: "/facilities",
   },
   {
     title: "Events",
+    href: "/events",
   },
   {
     title: "Approved Fee Structure",
+    href: "https://cap.mgu.ac.in/collegeinfo/fees_view_unaided.jsp",
+    target: "_blank",
   },
 ];
 
 const contactNumbers = [
   { label: "9037002130", href: "tel:9037002130" },
   { label: "8590601342", href: "tel:8590601342" },
-  { label: "04X4-2X5XX5X7", href: "tel:04X42X5XX5X7" },
 ];
 
 
@@ -178,9 +189,9 @@ export function ContactBar() {
             <FontAwesomeIcon icon={faArrowRightToBracket} className="text-[#1ab69d]" />
             <span>Embase Login</span>
           </Link>
-          <a href="mailto:kmmkumbalam@kmmcollege.edu.in" className="hidden items-center gap-2 text-white/75 transition-colors duration-300 hover:text-white xl:flex">
+          <a href="mailto:kmmkumbalam@gmail.com" className="hidden items-center gap-2 text-white/75 transition-colors duration-300 hover:text-white xl:flex">
             <FontAwesomeIcon icon={faEnvelope} className="text-[#1ab69d]" />
-            <span>kmmkumbalam@kmmcollege.edu.in</span>
+            <span>kmmkumbalam@gmail.com</span>
           </a>
         </div>
 
@@ -248,9 +259,9 @@ function DesktopHeaderContent({ compact = false }) {
   return (
     <div className="bg-white">
       <div className={`mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 transition-all duration-500 2xl:gap-6 ${compact ? "min-h-14" : "min-h-16"}`}>
-        <Link href="/" className="flex min-w-0 items-center gap-3">
+        <a href="#" onClick={(e) => { e.preventDefault(); window.location.reload(); }}className="flex min-w-0 items-center gap-3">
           <Image src="/images/kmm-nav-logo.png" alt="KMM College logo" width={160} height={100} priority className={`w-auto shrink-0 transition-all duration-500 ${compact ? "h-11" : "h-12"}`} />
-        </Link>
+        </a>
 
         <nav aria-label="Primary navigation" className="min-w-0 flex-1">
           <ul className={`flex flex-nowrap items-center justify-end gap-x-1 font-bold text-[#18213b] transition-all duration-500 ${compact ? "text-xs" : "text-sm"}`}>
@@ -319,7 +330,7 @@ function DesktopMenuItem({ group, compact = false }) {
 
   return (
     <li className="group relative">
-      <Link href="#" className={`flex items-center gap-1 rounded-full whitespace-nowrap transition-colors duration-300 hover:bg-white/10 hover:text-[#1ab69d] ${compact ? "px-2.5 py-2" : "px-2.5 py-2.5 2xl:px-3.5"}`}>
+      <Link href={group.href} target={group.target} className={`flex items-center gap-1 rounded-full whitespace-nowrap transition-colors duration-300 hover:bg-white/10 hover:text-[#1ab69d] ${compact ? "px-2.5 py-2" : "px-2.5 py-2.5 2xl:px-3.5"}`}>
         {group.title}
         {hasItems && <FontAwesomeIcon icon={faChevronDown} className="text-xs transition-transform duration-300 group-hover:rotate-180" />}
       </Link>
@@ -379,9 +390,9 @@ export function MobileHeader() {
   return (
     <div className="sticky top-0 z-[60] bg-white shadow-lg ring-1 ring-black/5 xl:hidden">
       <div className="flex items-center justify-between gap-4 px-4 py-3">
-        <Link href="/" className="flex min-w-0 items-center">
+        <a href="#" onClick={(e) => { e.preventDefault(); window.location.reload(); }} className="flex min-w-0 items-center">
           <Image src="/images/kmm-nav-logo.png" alt="KMM College logo" width={145} height={100} priority className="h-auto w-36 sm:w-40" />
-        </Link>
+        </a>
 
         <div className="flex items-center gap-2">
           <Link href="#" className="hidden rounded-br-2xl rounded-tl-2xl bg-gradient-to-r from-[#179BD7] to-[#1ab69d] px-4 py-2.5 text-xs font-bold text-white shadow-lg shadow-[#179BD7]/20 sm:inline-flex">
@@ -402,9 +413,9 @@ export function MobileHeader() {
                 <FontAwesomeIcon icon={faPhone} className="text-[#1ab69d]" />
                 <span>{contactNumbers[0].label}</span>
               </a>
-              <a href="mailto:kmmkumbalam@kmmcollege.edu.in" className="flex min-w-0 items-center gap-2 transition-colors duration-300 hover:text-[#1ab69d]">
+              <a href="mailto:kmmkumbalam@gmail.com" className="flex min-w-0 items-center gap-2 transition-colors duration-300 hover:text-[#1ab69d]">
                 <FontAwesomeIcon icon={faEnvelope} className="text-[#1ab69d]" />
-                <span className="break-all">kmmkumbalam@kmmcollege.edu.in</span>
+                <span className="break-all">kmmkumbalam@gmail.com</span>
               </a>
             </div>
             <div className="mt-4 flex items-center justify-between gap-4">
@@ -478,7 +489,7 @@ export function MobileHeader() {
                       <FontAwesomeIcon icon={faChevronDown} className={`text-xs transition-transform duration-300 ${isActive ? "rotate-180" : ""}`} />
                     </button>
                   ) : (
-                    <Link href="#" onClick={closeMenu} className="block px-4 py-3.5 text-sm font-bold text-[#18213b] transition-colors duration-300 hover:text-[#179BD7]">
+                    <Link href={group.href} target={group.target} onClick={closeMenu} className="block px-4 py-3.5 text-sm font-bold text-[#18213b] transition-colors duration-300 hover:text-[#179BD7]">
                       {group.title}
                     </Link>
                   )}
@@ -509,14 +520,17 @@ export function MobileHeader() {
 function SocialLinks() {
   return (
     <div className="flex items-center gap-4">
-      <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" className="transition-colors duration-300 hover:text-[#1ab69d]" aria-label="Instagram">
+      <a href="https://www.instagram.com/kmmcollege_kumbalam?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" className="transition-colors duration-300 hover:text-[#1ab69d]" aria-label="Instagram">
         <FontAwesomeIcon icon={faInstagram} />
       </a>
-      <a href="https://facebook.com/" target="_blank" rel="noopener noreferrer" className="transition-colors duration-300 hover:text-[#1ab69d]" aria-label="Facebook">
+      <a href="https://facebook.com/Kmmcollegekumbalam" target="_blank" rel="noopener noreferrer" className="transition-colors duration-300 hover:text-[#1ab69d]" aria-label="Facebook">
         <FontAwesomeIcon icon={faFacebook} />
       </a>
-      <a href="https://youtube.com/" target="_blank" rel="noopener noreferrer" className="transition-colors duration-300 hover:text-[#1ab69d]" aria-label="YouTube">
+      <a href="https://www.youtube.com/@kmmcollegeofartsandscience1164" target="_blank" rel="noopener noreferrer" className="transition-colors duration-300 hover:text-[#1ab69d]" aria-label="YouTube">
         <FontAwesomeIcon icon={faYoutube} />
+      </a>
+      <a href="https://wa.me/919037002130?text=Hi" target="_blank" rel="noopener noreferrer" className="transition-colors duration-300 hover:text-[#1ab69d]" aria-label="WhatsApp">
+        <FontAwesomeIcon icon={faWhatsapp} />
       </a>
     </div>
   );

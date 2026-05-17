@@ -1,3 +1,4 @@
+"use client";
 import Header from "@/components/Header";
 import Carousel from "@/components/Carousel";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -5,6 +6,7 @@ import { faArrowRight, faCalendarDays, faChevronRight, faGraduationCap, faStar }
 import Image from "next/image";
 import Footer from "@/components/Footer";
 import Cards from "@/components/Cards";
+import Link from "next/link";
 
 
 export default function Home() {
@@ -52,10 +54,10 @@ export default function Home() {
                     <span className="rounded-full bg-[#18213b]/10 px-4 py-2 text-sm font-semibold text-[#18213b]">Jai Bharath Foundation</span>
                   </div>
 
-                  <button className="group mt-7 flex w-fit cursor-pointer items-center gap-2 rounded-br-2xl rounded-tl-2xl bg-gradient-to-r from-[#179BD7] to-[#1ab69d] px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-[#179BD7]/25 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl sm:self-end">
+                  <Link href="/about" className="group mt-7 flex w-fit cursor-pointer items-center gap-2 rounded-br-2xl rounded-tl-2xl bg-gradient-to-r from-[#179BD7] to-[#1ab69d] px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-[#179BD7]/25 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl sm:self-end">
                     MORE ABOUT US
                     <FontAwesomeIcon className="transition-transform duration-300 group-hover:translate-x-1" icon={faArrowRight} />
-                  </button>
+                  </Link>
                 </div>
               </div>
 
@@ -87,7 +89,7 @@ export default function Home() {
             </div>
 
             <div className="mt-6 grid gap-4  sm:grid-cols-2  lg:w-[calc(100%-22rem)] xl:w-[calc(100%-24rem)]">
-              <div className="group relative flex min-h-32 cursor-pointer items-center gap-4 overflow-hidden rounded-2xl bg-gradient-to-br from-[#179BD7] via-[#1469b8] to-[#18213b] p-5 text-white shadow-2xl transition-all duration-300 hover:-translate-y-1 hover:shadow-[#179BD7]/40">
+              <div onClick={() => window.open('/documents/AICTE-APPROVALS.pdf', '_blank')} className="group relative flex min-h-32 cursor-pointer items-center gap-4 overflow-hidden rounded-2xl bg-gradient-to-br from-[#179BD7] via-[#1469b8] to-[#18213b] p-5 text-white shadow-2xl transition-all duration-300 hover:-translate-y-1 hover:shadow-[#179BD7]/40">
                 <div className="absolute -right-8 -top-8 h-28 w-28 rounded-full bg-white/15"></div>
                 <div className="absolute -bottom-10 left-8 h-24 w-24 rounded-full bg-white/10"></div>
                 <div className="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-white/20 ring-1 ring-white/35 transition-transform duration-300 group-hover:scale-110">
@@ -99,7 +101,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="group relative flex min-h-32 cursor-pointer items-center gap-4 overflow-hidden rounded-2xl bg-gradient-to-br from-[#1ab69d] via-[#179BD7] to-[#18213b] p-5 text-white shadow-2xl transition-all duration-300 hover:-translate-y-1 hover:shadow-[#1ab69d]/40">
+              <div onClick={() => window.open('/documents/AICTE-MANDATORY-DISCLOSURE.pdf', '_blank')}  className="group relative flex min-h-32 cursor-pointer items-center gap-4 overflow-hidden rounded-2xl bg-gradient-to-br from-[#1ab69d] via-[#179BD7] to-[#18213b] p-5 text-white shadow-2xl transition-all duration-300 hover:-translate-y-1 hover:shadow-[#1ab69d]/40">
                 <div className="absolute -right-8 -top-8 h-28 w-28 rounded-full bg-white/15"></div>
                 <div className="absolute -bottom-10 left-8 h-24 w-24 rounded-full bg-white/10"></div>
                 <div className="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-white/20 ring-1 ring-white/35 transition-transform duration-300 group-hover:scale-110">

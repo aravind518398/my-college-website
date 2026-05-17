@@ -1,4 +1,4 @@
-import { Geist, Geist_Mono, Montserrat, Smooch } from "next/font/google";
+import { Geist, Geist_Mono, Montserrat } from "next/font/google";
 
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { config } from "@fortawesome/fontawesome-svg-core";
@@ -6,6 +6,7 @@ import { config } from "@fortawesome/fontawesome-svg-core";
 config.autoAddCss = false;
 
 import "./globals.css";
+import WhatsAppFloatingButton from "@/components/WhatsAppFloatingButton";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,12 +30,13 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" style={{scrollBehavior:"smooth"}}>
-
+    <html lang="en" style={{ scrollBehavior: "smooth" }} data-scroll-behavior="smooth">
       <body
         className={`${montserrat.variable} ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
+
+        <WhatsAppFloatingButton />
       </body>
     </html>
   );

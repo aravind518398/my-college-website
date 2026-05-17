@@ -37,6 +37,28 @@
   .pause-on-hover:hover {
     animation-play-state: paused;
   }
+
+  @keyframes whatsapp-pop {
+    0% {
+      opacity: 0;
+      transform: translate3d(0, 1.5rem, 0) scale(0.72);
+    }
+    55% {
+      opacity: 1;
+      transform: translate3d(0, -0.35rem, 0) scale(1.08);
+    }
+    76% {
+      transform: translate3d(0, 0.12rem, 0) scale(0.98);
+    }
+    100% {
+      opacity: 1;
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+  }
+
+  .animate-whatsapp-pop {
+    animation: whatsapp-pop 650ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
 }
 
 
@@ -44,4 +66,3 @@
 body {
   font-family: var(--font-montserrat);
 }
-

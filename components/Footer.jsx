@@ -1,31 +1,43 @@
 import { faFacebook, faInstagram, faYoutube } from "@fortawesome/free-brands-svg-icons";
+import { faWhatsapp } from "@fortawesome/free-brands-svg-icons/faWhatsapp";
 import { faArrowRight, faEnvelope, faLocationDot, faPhone, faShieldHalved } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import Link from "next/link";
 
 const departments = [
-  "Department of Commerce",
-  "Department of Computer Applications",
-  "Department of Business Administration",
-  "Department of Languages",
-  "Department of Mathematics",
-  "Department of Psychology",
+  { label: "Department of Commerce", href: "/departments#commerce" },
+  { label: "Department of Computer Applications", href: "/departments#computer-application" },
+  { label: "Department of Psychology", href: "/departments#psychology" },
+  { label: "Department of Business Administration", href: "/departments#business-administration" },
+  { label: "Department of Mathematics", href: "/departments#mathematics" },
+  { label: "Department of Languages", href: "/departments#languages" },
 ];
 
-const ugProgrammes = ["B.Com Finance and Taxation", "BSc Psychology", "BCA", "BBA"];
-const pgProgrammes = ["MBA", "MCA", "M.Sc Psychology"];
+const ugProgrammes = [
+  { label: "B.Com Finance and Taxation", href: "/programmes/ug/bcom" },
+  { label: "BSc Psychology", href: "/programmes/ug/bsc-psychology" },
+  { label: "BCA", href: "/programmes/ug/bca" },
+  { label: "BBA", href: "/programmes/ug/bba" },
+];
+
+const pgProgrammes = [
+  { label: "MBA", href: "/programmes/pg/mba" },
+  { label: "MCA", href: "/programmes/pg/mca" },
+  { label: "M.Sc Psychology", href: "/programmes/pg/msc-psychology" },
+];
 
 const socialLinks = [
-  { label: "Facebook", icon: faFacebook },
-  { label: "Instagram", icon: faInstagram },
-  { label: "YouTube", icon: faYoutube },
+  { label: "Facebook", icon: faFacebook, href: "https://facebook.com/Kmmcollegekumbalam"},
+  { label: "Instagram", icon: faInstagram, href: "https://www.instagram.com/kmmcollege_kumbalam?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" },
+  { label: "YouTube", icon: faYoutube, href: "https://www.youtube.com/@kmmcollegeofartsandscience1164" },
+  {label: "WhatsApp", icon: faWhatsapp, href: "https://wa.me/919037002130?text=Hi" },
 ];
 
-function FooterLink({ children }) {
+function FooterLink({ children, href }) {
   return (
     <li>
-      <Link href="#" className="group flex items-start gap-2 text-sm leading-6 text-white/70 transition-colors duration-300 hover:text-white">
+      <Link href={href} className="group flex items-start gap-2 text-sm leading-6 text-white/70 transition-colors duration-300 hover:text-white">
         <FontAwesomeIcon icon={faArrowRight} className="mt-1.5 text-[10px] text-[#1ab69d] opacity-0 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100" />
         <span>{children}</span>
       </Link>
@@ -40,7 +52,9 @@ function FooterColumn({ title, items }) {
       <div className="mt-3 h-0.5 w-10 rounded-full bg-[#179BD7]"></div>
       <ul className="mt-5 space-y-2">
         {items.map((item) => (
-          <FooterLink key={item}>{item}</FooterLink>
+          <FooterLink href={item.href} key={item.label}>
+            {item.label}
+          </FooterLink>
         ))}
       </ul>
     </div>
@@ -69,23 +83,23 @@ export default function Footer() {
             <p className="mt-6 text-sm leading-7 text-white/72">K.M.M. College, Kumbalam is committed to quality education, professional confidence, and student-focused academic growth.</p>
 
             <div className="mt-6 space-y-3 text-sm text-white/75">
-              <div className="flex gap-3">
+              <Link href="https://www.google.com/maps/place/KMM+COLLEGE+KUMBALAM/@9.8894915,76.3144593,17z/data=!3m1!4b1!4m6!3m5!1s0x3b0873891d2901f1:0xaf45f6e66bb881e6!8m2!3d9.8894915!4d76.3144593!16s%2Fg%2F11trv78tqs?entry=ttu&g_ep=EgoyMDI2MDUxMy4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" className="flex gap-3 transition-colors duration-300 hover:text-white">
                 <FontAwesomeIcon icon={faLocationDot} className="mt-1 text-[#1ab69d]" />
-                <span>K.M.M. College, Kumbalam, Kerala - 682021</span>
-              </div>
+                <span>K.M.M. College, Kumbalam, Kerala - 682506</span>
+              </Link>
               <a href="tel:9037002130" className="flex w-fit items-center gap-3 transition-colors duration-300 hover:text-white">
                 <FontAwesomeIcon icon={faPhone} className="text-[#1ab69d]" />
                 <span>9037002130</span>
               </a>
-              <a href="mailto:kmmkumbalam@kmmcollege.edu.in" className="flex items-center gap-3 break-all transition-colors duration-300 hover:text-white">
+              <a href="mailto:kmmkumbalam@gmail.com" className="flex items-center gap-3 break-all transition-colors duration-300 hover:text-white">
                 <FontAwesomeIcon icon={faEnvelope} className="text-[#1ab69d]" />
-                <span>kmmkumbalam@kmmcollege.edu.in</span>
+                <span>kmmkumbalam@gmail.com</span>
               </a>
             </div>
 
             <div className="mt-7 flex flex-wrap items-center gap-3">
               {socialLinks.map((item) => (
-                <Link key={item.label} href="#" aria-label={item.label} className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white ring-1 ring-white/15 transition-all duration-300 hover:-translate-y-1 hover:bg-[#1ab69d]">
+                <Link key={item.label} href={item.href} target="_blank" rel="noopener noreferrer" aria-label={item.label} className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white ring-1 ring-white/15 transition-all duration-300 hover:-translate-y-1 hover:bg-[#1ab69d]">
                   <FontAwesomeIcon icon={item.icon} />
                 </Link>
               ))}
@@ -109,7 +123,7 @@ export default function Footer() {
               <p className="mt-1 font-semibold leading-snug">Affiliated to MG University</p>
             </div>
           </div>
-          <Link href="#" className="mt-5 inline-flex items-center gap-2 rounded-br-2xl rounded-tl-2xl bg-white px-5 py-3 text-sm font-bold text-[#1469b8] shadow-lg transition-all duration-300 hover:-translate-y-1 sm:mt-0">
+          <Link href="/contact" className="mt-5 inline-flex items-center gap-2 rounded-br-2xl rounded-tl-2xl bg-white px-5 py-3 text-sm font-bold text-[#1469b8] shadow-lg transition-all duration-300 hover:-translate-y-1 sm:mt-0">
             Contact Us
             <FontAwesomeIcon icon={faArrowRight} className="text-xs" />
           </Link>

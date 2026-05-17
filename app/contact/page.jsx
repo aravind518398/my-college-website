@@ -25,15 +25,15 @@ const contactCards = [
   },
   {
     title: "Email",
-    detail: "kmmkumbalam@kmmcollege.edu.in",
+    detail: "kmmkumbalam@gmail.com",
     subDetail: "For general college enquiries",
-    href: "mailto:kmmkumbalam@kmmcollege.edu.in",
+    href: "mailto:kmmkumbalam@gmail.com",
     icon: faEnvelope,
   },
   {
     title: "Visit Campus",
     detail: "K.M.M. College, Kumbalam",
-    subDetail: "Kerala - 682021",
+    subDetail: "Kerala - 682506",
     href: "https://www.google.com/maps/search/?api=1&query=KMM+College+Kumbalam+Kerala",
     icon: faLocationDot,
   },
@@ -98,7 +98,7 @@ export default function Contact() {
           <div className="absolute inset-x-0 bottom-0 h-24" />
 
           <div className="relative mx-auto grid max-w-7xl gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-stretch">
-            <div className="flex min-h-[430px] flex-col justify-between rounded-[28px] bg-[#10172b] p-6 shadow-2xl shadow-[#10172b]/25 sm:p-8 lg:p-10">
+            <div className="flex min-h-[430px] flex-col justify-between rounded-[28px] bg-[#10172b] p-6 shadow-2xl shadow-[#10172b]/25 sm:p-8 lg:p-10 border border-[#dceae5]">
               <div>
                 <p className="inline-flex rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.22em] text-[#1ab69d]">
                   Contact KMM College
@@ -139,14 +139,14 @@ export default function Contact() {
                     Email Us
                   </span>
                   <span className="mt-1 block break-words text-sm font-bold leading-6 text-white">
-                    kmmkumbalam@kmmcollege.edu.in
+                    kmmkumbalam@gmail.com
                   </span>
                 </a>
               </div>
             </div>
 
             <div className="grid  gap-6 ">
-              <div className="rounded-[28px] bg-white p-5 text-[#18213b] shadow-xl shadow-[#18213b]/10 sm:p-6">
+              <div className="rounded-[28px] bg-white p-5 text-[#18213b] shadow-xl shadow-[#18213b]/10 sm:p-6 border border-[#dceae5]">
                 <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#1ab69d]">
                   Campus Address
                 </p>
@@ -154,7 +154,7 @@ export default function Contact() {
                   K.M.M. College, Kumbalam
                 </h2>
                 <p className="mt-3 text-sm font-semibold leading-7 text-[#40506f]">
-                  Kerala - 682021
+                  Kerala - 682506
                 </p>
 
                 <div className="mt-8 space-y-4">
@@ -185,7 +185,7 @@ export default function Contact() {
                   Get Directions
                 </a>
               </div>
-              <div className="overflow-hidden rounded-[28px] shadow-xl shadow-[#18213b]/10">
+              <div className="overflow-hidden rounded-[28px] shadow-xl shadow-[#18213b]/10 border border-[#dceae5] ">
     <iframe
       title="KMM College location map"
       src="https://www.google.com/maps?q=KMM%20College%20Kumbalam%20Kerala&output=embed"
