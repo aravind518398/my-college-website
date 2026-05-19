@@ -44,6 +44,8 @@ const enquiryTypes = [
   "Academics",
   "Placements",
   "Student Support",
+  "General Enquiry",
+  "Grievance / Complaint",
 ];
 
 const quickInfo = [
@@ -225,7 +227,7 @@ export default function Contact() {
           </div>
         </section>
 
-        <section className="bg-white px-4 py-14 sm:px-6 lg:py-20">
+        <section id="enquiry-form" className="scroll-mt-[70px] lg:scroll-mt-20 bg-white px-4 py-14 sm:px-6 lg:py-20">
           <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.92fr_1.08fr] lg:gap-12">
             <div>
               <p className="mb-2 text-xs font-bold uppercase tracking-[0.28em] text-[#1ab69d]">
@@ -268,7 +270,7 @@ export default function Contact() {
             </div>
 
             <form
-              action="mailto:kmmkumbalam@kmmcollege.edu.in"
+              action="mailto:aravindrkrishnan1111@gmail.com"
               method="post"
               encType="text/plain"
               className="rounded-[28px] border border-[#d6e8e2] bg-[#f8faf7] p-5 shadow-[0_20px_55px_-35px_rgba(24,33,59,0.6)] sm:p-7 lg:p-8"

@@ -70,7 +70,11 @@ const quickLinks = [
 const menuGroups = [
   {
     title: "Admission",
-    items: ["UG Admission", "PG Admission", "Fee Structure"],
+    items: [
+      { label: "UG Admission", href: "/admission#ug-admission" },
+      { label: "PG Admission", href: "/admission#pg-admission" },
+      { label: "Fee Structure", href: "/admission#fee-structure" },
+    ],
     href: "/admission",
   },
   {
@@ -279,7 +283,7 @@ function DesktopHeaderContent({ compact = false }) {
           </ul>
         </nav>
 
-        <Link href="#" className="group flex shrink-0 items-center gap-2 rounded-br-2xl rounded-tl-2xl bg-gradient-to-r from-[#179BD7] to-[#1ab69d] px-3.5 py-3 text-sm font-bold text-white shadow-lg shadow-[#179BD7]/20 transition-all duration-300 hover:-translate-y-0.5 2xl:px-4">
+        <Link href="/admission" className="group flex shrink-0 items-center gap-2 rounded-br-2xl rounded-tl-2xl bg-gradient-to-r from-[#179BD7] to-[#1ab69d] px-3.5 py-3 text-sm font-bold text-white shadow-lg shadow-[#179BD7]/20 transition-all duration-300 hover:-translate-y-0.5 2xl:px-4">
           Admission
           <FontAwesomeIcon icon={faArrowRight} className="text-xs transition-transform duration-300 group-hover:translate-x-1" />
         </Link>
@@ -339,9 +343,9 @@ function DesktopMenuItem({ group, compact = false }) {
         <div className="invisible absolute left-0 top-full z-50 w-72 translate-y-3 rounded-2xl bg-white p-3 text-[#18213b] opacity-0 shadow-2xl ring-1 ring-black/5 transition-all duration-300 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
           <ul className="grid max-h-[420px] gap-1 overflow-y-auto">
             {group.items.map((item) => (
-              <li key={item}>
-                <Link href="#" className="block rounded-xl px-3 py-2 text-sm font-semibold transition-colors duration-300 hover:bg-[#179BD7]/10 hover:text-[#179BD7]">
-                  {item}
+              <li key={typeof item === "string" ? item : item.label}>
+                <Link href={typeof item === "string" ? "#" : item.href} className="block rounded-xl px-3 py-2 text-sm font-semibold transition-colors duration-300 hover:bg-[#179BD7]/10 hover:text-[#179BD7]">
+                  {typeof item === "string" ? item : item.label}
                 </Link>
               </li>
             ))}
@@ -408,7 +412,7 @@ export function MobileHeader() {
         </a>
 
         <div className="flex items-center gap-2">
-          <Link href="#" className="hidden rounded-br-2xl rounded-tl-2xl bg-gradient-to-r from-[#179BD7] to-[#1ab69d] px-4 py-2.5 text-xs font-bold text-white shadow-lg shadow-[#179BD7]/20 sm:inline-flex">
+          <Link href="/admission" className="rounded-br-2xl rounded-tl-2xl bg-gradient-to-r from-[#179BD7] to-[#1ab69d] px-4 py-2.5 text-xs font-bold text-white shadow-lg shadow-[#179BD7]/20 sm:inline-flex">
             Admission
           </Link>
           <button type="button" onClick={toggleMenu} className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full bg-[#18213b] text-white shadow-lg transition-colors duration-300 hover:bg-[#179BD7]" aria-label="Toggle navigation" aria-expanded={open}>
@@ -511,9 +515,9 @@ export function MobileHeader() {
                     <div className={`overflow-hidden bg-gray-50 transition-all duration-300 ${isActive ? "max-h-[28rem]" : "max-h-0"}`}>
                       <ul className="grid gap-1 p-3">
                         {group.items.map((item) => (
-                          <li key={item}>
-                            <Link href="#" onClick={closeMenu} className="block rounded-xl px-3 py-2 text-sm font-semibold text-[#343434] transition-colors duration-300 hover:bg-white hover:text-[#179BD7]">
-                              {item}
+                          <li key={typeof item === "string" ? item : item.label}>
+                            <Link href={typeof item === "string" ? "#" : item.href} onClick={closeMenu} className="block rounded-xl px-3 py-2 text-sm font-semibold text-[#343434] transition-colors duration-300 hover:bg-white hover:text-[#179BD7]">
+                              {typeof item === "string" ? item : item.label}
                             </Link>
                           </li>
                         ))}
