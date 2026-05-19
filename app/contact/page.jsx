@@ -14,6 +14,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
+import { useState } from "react";
 
 const contactCards = [
   {
@@ -40,11 +41,11 @@ const contactCards = [
 ];
 
 const enquiryTypes = [
+  "General",
   "Admissions",
   "Academics",
   "Placements",
   "Student Support",
-  "General Enquiry",
   "Grievance / Complaint",
 ];
 
@@ -92,6 +93,59 @@ function ContactCard({ card }) {
 }
 
 export default function Contact() {
+  const [formStatus, setFormStatus] = useState({
+    type: "idle",
+    message: "",
+  });
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+
+    setFormStatus({
+      type: "loading",
+      message: "Sending your enquiry...",
+    });
+
+    try {
+      const response = await fetch("/api/enquiry", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.get("name"),
+          phone: formData.get("phone"),
+          email: formData.get("email"),
+          type: formData.get("type"),
+          message: formData.get("message"),
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.error || "Unable to submit your enquiry.");
+      }
+
+      form.reset();
+      setFormStatus({
+        type: "success",
+        message: result.message || "Your enquiry has been submitted successfully.",
+      });
+    } catch (error) {
+      setFormStatus({
+        type: "error",
+        message:
+          error.message ||
+          "Something went wrong while sending your enquiry. Please try again.",
+      });
+    }
+  };
+
+  const isSubmitting = formStatus.type === "loading";
+
   return (
     <>
       <Header />
@@ -131,7 +185,7 @@ export default function Contact() {
                   </span>
                 </a>
                 <a
-                  href="mailto:kmmkumbalam@kmmcollege.edu.in"
+                  href="mailto:kmmkumbalam@gmail.com"
                   className="group rounded-2xl border border-white/10 bg-white/[0.08] p-4 transition hover:border-[#1ab69d] hover:bg-[#1ab69d]"
                 >
                   <span className="grid h-11 w-11 place-items-center rounded-xl bg-white text-[#18213b]">
@@ -270,9 +324,7 @@ export default function Contact() {
             </div>
 
             <form
-              action="mailto:aravindrkrishnan1111@gmail.com"
-              method="post"
-              encType="text/plain"
+              onSubmit={handleSubmit}
               className="rounded-[28px] border border-[#d6e8e2] bg-[#f8faf7] p-5 shadow-[0_20px_55px_-35px_rgba(24,33,59,0.6)] sm:p-7 lg:p-8"
             >
               <div className="grid gap-5 sm:grid-cols-2">
@@ -281,6 +333,7 @@ export default function Contact() {
                   <input
                     type="text"
                     name="name"
+                    required
                     placeholder="Enter your name"
                     className="mt-2 w-full rounded-2xl border border-[#d6e8e2] bg-white px-4 py-3 text-sm text-[#18213b] outline-none transition placeholder:text-[#7a879d] focus:border-[#1ab69d] focus:ring-4 focus:ring-[#1ab69d]/15"
                   />
@@ -290,6 +343,7 @@ export default function Contact() {
                   <input
                     type="tel"
                     name="phone"
+                    required
                     placeholder="Enter phone number"
                     className="mt-2 w-full rounded-2xl border border-[#d6e8e2] bg-white px-4 py-3 text-sm text-[#18213b] outline-none transition placeholder:text-[#7a879d] focus:border-[#1ab69d] focus:ring-4 focus:ring-[#1ab69d]/15"
                   />
@@ -302,6 +356,7 @@ export default function Contact() {
                   <input
                     type="email"
                     name="email"
+                    required
                     placeholder="Enter email address"
                     className="mt-2 w-full rounded-2xl border border-[#d6e8e2] bg-white px-4 py-3 text-sm text-[#18213b] outline-none transition placeholder:text-[#7a879d] focus:border-[#1ab69d] focus:ring-4 focus:ring-[#1ab69d]/15"
                   />
@@ -311,6 +366,7 @@ export default function Contact() {
                   <select
                     name="type"
                     defaultValue=""
+                    required
                     className="mt-2 w-full rounded-2xl border border-[#d6e8e2] bg-white px-4 py-3 text-sm text-[#18213b] outline-none transition focus:border-[#1ab69d] focus:ring-4 focus:ring-[#1ab69d]/15"
                   >
                     <option value="" disabled>
@@ -330,17 +386,34 @@ export default function Contact() {
                 <textarea
                   name="message"
                   rows={6}
+                  required
                   placeholder="Write your message"
                   className="mt-2 w-full resize-none rounded-2xl border border-[#d6e8e2] bg-white px-4 py-3 text-sm text-[#18213b] outline-none transition placeholder:text-[#7a879d] focus:border-[#1ab69d] focus:ring-4 focus:ring-[#1ab69d]/15"
                 />
               </label>
 
+              {formStatus.message && (
+                <p
+                  role="status"
+                  className={`mt-5 rounded-2xl border px-4 py-3 text-sm font-semibold leading-6 ${
+                    formStatus.type === "success"
+                      ? "border-[#1ab69d]/30 bg-[#1ab69d]/10 text-[#12826f]"
+                      : formStatus.type === "error"
+                        ? "border-red-200 bg-red-50 text-red-700"
+                        : "border-[#d6e8e2] bg-white text-[#40506f]"
+                  }`}
+                >
+                  {formStatus.message}
+                </p>
+              )}
+
               <button
                 type="submit"
-                className="mt-6 inline-flex w-full items-center justify-center gap-3 rounded-full bg-[#18213b] px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-[#18213b]/15 transition hover:bg-[#1ab69d] focus:outline-none focus:ring-4 focus:ring-[#1ab69d]/25 sm:w-auto"
+                disabled={isSubmitting}
+                className="mt-6 inline-flex w-full items-center justify-center gap-3 rounded-full bg-[#18213b] px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-[#18213b]/15 transition hover:bg-[#1ab69d] focus:outline-none focus:ring-4 focus:ring-[#1ab69d]/25 disabled:cursor-not-allowed disabled:bg-[#40506f] sm:w-auto"
               >
                 <FontAwesomeIcon icon={faPaperPlane} />
-                Submit Enquiry
+                {isSubmitting ? "Sending..." : "Submit Enquiry"}
               </button>
             </form>
           </div>
