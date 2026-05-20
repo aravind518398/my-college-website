@@ -1,10 +1,11 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import UGProgramme from "../../components/Ugprograms";
 import Image from "next/image";
 
 const ugProgrammes = [
-  { id: 1, program: "B.Com", specialisation: "Finance and Taxation", seats: 40 },
-  { id: 2, program: "BSc", specialisation: "Psychology", seats: 40 },
+  { id: 1, program: "B.Com Honours", specialisation: "Finance and Taxation", seats: 40 },
+  { id: 2, program: "B.Sc Honours", specialisation: "Psychology", seats: 40 },
   { id: 3, program: "BBA Honours", specialisation: "General Management", seats: 40 },
   { id: 4, program: "BCA Honours", specialisation: "Computer Applications", seats: 40 },
 ];
@@ -304,6 +305,8 @@ export default function AcademicsPage() {
           label="Undergraduate"
         />
     </div>
+
+    <UGProgramme/>
 
         <div className="bg-white scroll-mt-14" id="pg-programmes">
           <ProgrammeSection

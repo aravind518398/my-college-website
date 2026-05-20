@@ -132,11 +132,11 @@ export async function POST(req) {
         body: `
           <table style="width:100%;border-collapse:collapse;font-size:14px;">
             ${[
-              ["Full Name", safeName],
-              ["Email", `<a href="mailto:${safeEmail}" style="color:#1469b8;font-weight:700;text-decoration:none;">${safeEmail}</a>`],
-              ["Phone", `<a href="tel:${safePhone}" style="color:#18213b;font-weight:700;text-decoration:none;">${safePhone}</a>`],
-              ["Enquiry Type", `<span style="display:inline-block;padding:6px 14px;border-radius:999px;background:#1ab69d1f;color:#12826f;font-size:12px;font-weight:800;">${safeType}</span>`],
-              ["Submitted On", safeSubmittedAt],
+              ["Full Name: ", safeName],
+              ["Email: ", `<a href="mailto:${safeEmail}" style="color:#1469b8;font-weight:700;text-decoration:none;">${safeEmail}</a>`],
+              ["Phone: ", `<a href="tel:${safePhone}" style="color:#18213b;font-weight:700;text-decoration:none;">${safePhone}</a>`],
+              ["Enquiry Type: ", `<span style="display:inline-block;padding:6px 14px;border-radius:999px;background:#1ab69d1f;color:#12826f;font-size:12px;font-weight:800;">${safeType}</span>`],
+              ["Submitted On: ", safeSubmittedAt],
             ]
               .map(
                 ([label, value]) => `
