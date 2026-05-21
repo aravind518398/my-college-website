@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import UGProgramme from "../../components/Ugprograms";
@@ -306,7 +307,9 @@ export default function AcademicsPage() {
         />
     </div>
 
-    <UGProgramme/>
+    <Suspense fallback={<div className="h-96 bg-white" />}>
+      <UGProgramme />
+    </Suspense>
 
         <div className="bg-white scroll-mt-14" id="pg-programmes">
           <ProgrammeSection

@@ -129,7 +129,7 @@ export default function Admission() {
   return (
     <>
       <Header />
-      <main id="admission" className="scroll-mt-[70px] lg:scroll-mt-12 overflow-hidden bg-[#f8faf7] text-[#18213b]">
+      <main id="admission" className="scroll-mt-[70px] lg:scroll-mt-28 overflow-hidden bg-[#f8faf7] text-[#18213b]">
         <section className="px-4 py-12 sm:px-6 lg:py-20">
           <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-stretch">
             <div className="flex min-h-[460px] flex-col justify-between rounded-[28px] bg-[#10172b] p-6 text-white shadow-2xl shadow-[#10172b]/25 sm:p-8 lg:p-10">
