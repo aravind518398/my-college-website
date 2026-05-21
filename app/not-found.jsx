@@ -49,10 +49,10 @@ export default function NotFound() {
                 Back to Home
                 <FontAwesomeIcon icon={faArrowRight} className="text-xs transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
-              <Link href="/contact" className="inline-flex items-center gap-2 rounded-br-2xl rounded-tl-2xl bg-white px-5 py-3 text-sm font-bold text-[#1469b8] shadow-lg ring-1 ring-black/5 transition-all duration-300 hover:-translate-y-1 hover:text-[#179BD7]">
+              <a href="tel:9037002130" className="inline-flex items-center gap-2 rounded-br-2xl rounded-tl-2xl bg-white px-5 py-3 text-sm font-bold text-[#1469b8] shadow-lg ring-1 ring-black/5 transition-all duration-300 hover:-translate-y-1 hover:text-[#179BD7]">
                 Contact Office
                 <FontAwesomeIcon icon={faPhone} className="text-xs" />
-              </Link>
+              </a>
             </div>
 
             <div className="mt-8 grid gap-3 sm:grid-cols-3">

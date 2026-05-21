@@ -84,11 +84,11 @@ export default function RtiPage() {
                 Right to Information (RTI)
               </h1>
               <Image
-                src="/images/underlinee.png"
-                width={130}
+                src="/images/underline.svg"
+                width={210}
                 height={40}
                 alt="Decorated underline"
-                className="mt-4 brightness-0"
+                className="mt-4 "
               />
               <p className="mt-6 max-w-2xl text-base font-medium leading-8 text-slate-700 sm:text-lg">
                 The Right To Information Act 2005 was passed by the Parliament

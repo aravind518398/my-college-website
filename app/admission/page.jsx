@@ -70,11 +70,11 @@ function SectionHeader({ eyebrow, title, description }) {
         {title}
       </h2>
       <Image
-        src="/images/underlinee.png"
-        width={120}
+        src="/images/underline.svg"
+        width={210}
         height={36}
         alt="Decorated underline"
-        className="mx-auto mt-3 brightness-0"
+        className="mx-auto mt-3 "
       />
       <p className="mt-4 text-sm leading-7 text-[#40506f] sm:text-base">
         {description}
@@ -129,7 +129,7 @@ export default function Admission() {
   return (
     <>
       <Header />
-      <main className="overflow-hidden bg-[#f8faf7] text-[#18213b]">
+      <main id="admission" className="scroll-mt-[70px] lg:scroll-mt-12 overflow-hidden bg-[#f8faf7] text-[#18213b]">
         <section className="px-4 py-12 sm:px-6 lg:py-20">
           <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-stretch">
             <div className="flex min-h-[460px] flex-col justify-between rounded-[28px] bg-[#10172b] p-6 text-white shadow-2xl shadow-[#10172b]/25 sm:p-8 lg:p-10">
@@ -229,6 +229,8 @@ export default function Admission() {
           </div>
         </section>
 
+<a href="#admission">
+
         <ProgrammeSection
           id="ug-admission"
           eyebrow="UG Admission"
@@ -236,6 +238,8 @@ export default function Admission() {
           description="Career-focused degree programmes with strong academic foundations and practical learning support."
           programmes={ugProgrammes}
         />
+</a>
+<a href="#admission">
 
         <ProgrammeSection
           id="pg-admission"
@@ -244,6 +248,7 @@ export default function Admission() {
           description="Advanced programmes designed for professional growth, subject depth, and industry readiness."
           programmes={pgProgrammes}
         />
+</a>
 
         <section className="bg-white px-4 py-14 sm:px-6 lg:py-20">
           <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
@@ -255,11 +260,11 @@ export default function Admission() {
                 Keep your admission documents ready.
               </h2>
               <Image
-                src="/images/underlinee.png"
-                width={120}
+                src="/images/underline.svg"
+                width={210}
                 height={36}
                 alt="Decorated underline"
-                className="mt-3 brightness-0"
+                className="mt-3 "
               />
               <p className="mt-5 text-sm leading-7 text-[#40506f] sm:text-base">
                 Eligibility depends on the selected programme and university

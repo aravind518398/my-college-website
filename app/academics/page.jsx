@@ -61,11 +61,11 @@ function SectionHeader({ eyebrow, title, description }) {
         {title}
       </h2>
       <Image
-        src="/images/underlinee.png"
-        width={120}
+        src="/images/underline.svg"
+        width={210}
         height={36}
         alt="Decorated underline"
-        className="mt-3 brightness-0"
+        className="mt-3 "
       />
       <p className="mt-4 max-w-2xl text-sm leading-6 text-slate-600 sm:text-base">
         {description}
@@ -272,7 +272,7 @@ export default function AcademicsPage() {
       <main className="overflow-hidden bg-[#f7faf8] text-[#18213b]">
         <section className="relative min-h-[280px] sm:min-h-[380px] lg:min-h-[480px]">
           <Image
-            src="/images/lab2.png"
+            src="/images/lab2.webp"
             alt="Students in an academic laboratory"
             fill
             priority
@@ -393,7 +393,7 @@ export default function AcademicsPage() {
               </div>
 
               <a
-                href="/documents/Academic-Calendar.pdf"
+                href="/documents/Academic-Calendar_2024-25).pdf"
                 download="Academic-Calendar-2024-25.pdf"
                 className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#18213b] px-5 py-3 text-sm font-bold text-white transition-colors duration-200 hover:bg-[#1ab69d] sm:w-auto"
               >

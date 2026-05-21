@@ -71,11 +71,11 @@ function SectionTitle({ align = "left", kicker, title }) {
         {title}
       </h2>
       <Image
-        src="/images/underlinee.png"
-        width={110}
+        src="/images/underline.svg"
+        width={210}
         height={35}
         alt="Decorated underline"
-        className="mt-3 brightness-0"
+        className="mt-3"
       />
     </div>
   );
@@ -145,11 +145,11 @@ export default function AboutPage() {
                 Shaping thoughtful learners for a better society.
               </h1>
               <Image
-                src="/images/underlinee.png"
-                width={130}
+                src="/images/underline.svg"
+                width={210}
                 height={40}
                 alt="Decorated underline"
-                className="mt-4 brightness-0"
+                className="mt-4 "
               />
               <p className="mt-6 max-w-2xl text-base font-medium leading-8 text-slate-700 sm:text-lg">
                 KMM College, Kumbalam strives to create a future society where

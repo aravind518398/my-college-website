@@ -132,7 +132,7 @@ function SectionHeader({ eyebrow, title, description, align = "center" }) {
     <div className={`${centered ? "mx-auto items-center text-center" : "items-start"} mb-10 flex max-w-3xl flex-col`}>
       <p className="mb-2 text-xs font-bold uppercase tracking-[0.22em] text-[#1ab69d]">{eyebrow}</p>
       <h2 className="text-2xl font-bold leading-tight text-[#18213b] sm:text-3xl lg:text-4xl">{title}</h2>
-      <Image src="/images/underlinee.png" width={120} height={36} alt="" className="mt-3 h-auto w-[120px] brightness-0" />
+      <Image src="/images/underline.svg" width={210} height={36} alt="" className="mt-3 h-auto w-[210px] " />
       <p className="mt-4 max-w-2xl text-sm leading-7 text-[#40506f] sm:text-base">{description}</p>
     </div>
   );

@@ -114,9 +114,9 @@ export default function Carousel() {
               Explore Admissions
               <FontAwesomeIcon icon={faArrowRight} className="text-xs transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
-            <button className="inline-flex w-fit cursor-pointer items-center gap-2 rounded-br-2xl rounded-tl-2xl bg-white/12 px-5 py-3 text-sm font-bold text-white ring-1 ring-white/25 backdrop-blur transition-all duration-300 hover:bg-white hover:text-[#18213b]">
+            <Link href="/academics" className="inline-flex w-fit cursor-pointer items-center gap-2 rounded-br-2xl rounded-tl-2xl bg-white/12 px-5 py-3 text-sm font-bold text-white ring-1 ring-white/25 backdrop-blur transition-all duration-300 hover:bg-white hover:text-[#18213b]">
               View Programmes
-            </button>
+            </Link>
           </div>
         </div>
       </div>

@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 
 const programmes = [
   {
@@ -328,7 +329,20 @@ function SyllabusItem({ item, programme }) {
 }
 
 export default function UGProgramme() {
+  const searchParams = useSearchParams();
+  const programParam = searchParams.get("program");
+  
   const [activeId, setActiveId] = useState(programmes[0].id);
+  
+  useEffect(() => {
+    if (programParam) {
+      const validProgram = programmes.find((p) => p.id === programParam);
+      if (validProgram) {
+        setActiveId(programParam);
+      }
+    }
+  }, [programParam]);
+
   const activeProgramme = useMemo(
     () => programmes.find((programme) => programme.id === activeId) || programmes[0],
     [activeId]
@@ -337,7 +351,7 @@ export default function UGProgramme() {
   const availableCount = activeProgramme.syllabus.filter((item) => item.status === "Available").length;
 
   return (
-    <section className="bg-white px-4 py-14 sm:px-6 lg:py-20" id="ug-programme-details">
+    <section  className="scroll-mt-[70px] lg:scroll-mt-24 bg-white px-4 py-14 sm:px-6 lg:py-20" id="ug-programme-details">
       <div className="mx-auto max-w-6xl">
         <div className="mb-10 grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
           <div>

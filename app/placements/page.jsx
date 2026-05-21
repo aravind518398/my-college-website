@@ -77,11 +77,11 @@ function SectionTitle({ kicker, title, description }) {
         {title}
       </h2>
       <Image
-        src="/images/underlinee.png"
-        width={120}
+        src="/images/underline.svg"
+        width={210}
         height={36}
         alt="Decorated underline"
-        className="mx-auto mt-3 brightness-0"
+        className="mx-auto mt-3 "
       />
       {description && (
         <p className="mt-4 text-sm leading-6 text-[#40506f] sm:text-base">
@@ -227,11 +227,11 @@ export default function Placements() {
                 A practical support system from preparation to placement.
               </h2>
               <Image
-                src="/images/underlinee.png"
-                width={120}
+                src="/images/underline.svg"
+                width={210}
                 height={36}
                 alt="Decorated underline"
-                className="mt-3 brightness-0"
+                className="mt-3 "
               />
               <p className="mt-5 text-sm leading-7 text-[#40506f] sm:text-base">
                 Through regular placement drives, training sessions, employer

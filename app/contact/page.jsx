@@ -265,11 +265,11 @@ export default function Contact() {
                 Choose the easiest way to reach us.
               </h2>
               <Image
-                src="/images/underlinee.png"
-                width={120}
+                src="/images/underline.svg"
+                width={210}
                 height={36}
                 alt="Decorated underline"
-                className="mt-3 brightness-0"
+                className="mt-3 "
               />
             </div>
 
@@ -291,11 +291,11 @@ export default function Contact() {
                 Send us your enquiry and we will get back to you.
               </h2>
               <Image
-                src="/images/underlinee.png"
-                width={120}
+                src="/images/underline.svg"
+                width={210}
                 height={36}
                 alt="Decorated underline"
-                className="mt-3 brightness-0"
+                className="mt-3 "
               />
               <p className="mt-5 text-sm leading-7 text-[#40506f] sm:text-base">
                 Share a few details about your question. This form is designed

@@ -1,0 +1,6 @@
+<svg width="260" height="20" viewBox="0 0 260 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Top line: lighter pink, close above bottom line -->
+  <path d="M4,7 C20,-1 40,11 65,5 C90,-1 115,10 140,4 C165,-2 190,9 215,3 C232,-1 248,7 258,3" stroke="#f06292" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.75"/>
+  <!-- Bottom line: original darker pink -->
+  <path d="M4,14 C20,6 40,18 65,12 C90,6 115,17 140,11 C165,5 190,16 215,10 C232,6 248,14 258,10" stroke="#e91e8c" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.90"/>
+</svg>

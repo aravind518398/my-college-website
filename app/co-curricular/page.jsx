@@ -77,11 +77,11 @@ export default function CoCurricular() {
                             Diverse Learning Experiences
                         </h2>
                         <Image
-                            src="/images/underlinee.png"
-                            width={120}
+                            src="/images/underline.svg"
+                            width={210}
                             height={36}
                             alt="Decorated underline"
-                            className="mt-3 brightness-0"
+                            className="mt-3 "
                         />
                         <p className="mt-4 max-w-2xl text-sm leading-6 text-[#364565] sm:text-base">
                             KMM College offers a wide range of co-curricular activities designed to complement academic learning and develop well-rounded individuals.
@@ -120,11 +120,11 @@ export default function CoCurricular() {
                                     National Service Scheme
                                 </h2>
                                 <Image
-                                    src="/images/underlinee.png"
-                                    width={120}
+                                    src="/images/underline.svg"
+                                    width={210}
                                     height={36}
                                     alt="Decorated underline"
-                                    className="mt-3 brightness-0"
+                                    className="mt-3 "
                                 />
                                 <p className="mt-4 text-xs font-semibold uppercase tracking-[0.18em] text-[#2f3d5f] sm:text-sm">
                                     KMM College, Kumbalam
@@ -209,31 +209,45 @@ export default function CoCurricular() {
                             <p className="mt-2 text-xs font-semibold text-[#364565] sm:text-sm">
                                 KMM College, Kumbalam - NSS Unit No. 251 & 252
                             </p>
-                            <div className="mt-6 grid gap-4 sm:grid-cols-2">
-                                <article className="overflow-hidden rounded-xl border border-[#dceae5] bg-white transition-all duration-300 hover:shadow-lg">
-                                    <Image
-                                        src="/images/nss-officer-placeholder-1.svg"
-                                        width={640}
-                                        height={420}
-                                        alt="Placeholder image for NSS Program Officer 1"
-                                        className="h-40 w-full object-cover sm:h-48"
-                                    />
-                                    <div className="p-4 sm:p-5">
-                                        <p className="text-base font-semibold text-[#18213b] sm:text-lg">Program Officer 1</p>
-                                        <p className="mt-1 text-xs text-[#4b5875] sm:text-sm">Name will be updated</p>
+                            <div className="mt-8 grid gap-6 sm:grid-cols-2">
+                                <article className="group flex flex-col items-center rounded-2xl border border-[#dceae5] bg-white p-6  sm:p-8">
+                                    <div className="relative">
+                                        <div className="absolute -inset-1 rounded-full bg-gradient-to-br from-[#1ab69d]/20 to-[#12826f]/10 blur opacity-75 transition group-hover:opacity-100" />
+                                        <Image
+                                            src="/images/peoples/nss_person_2.jpg"
+                                            width={160}
+                                            height={160}
+                                            alt="NSS Program Officer 1"
+                                            className="relative h-32 w-32 rounded-full border-4 border-white object-cover shadow-lg sm:h-40 sm:w-40"
+                                        />
+                                    </div>
+                                    <div className="mt-5 text-center">
+                                        <p className="text-base font-bold text-[#18213b] sm:text-lg">Program Officer 1</p>
+                                        <p className="mt-2 text-xs font-semibold uppercase tracking-[0.12em] text-[#1ab69d]">NSS Coordinator</p>
+                                        <p className="mt-3 text-xs leading-5 text-[#4b5875] sm:text-sm">Name will be updated</p>
+                                    </div>
+                                    <div className="mt-4 flex gap-2">
+                                        <span className="inline-flex rounded-full bg-[#e9f8f4] px-3 py-1 text-[10px] font-semibold text-[#12826f]">Unit 251</span>
                                     </div>
                                 </article>
-                                <article className="overflow-hidden rounded-xl border border-[#dceae5] bg-white transition-all duration-300 hover:shadow-lg">
-                                    <Image
-                                        src="/images/nss-officer-placeholder-2.svg"
-                                        width={640}
-                                        height={420}
-                                        alt="Placeholder image for NSS Program Officer 2"
-                                        className="h-40 w-full object-cover sm:h-48"
-                                    />
-                                    <div className="p-4 sm:p-5">
-                                        <p className="text-base font-semibold text-[#18213b] sm:text-lg">Program Officer 2</p>
-                                        <p className="mt-1 text-xs text-[#4b5875] sm:text-sm">Name will be updated</p>
+                                <article className="group flex flex-col items-center rounded-2xl border border-[#dceae5] bg-white p-6  sm:p-8">
+                                    <div className="relative">
+                                        <div className="absolute -inset-1 rounded-full bg-gradient-to-br from-[#1ab69d]/20 to-[#12826f]/10 blur opacity-75 transition group-hover:opacity-100" />
+                                        <Image
+                                            src="/images/peoples/nss_person_1.avif"
+                                            width={160}
+                                            height={160}
+                                            alt="NSS Program Officer 2"
+                                            className="relative h-32 w-32 rounded-full border-4 border-white object-cover shadow-lg sm:h-40 sm:w-40"
+                                        />
+                                    </div>
+                                    <div className="mt-5 text-center">
+                                        <p className="text-base font-bold text-[#18213b] sm:text-lg">Program Officer 2</p>
+                                        <p className="mt-2 text-xs font-semibold uppercase tracking-[0.12em] text-[#1ab69d]">NSS Coordinator</p>
+                                        <p className="mt-3 text-xs leading-5 text-[#4b5875] sm:text-sm">Name will be updated</p>
+                                    </div>
+                                    <div className="mt-4 flex gap-2">
+                                        <span className="inline-flex rounded-full bg-[#e9f8f4] px-3 py-1 text-[10px] font-semibold text-[#12826f]">Unit 252</span>
                                     </div>
                                 </article>
                             </div>

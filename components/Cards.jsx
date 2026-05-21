@@ -1,8 +1,25 @@
+"use client";
+
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faGraduationCap } from "@fortawesome/free-solid-svg-icons";
 
+const courseToIdMap = {
+    "B.Com": "bcom",
+    "B.Sc": "bsc-psychology",
+    "BCA": "bca",
+    "BBA": "bba",
+};
+
 export default function Cards({ course, img, detail }) {
+    const router = useRouter();
+    const programId = courseToIdMap[course] || course.toLowerCase();
+
+    const handleViewProgramme = () => {
+        router.push(`/academics?program=${programId}#ug-programme-details`);
+    };
+
     return (
         <article className="group relative flex min-h-[360px] overflow-hidden rounded-2xl bg-white shadow-xl ring-1 ring-black/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-[#179BD7]/20">
             <div className="absolute inset-0">
@@ -22,7 +39,11 @@ export default function Cards({ course, img, detail }) {
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#1ab69d]">Programme</p>
                 <h4 className="mt-1 text-3xl font-bold leading-tight">{course}</h4>
                 {detail && <p className="mt-3 min-h-12 text-sm leading-6 text-white/82">{detail}</p>}
-                <button type="button" className="mt-5 flex w-fit cursor-pointer items-center gap-2 rounded-br-2xl rounded-tl-2xl bg-white px-4 py-2.5 text-sm font-bold text-[#1469b8] shadow-lg transition-all duration-300 group-hover:bg-[#1ab69d] group-hover:text-white">
+                <button 
+                    type="button" 
+                    onClick={handleViewProgramme}
+                    className="mt-5 flex w-fit cursor-pointer items-center gap-2 rounded-br-2xl rounded-tl-2xl bg-white px-4 py-2.5 text-sm font-bold text-[#1469b8] shadow-lg transition-all duration-300 group-hover:bg-[#1ab69d] group-hover:text-white"
+                >
                     View Programme
                     <FontAwesomeIcon icon={faArrowRight} className="text-xs transition-transform duration-300 group-hover:translate-x-1" />
                 </button>

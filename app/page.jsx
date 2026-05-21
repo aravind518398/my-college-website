@@ -2,14 +2,34 @@
 import Header from "@/components/Header";
 import Carousel from "@/components/Carousel";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight, faCalendarDays, faChevronRight, faGraduationCap, faStar } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRight, faCalendarDays, faChevronDown, faChevronRight, faChevronUp, faGraduationCap, faStar } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 import Footer from "@/components/Footer";
 import Cards from "@/components/Cards";
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 
 
 export default function Home() {
+  const allUpdates = [
+    "ADMISSIONS STARTED",
+    "UG & PG 2025-2026 ADMISSION STARTED",
+    "UG & PG 2025-2026 ADMISSION STARTED",
+  ];
+
+  const VISIBLE_COUNT = 3;
+  const [showAll, setShowAll] = useState(false);
+
+
+
+  const listRef = useRef(null);
+  const [listHeight, setListHeight] = useState(0);
+
+  useEffect(() => {
+    if (listRef.current) setListHeight(listRef.current.scrollHeight);
+  }, [allUpdates]);
+
+
   return (
     <div className="flex min-h-screen flex-col  cursor-default">
       <Header />
@@ -28,7 +48,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start xl:grid-cols-[minmax(0,1fr)_22rem]">
+            <div className="grid gap-6 ">
               <div className="grid overflow-hidden rounded-2xl bg-white shadow-2xl ring-1 ring-black/5 md:grid-cols-2">
                 <div className="relative min-h-[280px] overflow-hidden sm:min-h-[340px] lg:min-h-[460px]">
                   <Image src="/images/college2.png" fill alt="KMM College campus" className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
@@ -61,34 +81,52 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="overflow-hidden rounded-2xl bg-white/95 shadow-2xl ring-1 ring-black/5 backdrop-blur">
-                <div className="bg-gradient-to-r from-[#179BD7] to-[#1ab69d] px-5 py-4">
+              <div className="overflow-hidden rounded-2xl bg-white/95 shadow-2xl ring-1 ring-black/5 backdrop-blur flex flex-col">
+                <div className="bg-gradient-to-r from-[#179BD7] to-[#1ab69d] px-5 py-4 shrink-0">
                   <h2 className="text-sm font-bold uppercase tracking-[0.16em] text-white">Latest Updates</h2>
                 </div>
-                <div className="divide-y divide-gray-100">
-                  {[
-                    "ADMISSIONS STARTED",
-                    "UG & PG 2025-2026 ADMISSION STARTED",
-                    "UG & PG 2025-2026 ADMISSION STARTED",
-                    "UG & PG 2025-2026 ADMISSION STARTED",
-                  ].map((update, index) => (
+
+                <div
+                  ref={listRef}
+                  className="divide-y divide-gray-100 flex-1 overflow-hidden transition-all duration-500 ease-in-out"
+                  style={{
+                    maxHeight: showAll
+                      ? `${listHeight}px`
+                      : `${VISIBLE_COUNT * 100}px`,
+                  }}
+                >
+                  {allUpdates.map((update, index) => (
                     <div key={`${update}-${index}`} className="group p-5 transition-colors duration-300 hover:bg-[#179BD7]/5">
                       <div className="flex items-center gap-2 text-xs font-semibold text-[#179BD7]">
                         <FontAwesomeIcon icon={faCalendarDays} />
-                        <span>March 17, 2025</span>
+                        <span>March 17, {
+                          (() => {
+                            const now = new Date();
+                            const thisYearMar17 = new Date(now.getFullYear(), 2, 17); // Month is 0-indexed
+                            return now >= thisYearMar17 ? now.getFullYear() : now.getFullYear() - 1;
+                          })()
+                        }</span>
                       </div>
-                      <h3 className="mt-2 text-sm font-bold leading-snug text-[#18213b] transition-colors duration-300 group-hover:text-[#179BD7]">{update}</h3>
+                      <h3 className="mt-2 text-sm font-bold leading-snug text-[#18213b] transition-colors duration-300 group-hover:text-[#179BD7]">
+                        {update}
+                      </h3>
                     </div>
                   ))}
                 </div>
-                <button className="flex w-full cursor-pointer items-center justify-between px-5 py-4 text-left text-sm font-bold text-[#8a3b1f] transition-colors duration-300 hover:bg-[#8a3b1f]/5">
-                  View More
-                  <FontAwesomeIcon icon={faChevronRight} />
-                </button>
+
+                {allUpdates.length > VISIBLE_COUNT && (
+                  <button
+                    onClick={() => setShowAll(!showAll)}
+                    className="shrink-0 flex w-full cursor-pointer items-center justify-between px-5 py-4 text-left text-sm font-bold text-[#8a3b1f] transition-colors duration-300 hover:bg-[#8a3b1f]/5"
+                  >
+                    {showAll ? "Show Less" : "Show More"}
+                    <FontAwesomeIcon icon={showAll ? faChevronUp : faChevronDown} />
+                  </button>
+                )}
               </div>
             </div>
 
-            <div className="mt-6 grid gap-4  sm:grid-cols-2  lg:w-[calc(100%-22rem)] xl:w-[calc(100%-24rem)]">
+            <div className="mt-6 grid gap-4  sm:grid-cols-2  w-full">
               <div onClick={() => window.open('/documents/AICTE-APPROVALS.pdf', '_blank')} className="group relative flex min-h-32 cursor-pointer items-center gap-4 overflow-hidden rounded-2xl bg-gradient-to-br from-[#179BD7] via-[#1469b8] to-[#18213b] p-5 text-white shadow-2xl transition-all duration-300 hover:-translate-y-1 hover:shadow-[#179BD7]/40">
                 <div className="absolute -right-8 -top-8 h-28 w-28 rounded-full bg-white/15"></div>
                 <div className="absolute -bottom-10 left-8 h-24 w-24 rounded-full bg-white/10"></div>
@@ -101,7 +139,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <div onClick={() => window.open('/documents/AICTE-MANDATORY-DISCLOSURE.pdf', '_blank')}  className="group relative flex min-h-32 cursor-pointer items-center gap-4 overflow-hidden rounded-2xl bg-gradient-to-br from-[#1ab69d] via-[#179BD7] to-[#18213b] p-5 text-white shadow-2xl transition-all duration-300 hover:-translate-y-1 hover:shadow-[#1ab69d]/40">
+              <div onClick={() => window.open('/documents/AICTE-MANDATORY-DISCLOSURE.pdf', '_blank')} className="group relative flex  min-h-32 cursor-pointer items-center gap-4 overflow-hidden rounded-2xl bg-gradient-to-br from-[#1ab69d] via-[#179BD7] to-[#18213b] p-5 text-white shadow-2xl transition-all duration-300 hover:-translate-y-1 hover:shadow-[#1ab69d]/40">
                 <div className="absolute -right-8 -top-8 h-28 w-28 rounded-full bg-white/15"></div>
                 <div className="absolute -bottom-10 left-8 h-24 w-24 rounded-full bg-white/10"></div>
                 <div className="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-white/20 ring-1 ring-white/35 transition-transform duration-300 group-hover:scale-110">
@@ -184,10 +222,11 @@ export default function Home() {
                   <h3 className="text-xl font-bold text-[#18213b] sm:text-2xl">UG Programmes</h3>
                   <div className="h-px flex-1 bg-gradient-to-r from-[#179BD7]/40 to-transparent"></div>
                 </div>
-                <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
                   <Cards course="B.Com" detail="Finance and commerce focused undergraduate pathway" img="/images/close-up-graduation-woman.png" />
-                  <Cards course="BCA" detail="Computer applications, software, and digital skills" img="/images/girl-graduating.png" />
+                  <Cards course="B.Sc" detail="Science-focused undergraduate programme" img="/images/woman-graduate-student-wearing.webp" />
                   <Cards course="BBA" detail="Business administration, management, and leadership" img="/images/close-up-graduation-certificate.png" />
+                  <Cards course="BCA" detail="Computer applications, software, and digital skills" img="/images/girl-graduating.png" />
                 </div>
               </div>
 
@@ -196,7 +235,7 @@ export default function Home() {
                   <h3 className="text-xl font-bold text-[#18213b] sm:text-2xl">PG Programmes</h3>
                   <div className="h-px flex-1 bg-gradient-to-r from-[#1ab69d]/40 to-transparent"></div>
                 </div>
-                <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
                   <Cards course="MBA" detail="Advanced business administration and management" img="/images/close-up-graduation-woman.png" />
                   <Cards course="M.Sc" detail="Postgraduate study with focused subject expertise" img="/images/girl-graduating.png" />
                   <Cards course="MCA" detail="Advanced computer application and technology skills" img="/images/close-up-graduation-certificate.png" />
@@ -207,7 +246,7 @@ export default function Home() {
         </section>
       </main>
 
-      <Footer/>
+      <Footer />
     </div>
   );
 }
