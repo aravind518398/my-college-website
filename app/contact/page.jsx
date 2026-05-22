@@ -14,31 +14,30 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const contactCards = [
-  {
-    title: "Call Us",
-    detail: "9037002130",
-    subDetail: "8590601342",
-    href: "tel:9037002130",
-    icon: faPhone,
-  },
-  {
-    title: "Email",
-    detail: "kmmkumbalam@gmail.com",
-    subDetail: "For general college enquiries",
-    href: "mailto:kmmkumbalam@gmail.com",
-    icon: faEnvelope,
-  },
-  {
-    title: "Visit Campus",
-    detail: "K.M.M. College, Kumbalam",
-    subDetail: "Kerala - 682506",
-    href: "https://www.google.com/maps/search/?api=1&query=KMM+College+Kumbalam+Kerala",
-    icon: faLocationDot,
-  },
-];
+const defaultContactSettings = {
+  email: "kmmkumbalam@gmail.com",
+  primaryPhone: "9037002130",
+  secondaryPhone: "8590601342",
+  address: "K.M.M. College, Kumbalam, Kerala - 682506",
+  mapUrl:
+    "https://www.google.com/maps/search/?api=1&query=KMM+College+Kumbalam+Kerala",
+  mapEmbedUrl:
+    "https://www.google.com/maps?q=KMM%20College%20Kumbalam%20Kerala&output=embed",
+};
+
+function mergeContactSettings(saved = {}) {
+  const merged = { ...defaultContactSettings };
+
+  for (const [key, value] of Object.entries(saved)) {
+    if (value == null) continue;
+    if (typeof value === "string" && value.trim() === "") continue;
+    merged[key] = value;
+  }
+
+  return merged;
+}
 
 const enquiryTypes = [
   "General",
@@ -73,11 +72,13 @@ const quickInfo = [
 ];
 
 function ContactCard({ card }) {
+  const isExternal = card.href?.startsWith("http");
+
   return (
     <a
       href={card.href}
-      target={card.href.startsWith("http") ? "_blank" : undefined}
-      rel={card.href.startsWith("http") ? "noreferrer" : undefined}
+      target={isExternal ? "_blank" : undefined}
+      rel={isExternal ? "noreferrer" : undefined}
       className="group rounded-2xl border border-[#dceae5] bg-white p-5 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-[#1ab69d] hover:shadow-xl hover:shadow-[#18213b]/10 sm:p-6"
     >
       <span className="grid h-12 w-12 place-items-center rounded-xl bg-[#1ab69d]/12 text-[#12826f] transition duration-300 group-hover:bg-[#1ab69d] group-hover:text-white">
@@ -93,10 +94,52 @@ function ContactCard({ card }) {
 }
 
 export default function Contact() {
+  const [contactSettings, setContactSettings] = useState(defaultContactSettings);
   const [formStatus, setFormStatus] = useState({
     type: "idle",
     message: "",
   });
+
+  useEffect(() => {
+    let isMounted = true;
+
+    fetch("/api/site-settings")
+      .then((response) => (response.ok ? response.json() : null))
+      .then((data) => {
+        if (isMounted && data?.settings?.contact) {
+          setContactSettings(mergeContactSettings(data.settings.contact));
+        }
+      })
+      .catch(() => {});
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const contactCards = [
+    {
+      title: "Call Us",
+      detail: contactSettings.primaryPhone,
+      subDetail: contactSettings.secondaryPhone,
+      href: `tel:${contactSettings.primaryPhone}`,
+      icon: faPhone,
+    },
+    {
+      title: "Email",
+      detail: contactSettings.email,
+      subDetail: "For general college enquiries",
+      href: `mailto:${contactSettings.email}`,
+      icon: faEnvelope,
+    },
+    {
+      title: "Visit Campus",
+      detail: contactSettings.address,
+      subDetail: "Open in Google Maps",
+      href: contactSettings.mapUrl,
+      icon: faLocationDot,
+    },
+  ];
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -171,7 +214,7 @@ export default function Contact() {
 
               <div className="mt-8 grid gap-3 sm:grid-cols-2">
                 <a
-                  href="tel:9037002130"
+                  href={`tel:${contactSettings.primaryPhone}`}
                   className="group rounded-2xl border border-white/10 bg-white/[0.08] p-4 transition hover:border-[#1ab69d] hover:bg-[#1ab69d]"
                 >
                   <span className="grid h-11 w-11 place-items-center rounded-xl bg-white text-[#18213b]">
@@ -181,11 +224,11 @@ export default function Contact() {
                     Call Office
                   </span>
                   <span className="mt-1 block text-lg font-bold text-white">
-                    9037002130
+                    {contactSettings.primaryPhone}
                   </span>
                 </a>
                 <a
-                  href="mailto:kmmkumbalam@gmail.com"
+                  href={`mailto:${contactSettings.email}`}
                   className="group rounded-2xl border border-white/10 bg-white/[0.08] p-4 transition hover:border-[#1ab69d] hover:bg-[#1ab69d]"
                 >
                   <span className="grid h-11 w-11 place-items-center rounded-xl bg-white text-[#18213b]">
@@ -195,7 +238,7 @@ export default function Contact() {
                     Email Us
                   </span>
                   <span className="mt-1 block break-words text-sm font-bold leading-6 text-white">
-                    kmmkumbalam@gmail.com
+                    {contactSettings.email}
                   </span>
                 </a>
               </div>
@@ -207,10 +250,10 @@ export default function Contact() {
                   Campus Address
                 </p>
                 <h2 className="mt-4 text-2xl font-bold leading-tight">
-                  K.M.M. College, Kumbalam
+                  {contactSettings.address}
                 </h2>
                 <p className="mt-3 text-sm font-semibold leading-7 text-[#40506f]">
-                  Kerala - 682506
+                  Open in Google Maps
                 </p>
 
                 <div className="mt-8 space-y-4">
@@ -434,7 +477,7 @@ export default function Contact() {
                 department-specific appointments.
               </p>
               <a
-                href="https://www.google.com/maps/search/?api=1&query=KMM+College+Kumbalam+Kerala"
+                href={contactSettings.mapUrl}
                 target="_blank"
                 rel="noreferrer"
                 className="mt-7 inline-flex items-center gap-3 rounded-full bg-white px-5 py-3 text-sm font-bold text-[#18213b] transition hover:bg-[#1ab69d] hover:text-white"
@@ -445,13 +488,15 @@ export default function Contact() {
             </div>
 
             <div className="min-h-[320px] bg-white p-3 sm:min-h-[400px] lg:min-h-full">
-              <iframe
-                title="KMM College location map"
-                src="https://www.google.com/maps?q=KMM%20College%20Kumbalam%20Kerala&output=embed"
-                className="h-[320px] w-full rounded-2xl border-0 sm:h-[400px] lg:h-full"
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              />
+              {contactSettings.mapEmbedUrl ? (
+                <iframe
+                  title="KMM College location map"
+                  src={contactSettings.mapEmbedUrl}
+                  className="h-[320px] w-full rounded-2xl border-0 sm:h-[400px] lg:h-full"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                />
+              ) : null}
             </div>
           </div>
         </section>

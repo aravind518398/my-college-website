@@ -24,7 +24,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "KMM COLLEGE KUMBALAM",
+  title: "KMM College Kumbalam",
   description: "KMM College Kumbalam offers quality education in Arts, Science, and Commerce with modern facilities and experienced faculty.",
 };
 

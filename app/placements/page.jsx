@@ -14,6 +14,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
+import { defaultPlacedStudents } from "@/lib/placementDefaults";
+import { useEffect, useState } from "react";
 
 const highlights = [
   { value: "Career", label: "guidance and mentoring", icon: faRoute },
@@ -49,24 +51,6 @@ const placementProcess = [
   "Continuous updates through placement communication channels",
 ];
 
-const placedStudents = [
-  {
-    image: "/images/placement/bba.jpeg",
-    title: "BBA Placement",
-    alt: "BBA student placement announcement",
-  },
-  {
-    image: "/images/placement/Ashwin-MBA 21-23.jpeg",
-    title: "Ashwin, MBA 2021-23",
-    alt: "Ashwin MBA placement announcement",
-  },
-  {
-    image: "/images/placement/Shahzana-Msc-cs.jpeg",
-    title: "Shahzana, MSc CS",
-    alt: "Shahzana MSc CS placement announcement",
-  },
-];
-
 function SectionTitle({ kicker, title, description }) {
   return (
     <div className="mx-auto max-w-3xl text-center">
@@ -93,6 +77,25 @@ function SectionTitle({ kicker, title, description }) {
 }
 
 export default function Placements() {
+  const [placedStudents, setPlacedStudents] = useState(defaultPlacedStudents);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    fetch("/api/placed-students")
+      .then((response) => (response.ok ? response.json() : null))
+      .then((data) => {
+        if (isMounted && Array.isArray(data?.students) && data.students.length) {
+          setPlacedStudents(data.students);
+        }
+      })
+      .catch(() => {});
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   return (
     <>
       <Header />
@@ -197,7 +200,7 @@ export default function Placements() {
                     <div className="mt-6 flex -space-x-5">
                       {placedStudents.map((student) => (
                         <div
-                          key={student.image}
+                          key={student.id}
                           className="relative h-16 w-16 overflow-hidden rounded-full border-4 border-[#18213b] bg-white"
                         >
                           <Image
@@ -319,7 +322,7 @@ export default function Placements() {
             <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {placedStudents.map((student) => (
                 <article
-                  key={student.image}
+                  key={student.id}
                   className="group overflow-hidden rounded-2xl border border-[#dceae5] bg-[#f8faf7] shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#18213b]/10"
                 >
                   <div className="relative aspect-[4/5] overflow-hidden bg-white">

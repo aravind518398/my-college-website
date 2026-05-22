@@ -2,12 +2,36 @@
 
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 import { motion } from "motion/react";
-const whatsappHref =
-  "https://wa.me/919037002130?text=Hi";
+const defaultWhatsappHref = "https://wa.me/919037002130?text=Hi";
 
 export default function WhatsAppFloatingButton() {
+  const pathname = usePathname();
+  const [whatsappHref, setWhatsappHref] = useState(defaultWhatsappHref);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    fetch("/api/site-settings")
+      .then((response) => (response.ok ? response.json() : null))
+      .then((data) => {
+        if (isMounted && data?.settings?.social?.whatsapp) {
+          setWhatsappHref(data.settings.social.whatsapp);
+        }
+      })
+      .catch(() => {});
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  if (pathname?.startsWith("/admin")) {
+    return null;
+  }
 
   return (
     <motion.a

@@ -26,7 +26,7 @@ const primaryLinks = [
       { label: "About us", href: "/about" },
       { label: "Vision", href: "/about#vision" },
       { label: "Messages", href: "/about#messages" },
-      { label: "Code of Conduct", href: "/about/code-of-conduct" },
+      { label: "Code of Conduct", href: "/about/coc" },
       { label: "RTI", href: "/about/rti" },
     ],
   },
@@ -147,28 +147,60 @@ const menuGroups = [
   },
 ];
 
-const contactNumbers = [
-  { label: "9037002130", href: "tel:9037002130" },
-  { label: "8590601342", href: "tel:8590601342" },
-];
+const defaultSiteSettings = {
+  identity: {
+    announcement: "KMM College Kumbalam Affiliated to MG University, Approved by AICTE & Govt. Of Kerala",
+  },
+  contact: {
+    email: "kmmkumbalam@gmail.com",
+    primaryPhone: "9037002130",
+    secondaryPhone: "8590601342",
+  },
+  social: {
+    facebook: "https://facebook.com/Kmmcollegekumbalam",
+    instagram: "https://www.instagram.com/kmmcollege_kumbalam?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
+    youtube: "https://www.youtube.com/@kmmcollegeofartsandscience1164",
+    whatsapp: "https://wa.me/919037002130?text=Hi",
+  },
+  images: {
+    navLogo: "/images/kmm-nav-logo.png",
+  },
+};
 
 
 export default function Header() {
+  const [settings, setSettings] = useState(defaultSiteSettings);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    fetch("/api/site-settings")
+      .then((response) => (response.ok ? response.json() : null))
+      .then((data) => {
+        if (isMounted && data?.settings) {
+          setSettings(data.settings);
+        }
+      })
+      .catch(() => {});
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   return (
     <>
       <header className="relative z-50 bg-white shadow-sm">
-        <RunningRibon />
-        <ContactBar />
-        <DesktopHeader />
+        <RunningRibon message={settings.identity.announcement} />
+        <ContactBar settings={settings} />
+        <DesktopHeader settings={settings} />
       </header>
-      <MobileHeader />
+      <MobileHeader settings={settings} />
     </>
   );
 }
 
-export function RunningRibon() {
-  const message = "KMM College Kumbalam Affiliated to MG University, Approved by AICTE & Govt. Of Kerala";
-
+export function RunningRibon({ message }) {
   return (
     <div className="overflow-hidden bg-[#ba3e3e] text-xs font-bold text-white sm:text-sm">
       <div className="flex w-max whitespace-nowrap py-1.5 animate-marquee pause-on-hover">
@@ -186,31 +218,36 @@ export function RunningRibon() {
   );
 }
 
-export function ContactBar() {
+export function ContactBar({ settings }) {
+  const numbers = [
+    settings.contact.primaryPhone,
+    settings.contact.secondaryPhone,
+  ].filter(Boolean);
+
   return (
     <div className="hidden bg-[#18213b] text-white xl:block">
       <div className="mx-auto flex min-h-14 max-w-7xl items-center justify-between gap-6 px-6 text-sm">
         <div className="flex min-w-0 items-center gap-5">
-          <Link href="#" className="flex items-center gap-2 font-semibold transition-colors duration-300 hover:text-[#1ab69d]">
+          <Link href="/admin/login" className="flex items-center gap-2 font-semibold transition-colors duration-300 hover:text-[#1ab69d]">
             <FontAwesomeIcon icon={faArrowRightToBracket} className="text-[#1ab69d]" />
-            <span>Embase Login</span>
+            <span>Admin Login</span>
           </Link>
-          <a href="mailto:kmmkumbalam@gmail.com" className="hidden items-center gap-2 text-white/75 transition-colors duration-300 hover:text-white xl:flex">
+          <a href={`mailto:${settings.contact.email}`} className="hidden items-center gap-2 text-white/75 transition-colors duration-300 hover:text-white xl:flex">
             <FontAwesomeIcon icon={faEnvelope} className="text-[#1ab69d]" />
-            <span>kmmkumbalam@gmail.com</span>
+            <span>{settings.contact.email}</span>
           </a>
         </div>
 
         <div className="flex items-center gap-5 font-medium">
           <div className="flex items-center gap-3">
             <FontAwesomeIcon icon={faPhone} className="text-[#1ab69d]" />
-            {contactNumbers.map((number) => (
-              <a key={number.label} href={number.href} className="whitespace-nowrap transition-colors duration-300 hover:text-[#1ab69d]">
-                {number.label}
+            {numbers.map((number) => (
+              <a key={number} href={`tel:${number}`} className="whitespace-nowrap transition-colors duration-300 hover:text-[#1ab69d]">
+                {number}
               </a>
             ))}
           </div>
-          <SocialLinks />
+          <SocialLinks social={settings.social} />
           <DesktopSearch />
         </div>
       </div>
@@ -218,7 +255,7 @@ export function ContactBar() {
   );
 }
 
-export function DesktopHeader() {
+export function DesktopHeader({ settings }) {
   const [isSticky, setIsSticky] = useState(false);
   const desktopHeaderRef = useRef(null);
 
@@ -247,25 +284,25 @@ export function DesktopHeader() {
   return (
     <>
       <div ref={desktopHeaderRef} className="hidden xl:block">
-        <DesktopHeaderContent />
+        <DesktopHeaderContent settings={settings} />
       </div>
 
       <div
         className={`fixed left-0 right-0 top-0 z-[60] hidden bg-white shadow-2xl ring-1 ring-black/5 transition-all duration-700 ease-out xl:block ${isSticky ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-full opacity-0"
           }`}
       >
-        <DesktopHeaderContent compact />
+        <DesktopHeaderContent compact settings={settings} />
       </div>
     </>
   );
 }
 
-function DesktopHeaderContent({ compact = false }) {
+function DesktopHeaderContent({ compact = false, settings }) {
   return (
     <div className="bg-white">
       <div className={`mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 transition-all duration-500 2xl:gap-6 ${compact ? "min-h-14" : "min-h-16"}`}>
         <a href="#" onClick={(e) => { e.preventDefault(); window.location.reload(); }} className="flex min-w-0 items-center gap-3">
-          <Image src="/images/kmm-nav-logo.png" alt="KMM College logo" width={160} height={100} priority className={`w-auto shrink-0 transition-all duration-500 ${compact ? "h-11" : "h-12"}`} />
+          <Image src={settings.images.navLogo} alt="KMM College logo" width={160} height={100} priority className={`w-auto shrink-0 transition-all duration-500 ${compact ? "h-11" : "h-12"}`} />
         </a>
 
         <nav aria-label="Primary navigation" className="min-w-0 flex-1">
@@ -374,7 +411,7 @@ function DesktopSearch({ compact = false }) {
   );
 }
 
-export function MobileHeader() {
+export function MobileHeader({ settings }) {
   const menuScrollRef = useRef(null);
   const [open, setOpen] = useState(false);
   const [activeGroup, setActiveGroup] = useState(null);
@@ -408,7 +445,7 @@ export function MobileHeader() {
     <div className="sticky top-0 z-60 bg-white shadow-lg ring-1 ring-black/5 xl:hidden">
       <div className="flex items-center justify-between gap-4 px-4 py-3">
         <a href="#" onClick={(e) => { e.preventDefault(); window.location.reload(); }} className="flex min-w-0 items-center">
-          <Image src="/images/kmm-nav-logo.png" alt="KMM College logo" width={145} height={100} priority className="h-auto w-36 sm:w-40" />
+          <Image src={settings.images.navLogo} alt="KMM College logo" width={145} height={100} priority className="h-auto w-36 sm:w-40" />
         </a>
 
         <div className="flex items-center gap-2">
@@ -426,17 +463,17 @@ export function MobileHeader() {
           <div className="rounded-2xl bg-[#18213b] p-4 text-white shadow-xl">
             <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#1ab69d]">Quick Contact</p>
             <div className="mt-4 space-y-3 text-sm font-semibold">
-              <a href={contactNumbers[0].href} className="flex items-center gap-2 transition-colors duration-300 hover:text-[#1ab69d]">
+              <a href={`tel:${settings.contact.primaryPhone}`} className="flex items-center gap-2 transition-colors duration-300 hover:text-[#1ab69d]">
                 <FontAwesomeIcon icon={faPhone} className="text-[#1ab69d]" />
-                <span>{contactNumbers[0].label}</span>
+                <span>{settings.contact.primaryPhone}</span>
               </a>
-              <a href="mailto:kmmkumbalam@gmail.com" className="flex min-w-0 items-center gap-2 transition-colors duration-300 hover:text-[#1ab69d]">
+              <a href={`mailto:${settings.contact.email}`} className="flex min-w-0 items-center gap-2 transition-colors duration-300 hover:text-[#1ab69d]">
                 <FontAwesomeIcon icon={faEnvelope} className="text-[#1ab69d]" />
-                <span className="break-all">kmmkumbalam@gmail.com</span>
+                <span className="break-all">{settings.contact.email}</span>
               </a>
             </div>
             <div className="mt-4 flex items-center justify-between gap-4">
-              <SocialLinks />
+              <SocialLinks social={settings.social} />
               <Link href="#" className="flex items-center gap-2 rounded-br-2xl rounded-tl-2xl bg-white px-4 py-2 text-xs font-bold text-[#1469b8]">
                 Embase
                 <FontAwesomeIcon icon={faArrowRightToBracket} />
@@ -534,19 +571,19 @@ export function MobileHeader() {
   );
 }
 
-function SocialLinks() {
+function SocialLinks({ social }) {
   return (
     <div className="flex items-center gap-4">
-      <a href="https://www.instagram.com/kmmcollege_kumbalam?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" className="transition-colors duration-300 hover:text-[#1ab69d]" aria-label="Instagram">
+      <a href={social.instagram} target="_blank" rel="noopener noreferrer" className="transition-colors duration-300 hover:text-[#1ab69d]" aria-label="Instagram">
         <FontAwesomeIcon icon={faInstagram} />
       </a>
-      <a href="https://facebook.com/Kmmcollegekumbalam" target="_blank" rel="noopener noreferrer" className="transition-colors duration-300 hover:text-[#1ab69d]" aria-label="Facebook">
+      <a href={social.facebook} target="_blank" rel="noopener noreferrer" className="transition-colors duration-300 hover:text-[#1ab69d]" aria-label="Facebook">
         <FontAwesomeIcon icon={faFacebook} />
       </a>
-      <a href="https://www.youtube.com/@kmmcollegeofartsandscience1164" target="_blank" rel="noopener noreferrer" className="transition-colors duration-300 hover:text-[#1ab69d]" aria-label="YouTube">
+      <a href={social.youtube} target="_blank" rel="noopener noreferrer" className="transition-colors duration-300 hover:text-[#1ab69d]" aria-label="YouTube">
         <FontAwesomeIcon icon={faYoutube} />
       </a>
-      <a href="https://wa.me/919037002130?text=Hi" target="_blank" rel="noopener noreferrer" className="transition-colors duration-300 hover:text-[#1ab69d]" aria-label="WhatsApp">
+      <a href={social.whatsapp} target="_blank" rel="noopener noreferrer" className="transition-colors duration-300 hover:text-[#1ab69d]" aria-label="WhatsApp">
         <FontAwesomeIcon icon={faWhatsapp} />
       </a>
     </div>

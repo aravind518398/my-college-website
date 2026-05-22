@@ -2,128 +2,15 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import {
   faArrowRight,
-  faBookOpen,
-  faBrain,
-  faBriefcase,
-  faCode,
   faGraduationCap,
-  faLanguage,
-  faSquareRootVariable,
   faUsers,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import Link from "next/link";
+import { getDepartments } from "@/lib/departments";
 
-const departments = [
-  {
-    id: "commerce",
-    name: "Commerce",
-    shortName: "B.Com",
-    icon: faBookOpen,
-    accent: "#179BD7",
-    soft: "bg-[#179BD7]/10 text-[#1469b8]",
-    programmes: ["B.Com Finance and Taxation"],
-    description:
-      "The Department of Commerce prepares students for careers in accounting, taxation, banking, finance, and entrepreneurship through a practical business-focused curriculum.",
-    focusAreas: ["Accounting and taxation", "Banking and finance", "Business law", "Entrepreneurship"],
-    faculty: [
-      { name: "Dr. Sreelakshmi R. Pillai", role: "Head of Department", area: "Financial Accounting and Taxation", initials: "SP" },
-      { name: "Dr. Anilkumar T. Nair", role: "Associate Professor", area: "Business Economics", initials: "AN" },
-      { name: "Prof. Divya Menon", role: "Assistant Professor", area: "Cost Accounting and Auditing", initials: "DM" },
-      { name: "Prof. Jithin K. George", role: "Assistant Professor", area: "Corporate Law and Governance", initials: "JG" },
-    ],
-  },
-  {
-    id: "computer-application",
-    name: "Computer Application",
-    shortName: "BCA / MCA",
-    icon: faCode,
-    accent: "#1ab69d",
-    soft: "bg-[#1ab69d]/10 text-[#12836f]",
-    programmes: ["BCA Honours", "MCA"],
-    description:
-      "The Department of Computer Application builds strong software, programming, database, and digital problem-solving skills for students entering the technology sector.",
-    focusAreas: ["Programming", "Web development", "Databases", "Artificial intelligence and machine learning"],
-    faculty: [
-      { name: "Dr. Binu Varghese", role: "Head of Department", area: "Machine Learning and AI", initials: "BV" },
-      { name: "Dr. Asha K. Thomas", role: "Associate Professor", area: "Cloud Computing and Networks", initials: "AT" },
-      { name: "Prof. Vishnu P. Krishnan", role: "Assistant Professor", area: "Full Stack Development", initials: "VK" },
-      { name: "Prof. Ananya Chandran", role: "Assistant Professor", area: "Data Science and Analytics", initials: "AC" },
-    ],
-  },
-  {
-    id: "psychology",
-    name: "Psychology",
-    shortName: "BSc / MSc",
-    icon: faBrain,
-    accent: "#7c3aed",
-    soft: "bg-violet-100 text-violet-700",
-    programmes: ["BSc Psychology", "MSc Psychology"],
-    description:
-      "The Department of Psychology introduces students to human behaviour, mental health, counselling foundations, and research methods with a student-centred academic approach.",
-    focusAreas: ["Clinical psychology", "Counselling", "Research methods", "Mental health awareness"],
-    faculty: [
-      { name: "Dr. Nisha M. Pillai", role: "Head of Department", area: "Clinical Psychology", initials: "NP" },
-      { name: "Dr. Priya S. Varma", role: "Associate Professor", area: "Cognitive Neuroscience", initials: "PV" },
-      { name: "Prof. Arun J. Kumar", role: "Assistant Professor", area: "Counselling Psychology", initials: "AK" },
-      { name: "Prof. Lakshmi R. Nair", role: "Assistant Professor", area: "Child and Adolescent Psychology", initials: "LN" },
-    ],
-  },
-  {
-    id: "business-administration",
-    name: "Business Administration",
-    shortName: "BBA / MBA",
-    icon: faBriefcase,
-    accent: "#0f766e",
-    soft: "bg-teal-100 text-teal-700",
-    programmes: ["BBA Honours", "MBA"],
-    description:
-      "The Department of Business Administration develops management, leadership, communication, and decision-making skills for students pursuing careers in business and administration.",
-    focusAreas: ["Management", "Marketing", "Human resources", "Finance"],
-    faculty: [
-      { name: "Dr. Thomas P. Abraham", role: "Head of Department", area: "Strategic Management", initials: "TA" },
-      { name: "Dr. Suja R. Krishnakumar", role: "Associate Professor", area: "Marketing Management", initials: "SK", photo: "/images/faculty/Sumayya.webp" },
-      { name: "Prof. Mathew J. Alex", role: "Assistant Professor", area: "Human Resource Management", initials: "MA" },
-      { name: "Prof. Ritu S. Chandran", role: "Assistant Professor", area: "Finance", initials: "RC" },
-    ],
-  },
-  {
-    id: "mathematics",
-    name: "Mathematics",
-    shortName: "Mathematics",
-    icon: faSquareRootVariable,
-    accent: "#1469b8",
-    soft: "bg-blue-100 text-blue-700",
-    programmes: ["Foundation and complementary courses"],
-    description:
-      "The Department of Mathematics strengthens analytical thinking, quantitative reasoning, and problem-solving skills across academic programmes.",
-    focusAreas: ["Pure mathematics", "Statistics", "Applied mathematics", "Problem solving"],
-    faculty: [
-      { name: "Dr. K. V. Subramaniam", role: "Head of Department", area: "Abstract Algebra", initials: "KS" },
-      { name: "Dr. Radha V. Menon", role: "Associate Professor", area: "Real Analysis", initials: "RM" },
-      { name: "Prof. Deepa M. Pillai", role: "Assistant Professor", area: "Statistics", initials: "DP" , photo: "/images/faculty/keerthi.webp" },
-      { name: "Prof. Sajeev K. Nair", role: "Assistant Professor", area: "Graph Theory", initials: "SN", photo: "/images/faculty/anju.webp" },
-    ],
-  },
-  {
-    id: "languages",
-    name: "Languages",
-    shortName: "English / Malayalam / Hindi",
-    icon: faLanguage,
-    accent: "#8a3b1f",
-    soft: "bg-orange-100 text-orange-800",
-    programmes: ["English", "Malayalam", "Hindi"],
-    description:
-      "The Department of Languages supports communication, literature, cultural understanding, and language proficiency for students across programmes.",
-    focusAreas: ["English literature", "Malayalam", "Hindi"],
-    faculty: [
-      { name: "Dr. Kavitha R. Menon", role: "Head of Department", area: "Malayalam Literature", initials: "KM" },
-      { name: "Dr. Felix P. Joseph", role: "Associate Professor", area: "English Literature", initials: "FJ", photo: "/images/faculty/Gayathry.webp" },
-      { name: "Prof. Geetha K. Pillai", role: "Assistant Professor", area: "Hindi Literature", initials: "GP", photo: "/images/faculty/INDU.webp" },
-    ],
-  },
-];
+export const dynamic = "force-dynamic";
 
 function SectionHeader({ eyebrow, title, description, align = "center" }) {
   const centered = align === "center";
@@ -249,7 +136,9 @@ function DepartmentSection({ department, index }) {
   );
 }
 
-export default function DepartmentsPage() {
+export default async function DepartmentsPage() {
+  const departments = await getDepartments();
+
   return (
     <div className="flex min-h-screen flex-col bg-[#f8faf7] text-[#18213b]">
       <Header />

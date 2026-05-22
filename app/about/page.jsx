@@ -12,7 +12,13 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
-import { useMemo, useState } from "react";
+import {
+  DEFAULT_COLLEGE_CAMPUS_ALT,
+  DEFAULT_COLLEGE_CAMPUS_IMAGE,
+  pickCollegeCampusImage,
+} from "@/lib/collegeImageDefaults";
+import { useEffect, useMemo, useState } from "react";
+
 
 const values = [
   { label: "Critical Thinking", icon: faStar },
@@ -95,6 +101,27 @@ function ParallaxShape({ mouse, speed, className }) {
 
 export default function AboutPage() {
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
+  const [collegeCampus, setCollegeCampus] = useState({
+    src: DEFAULT_COLLEGE_CAMPUS_IMAGE,
+    alt: DEFAULT_COLLEGE_CAMPUS_ALT,
+  });
+
+  useEffect(() => {
+    let isMounted = true;
+
+    fetch("/api/site-settings")
+      .then((response) => (response.ok ? response.json() : null))
+      .then((data) => {
+        if (isMounted && data?.settings?.images) {
+          setCollegeCampus(pickCollegeCampusImage(data.settings.images));
+        }
+      })
+      .catch(() => {});
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const parallaxImageStyle = useMemo(
     () => ({
@@ -141,9 +168,9 @@ export default function AboutPage() {
               <p className="mb-3 inline-flex rounded-full border border-[#1ab69d]/25 bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.22em] text-[#1ab69d] shadow-sm">
                 About KMM College
               </p>
-              <h1 className="max-w-3xl text-3xl font-semibold leading-tight text-[#18213b] sm:text-5xl lg:text-6xl">
-                Shaping thoughtful learners for a better society.
-              </h1>
+
+              <h1 className="max-w-3xl text-3xl font-semibold leading-tight text-[#18213b] sm:text-5xl lg:text-6xl">Shaping thoughtful learners for a better society.</h1>
+        
               <Image
                 src="/images/underline.svg"
                 width={210}
@@ -152,17 +179,14 @@ export default function AboutPage() {
                 className="mt-4 "
               />
               <p className="mt-6 max-w-2xl text-base font-medium leading-8 text-slate-700 sm:text-lg">
-                KMM College, Kumbalam strives to create a future society where
-                ignorance, inequality, ill-health, illiteracy, poverty and
-                powerlessness can be eradicated. The institution believes in the
-                strong linkage of training, education, research and action for
-                sustainable development.
+                KMM College, Kumbalam strives to create a future society where ignorance, inequality, ill-health, illiteracy, poverty and powerlessness can be eradicated. The institution believes in the strong linkage of training, education, research and action for sustainable development.
               </p>
               <p className="mt-4 max-w-2xl leading-8 text-slate-600">
                 KMM is committed to excellence, helping students think
                 critically, communicate effectively, and live with purpose in a
                 wide range of settings within and outside the country.
               </p>
+               
 
               <div className="mt-8 grid gap-3 sm:grid-cols-3">
                 {values.map((value) => (
@@ -188,10 +212,10 @@ export default function AboutPage() {
                 style={parallaxImageStyle}
               >
                 <Image
-                  src="/images/college2.png"
+                  src={collegeCampus.src}
                   width={760}
                   height={560}
-                  alt="KMM College campus"
+                  alt={collegeCampus.alt}
                   priority
                   className="h-[320px] w-full object-cover sm:h-[440px] lg:h-[560px]"
                 />

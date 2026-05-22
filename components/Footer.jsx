@@ -1,9 +1,14 @@
+
+"use client";
+
 import { faFacebook, faInstagram, faYoutube } from "@fortawesome/free-brands-svg-icons";
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons/faWhatsapp";
 import { faArrowRight, faEnvelope, faLocationDot, faPhone, faShieldHalved } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+
 
 const departments = [
   { label: "Department of Commerce", href: "/departments#commerce" },
@@ -15,24 +20,42 @@ const departments = [
 ];
 
 const ugProgrammes = [
-  { label: "B.Com Finance and Taxation", href: "/programmes/ug/bcom" },
-  { label: "BSc Psychology", href: "/programmes/ug/bsc-psychology" },
-  { label: "BCA", href: "/programmes/ug/bca" },
-  { label: "BBA", href: "/programmes/ug/bba" },
+  { label: "B.Com Finance and Taxation", href: "academics?program=bcom#ug-programme-details" },
+  { label: "BSc Psychology", href: "academics?program=bsc-psychology#ug-programme-details" },
+  { label: "BBA", href: "academics?program=bba#ug-programme-details" },
+  { label: "BCA", href: "academics?program=bca#ug-programme-details" },
+  
 ];
 
 const pgProgrammes = [
-  { label: "MBA", href: "/programmes/pg/mba" },
-  { label: "MCA", href: "/programmes/pg/mca" },
-  { label: "M.Sc Psychology", href: "/programmes/pg/msc-psychology" },
+  { label: "MBA", href: "academics?program=mba#pg-programme-details" },
+  { label: "MCA", href: "academics?program=mca#pg-programme-details" },
+  { label: "M.Sc Psychology", href: "academics?program=msc-psychology#pg-programme-details" },
 ];
 
-const socialLinks = [
-  { label: "Facebook", icon: faFacebook, href: "https://facebook.com/Kmmcollegekumbalam"},
-  { label: "Instagram", icon: faInstagram, href: "https://www.instagram.com/kmmcollege_kumbalam?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" },
-  { label: "YouTube", icon: faYoutube, href: "https://www.youtube.com/@kmmcollegeofartsandscience1164" },
-  {label: "WhatsApp", icon: faWhatsapp, href: "https://wa.me/919037002130?text=Hi" },
-];
+const defaultSiteSettings = {
+  identity: {
+    shortName: "KMM College",
+    tagline: "Kumbalam",
+    affiliation: "Affiliated to MG University",
+    footerText: "K.M.M. College, Kumbalam is committed to quality education, professional confidence, and student-focused academic growth.",
+  },
+  contact: {
+    email: "kmmkumbalam@gmail.com",
+    primaryPhone: "9037002130",
+    address: "K.M.M. College, Kumbalam, Kerala - 682506",
+    mapUrl: "https://www.google.com/maps/search/?api=1&query=KMM+College+Kumbalam+Kerala",
+  },
+  social: {
+    facebook: "https://facebook.com/Kmmcollegekumbalam",
+    instagram: "https://www.instagram.com/kmmcollege_kumbalam?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
+    youtube: "https://www.youtube.com/@kmmcollegeofartsandscience1164",
+    whatsapp: "https://wa.me/919037002130?text=Hi",
+  },
+  images: {
+    footerLogo: "/images/kmm-logo.png",
+  },
+};
 
 function FooterLink({ children, href }) {
   return (
@@ -62,6 +85,35 @@ function FooterColumn({ title, items }) {
 }
 
 export default function Footer() {
+  const [settings, setSettings] = useState(defaultSiteSettings);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    fetch("/api/site-settings")
+      .then((response) => (response.ok ? response.json() : null))
+      .then((data) => {
+        if (isMounted && data?.settings) {
+          setSettings(data.settings);
+        }
+      })
+      .catch(() => {});
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const socialLinks = [
+    { label: "Facebook", icon: faFacebook, href: settings.social.facebook },
+    { label: "Instagram", icon: faInstagram, href: settings.social.instagram },
+    { label: "YouTube", icon: faYoutube, href: settings.social.youtube },
+    { label: "WhatsApp", icon: faWhatsapp, href: settings.social.whatsapp },
+  ].filter((item) => item.href);
+  const phoneNumbers = [
+    settings.contact.primaryPhone,
+  ].filter(Boolean);
+
   return (
     <footer className="relative mt-10 overflow-hidden bg-[#18213b] text-white">
       <div className="absolute -left-32 top-16 h-72 w-72 rounded-full bg-[#179BD7]/15 blur-3xl"></div>
@@ -72,28 +124,30 @@ export default function Footer() {
           <div className="rounded-2xl bg-white/[0.06] p-5 ring-1 ring-white/10 backdrop-blur sm:p-7">
             <Link href="#" className="inline-flex items-center gap-4">
               <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-white p-2 shadow-xl">
-                <Image src="/images/kmm-logo.png" width={84} height={84} alt="KMM College logo" className="h-full w-full object-contain" />
+                <Image src={settings.images.footerLogo} width={84} height={84} alt="KMM College logo" className="h-full w-full object-contain" />
               </span>
               <span>
-                <span className="block text-xl font-bold leading-tight">KMM College</span>
-                <span className="mt-1 block text-sm font-semibold text-[#1ab69d]">Arts &amp; Science</span>
+                <span className="block text-xl font-bold leading-tight">{settings.identity.shortName}</span>
+                <span className="mt-1 block text-sm font-semibold text-[#1ab69d]">{settings.identity.tagline}</span>
               </span>
             </Link>
 
-            <p className="mt-6 text-sm leading-7 text-white/72">K.M.M. College, Kumbalam is committed to quality education, professional confidence, and student-focused academic growth.</p>
+            <p className="mt-6 text-sm leading-7 text-white/72">{settings.identity.footerText}</p>
 
             <div className="mt-6 space-y-3 text-sm text-white/75">
-              <Link href="https://www.google.com/maps/place/KMM+COLLEGE+KUMBALAM/@9.8894915,76.3144593,17z/data=!3m1!4b1!4m6!3m5!1s0x3b0873891d2901f1:0xaf45f6e66bb881e6!8m2!3d9.8894915!4d76.3144593!16s%2Fg%2F11trv78tqs?entry=ttu&g_ep=EgoyMDI2MDUxMy4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" className="flex gap-3 transition-colors duration-300 hover:text-white">
+              <Link href={settings.contact.mapUrl} target="_blank" rel="noopener noreferrer" className="flex gap-3 transition-colors duration-300 hover:text-white">
                 <FontAwesomeIcon icon={faLocationDot} className="mt-1 text-[#1ab69d]" />
-                <span>K.M.M. College, Kumbalam, Kerala - 682506</span>
+                <span>{settings.contact.address}</span>
               </Link>
-              <a href="tel:9037002130" className="flex w-fit items-center gap-3 transition-colors duration-300 hover:text-white">
-                <FontAwesomeIcon icon={faPhone} className="text-[#1ab69d]" />
-                <span>9037002130</span>
-              </a>
-              <a href="mailto:kmmkumbalam@gmail.com" className="flex items-center gap-3 break-all transition-colors duration-300 hover:text-white">
+              {phoneNumbers.map((phone) => (
+                <a key={phone} href={`tel:${phone}`} className="flex w-fit items-center gap-3 transition-colors duration-300 hover:text-white">
+                  <FontAwesomeIcon icon={faPhone} className="text-[#1ab69d]" />
+                  <span>{phone}</span>
+                </a>
+              ))}
+              <a href={`mailto:${settings.contact.email}`} className="flex items-center gap-3 break-all transition-colors duration-300 hover:text-white">
                 <FontAwesomeIcon icon={faEnvelope} className="text-[#1ab69d]" />
-                <span>kmmkumbalam@gmail.com</span>
+                <span>{settings.contact.email}</span>
               </a>
             </div>
 
@@ -120,7 +174,7 @@ export default function Footer() {
             </div>
             <div>
               <p className="text-sm font-bold uppercase tracking-[0.16em] text-white/75">Affiliation</p>
-              <p className="mt-1 font-semibold leading-snug">Affiliated to MG University</p>
+              <p className="mt-1 font-semibold leading-snug">{settings.identity.affiliation}</p>
             </div>
           </div>
           <Link href="/contact" className="mt-5 inline-flex items-center gap-2 rounded-br-2xl rounded-tl-2xl bg-white px-5 py-3 text-sm font-bold text-[#1469b8] shadow-lg transition-all duration-300 hover:-translate-y-1 sm:mt-0">
@@ -130,7 +184,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-8 flex flex-col gap-3 border-t border-white/10 pt-6 text-center text-xs text-white/50 sm:flex-row sm:items-center sm:justify-between sm:text-left">
-          <p>© {new Date().getFullYear()} KMM College, Kumbalam. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} {settings.identity.shortName}, Kumbalam. All rights reserved.</p>
           <p>Designed for student-focused academic excellence.</p>
         </div>
       </div>

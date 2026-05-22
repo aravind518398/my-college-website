@@ -1,3 +1,5 @@
-import { handlers } from "@/auth" // Referring to the auth.ts we just created
-export const { GET, POST } = handlers
-export const runtime = "edge" // optional
+
+// app/api/auth/[...nextauth]/route.js
+import { handlers } from "@/auth";
+
+export const { GET, POST } = handlers;

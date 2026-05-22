@@ -2,14 +2,8 @@ import { Suspense } from "react";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import UGProgramme from "../../components/Ugprograms";
+import { getUgProgrammes } from "@/lib/ugProgrammes";
 import Image from "next/image";
-
-const ugProgrammes = [
-  { id: 1, program: "B.Com Honours", specialisation: "Finance and Taxation", seats: 40 },
-  { id: 2, program: "B.Sc Honours", specialisation: "Psychology", seats: 40 },
-  { id: 3, program: "BBA Honours", specialisation: "General Management", seats: 40 },
-  { id: 4, program: "BCA Honours", specialisation: "Computer Applications", seats: 40 },
-];
 
 const pgProgrammes = [
   { id: 1, program: "MSc", specialisation: "Psychology", seats: 40 },
@@ -266,7 +260,9 @@ function CalendarTable({ title, rows, accent, textAccent, holidayTone, icon }) {
   );
 }
 
-export default function AcademicsPage() {
+export default async function AcademicsPage() {
+  const { tableRows: ugProgrammes } = await getUgProgrammes();
+
   return (
     <>
       <Header />

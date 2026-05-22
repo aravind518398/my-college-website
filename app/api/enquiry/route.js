@@ -1,11 +1,9 @@
 import nodemailer from "nodemailer";
+import { getSiteSettings } from "@/lib/siteSettings";
 
 export const runtime = "nodejs";
 
 const collegeName = "K.M.M. College";
-const collegeEmail = "kmmkumbalam@gmail.com";
-const collegePhone = "9037002130";
-const secondaryPhone = "8590601342";
 const allowedTypes = new Set([
   "General",
   "Admissions",
@@ -106,8 +104,12 @@ export async function POST(req) {
     }
 
     const transporter = getTransporter();
+    const siteSettings = await getSiteSettings();
+    const collegeEmail = siteSettings.contact.email;
+    const collegePhone = siteSettings.contact.primaryPhone;
+    const secondaryPhone = siteSettings.contact.secondaryPhone;
     const fromAddress = process.env.GMAIL_USER;
-    const recipient = process.env.ENQUIRY_TO_EMAIL || collegeEmail;
+    const recipient = process.env.ENQUIRY_TO_EMAIL || siteSettings.contact.enquiryEmail || collegeEmail;
     const submittedAt = new Intl.DateTimeFormat("en-IN", {
       dateStyle: "medium",
       timeStyle: "short",
@@ -141,7 +143,7 @@ export async function POST(req) {
               .map(
                 ([label, value]) => `
                   <tr style="border-bottom:1px solid #eef3f1;">
-                    <td style="width:140px;padding:13px 0;color:#64748b;font-weight:700;vertical-align:top;">${label}</td>
+                    <td style="width:120px;padding:13px 0;color:#64748b;font-weight:700;vertical-align:top;">${label}</td>
                     <td style="padding:13px 0;color:#18213b;line-height:1.7;">${value}</td>
                   </tr>
                 `
@@ -185,7 +187,7 @@ export async function POST(req) {
             For urgent support, call <strong style="color:#18213b;">${collegePhone}</strong> or <strong style="color:#18213b;">${secondaryPhone}</strong> during office hours.
           </p>
         `,
-        footer: `${collegeName}, Kumbalam, Kerala - 682506 | ${collegeEmail}`,
+        footer: `${siteSettings.contact.address} | ${collegeEmail}`,
       }),
     });
 

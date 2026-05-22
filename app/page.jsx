@@ -7,15 +7,29 @@ import Image from "next/image";
 import Footer from "@/components/Footer";
 import Cards from "@/components/Cards";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { defaultCampusSections } from "@/lib/campusSectionDefaults";
+import {
+  DEFAULT_COLLEGE_CAMPUS_ALT,
+  DEFAULT_COLLEGE_CAMPUS_IMAGE,
+  pickCollegeCampusImage,
+} from "@/lib/collegeImageDefaults";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 
 export default function Home() {
-  const allUpdates = [
-    "ADMISSIONS STARTED",
-    "UG & PG 2025-2026 ADMISSION STARTED",
-    "UG & PG 2025-2026 ADMISSION STARTED",
-  ];
+  const [campusSections, setCampusSections] = useState(defaultCampusSections);
+  const [collegeCampus, setCollegeCampus] = useState({
+    src: DEFAULT_COLLEGE_CAMPUS_IMAGE,
+    alt: DEFAULT_COLLEGE_CAMPUS_ALT,
+  });
+  const allUpdates = useMemo(
+    () => [
+      "ADMISSIONS STARTED",
+      "UG & PG 2025-2026 ADMISSION STARTED",
+      "UG & PG 2025-2026 ADMISSION STARTED",
+    ],
+    []
+  );
 
   const VISIBLE_COUNT = 3;
   const [showAll, setShowAll] = useState(false);
@@ -28,6 +42,40 @@ export default function Home() {
   useEffect(() => {
     if (listRef.current) setListHeight(listRef.current.scrollHeight);
   }, [allUpdates]);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    fetch("/api/site-settings")
+      .then((response) => (response.ok ? response.json() : null))
+      .then((data) => {
+        if (isMounted && data?.settings?.images) {
+          setCollegeCampus(pickCollegeCampusImage(data.settings.images));
+        }
+      })
+      .catch(() => {});
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    fetch("/api/campus-sections")
+      .then((response) => (response.ok ? response.json() : null))
+      .then((data) => {
+        if (isMounted && Array.isArray(data?.sections) && data.sections.length) {
+          setCampusSections(data.sections);
+        }
+      })
+      .catch(() => {});
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
 
   return (
@@ -44,14 +92,20 @@ export default function Home() {
               <div className="h-12 w-1.5 shrink-0 rounded-full bg-[#179BD7]"></div>
               <div className="ml-4">
                 <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#1ab69d]">Welcome to</p>
-                <h2 className="text-2xl font-bold leading-tight text-[#18213b] sm:text-3xl">KMM College of Arts &amp; Science</h2>
+                <h2 className="text-2xl font-bold leading-tight text-[#18213b] sm:text-3xl">KMM College Kumbalam</h2>
               </div>
             </div>
 
             <div className="grid gap-6 ">
               <div className="grid overflow-hidden rounded-2xl bg-white shadow-2xl ring-1 ring-black/5 md:grid-cols-2">
                 <div className="relative min-h-[280px] overflow-hidden sm:min-h-[340px] lg:min-h-[460px]">
-                  <Image src="/images/college2.png" fill alt="KMM College campus" className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
+                  <Image
+                    src={collegeCampus.src}
+                    fill
+                    alt={collegeCampus.alt}
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                  />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#18213b]/85 via-[#18213b]/20 to-transparent"></div>
                   <div className="absolute bottom-4 left-4 right-4 rounded-2xl bg-white/92 p-4 shadow-xl backdrop-blur">
                     <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#179BD7]">Since 2002</p>
@@ -167,25 +221,8 @@ export default function Home() {
             </div>
 
             <div className="grid gap-6 lg:grid-cols-2">
-              {[
-                {
-                  title: "Our Campus",
-                  label: "Student friendly infrastructure",
-                  img: "/images/college2.png",
-                  alt: "KMM College campus",
-                  description:
-                    "The college has a well designed infrastructure and numerous facilities for students, including seminar halls, a college radio station, smart halls, smart classrooms and a waiting room. The CCTV enabled campus ensures the safety of its well-endowed environment.",
-                },
-                {
-                  title: "Our Lab",
-                  label: "Modern computer facilities",
-                  img: "/images/lab.webp",
-                  alt: "KMM College computer lab",
-                  description:
-                    "The college has three computer labs with updated software, internet access, printing and scanning facilities through the network. The labs support add-on programmes and certificate programmes.",
-                },
-              ].map((item) => (
-                <article key={item.title} className="group overflow-hidden rounded-2xl bg-white shadow-2xl ring-1 ring-black/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-[#179BD7]/20">
+              {campusSections.map((item) => (
+                <article key={item.id} className="group overflow-hidden rounded-2xl bg-white shadow-2xl ring-1 ring-black/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-[#179BD7]/20">
                   <div className="relative min-h-[240px] overflow-hidden sm:min-h-[320px]">
                     <Image src={item.img} fill alt={item.alt} className="object-cover transition-transform duration-700 group-hover:scale-105" sizes="(max-width: 1024px) 100vw, 50vw" />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#18213b]/90 via-[#18213b]/35 to-transparent"></div>

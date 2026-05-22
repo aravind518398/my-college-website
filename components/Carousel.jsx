@@ -10,57 +10,54 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
-const slides = [
-  {
-    title: "KMM College of Arts and Science",
-    eyebrow: "Welcome to KMM",
-    description: "A student-focused campus built around academic excellence, professional confidence, and values-led growth.",
-    image: "/images/college.png",
-    alt: "KMM College campus",
-    position: "object-center",
-  },
-  {
-    title: "KMM College Kumbalam",
-    eyebrow: "Campus Life",
-    description: "Modern facilities, smart classrooms, and a safe learning environment for every student.",
-    image: "/images/college2.png",
-    alt: "KMM College Kumbalam",
-    position: "object-center",
-  },
-  {
-    title: "Catalyst Arts",
-    eyebrow: "Events",
-    description: "Celebrating creativity, teamwork, and student talent through vibrant cultural programmes.",
-    image: "/images/catalyst_arts_2026.png",
-    alt: "Catalyst Arts",
-    position: "object-center",
-  },
-  {
-    title: "Dance",
-    eyebrow: "Student Culture",
-    description: "A lively campus community where students discover confidence beyond the classroom.",
-    image: "/images/image.png",
-    alt: "Arabic Dance",
-    position: "object-center",
-  }
-];
+import { defaultCarouselSlides } from "@/lib/carouselDefaults";
+
+const SLIDE_POSITION = "object-center";
 
 export default function Carousel() {
+  const [slides, setSlides] = useState(defaultCarouselSlides);
   const [activeSlide, setActiveSlide] = useState(0);
   const [isChanging, setIsChanging] = useState(false);
   const transitionTimeout = useRef(null);
 
   useEffect(() => {
+    let isMounted = true;
+
+    fetch("/api/carousel")
+      .then((response) => (response.ok ? response.json() : null))
+      .then((data) => {
+        if (isMounted && Array.isArray(data?.slides) && data.slides.length) {
+          setSlides(data.slides);
+          setActiveSlide(0);
+        }
+      })
+      .catch(() => {});
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!slides.length) return undefined;
+
     const autoplay = setTimeout(() => {
       setActiveSlide((current) => (current + 1) % slides.length);
     }, 8000);
 
     return () => clearTimeout(autoplay);
-  }, [activeSlide]);
+  }, [activeSlide, slides.length]);
 
   useEffect(() => {
     return () => clearTimeout(transitionTimeout.current);
   }, []);
+
+  if (!slides.length) {
+    return null;
+  }
+
+  const safeActiveSlide = Math.min(activeSlide, slides.length - 1);
+  const currentSlide = slides[safeActiveSlide];
 
   const changeSlide = (getNextSlide) => {
     if (isChanging) return;
@@ -85,10 +82,10 @@ export default function Carousel() {
     <section id="home-carousel" className="relative isolate min-h-[480px] overflow-hidden text-white sm:min-h-[560px] lg:min-h-[680px]">
       {slides.map((slide, index) => (
         <Image
-          key={slide.title}
+          key={slide.id}
           src={slide.image}
-          className={`object-cover ${slide.position} transition-opacity duration-700 ease-in-out ${
-            activeSlide === index ? "opacity-100" : "opacity-0"
+          className={`object-cover ${SLIDE_POSITION} transition-opacity duration-700 ease-in-out ${
+            safeActiveSlide === index ? "opacity-100" : "opacity-0"
           }`}
           alt={slide.alt}
           fill
@@ -100,15 +97,15 @@ export default function Carousel() {
       <div className="absolute inset-0 bg-gradient-to-t from-[#18213b]/65 via-transparent to-[#18213b]/35"></div>
       <div className="absolute -left-28 top-20 h-72 w-72 rounded-full bg-[#179BD7]/20 blur-3xl"></div>
       <div className="absolute bottom-10 right-0 h-80 w-80 rounded-full bg-[#1ab69d]/20 blur-3xl"></div>
-
       <div className="relative z-10 mx-auto flex min-h-[480px] max-w-7xl items-center px-4 py-20 sm:min-h-[560px] sm:px-6 lg:min-h-[680px] lg:px-8">
         <div className="max-w-3xl">
           <div className="mb-5 flex items-center gap-3">
             <span className="h-11 w-1.5 rounded-full bg-[#1ab69d]"></span>
-            <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#1ab69d] sm:text-sm">{slides[activeSlide].eyebrow}</p>
+            <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#1ab69d] sm:text-sm">{currentSlide.eyebrow}</p>
           </div>
-          <h1 className="max-w-3xl text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl">{slides[activeSlide].title}</h1>
-          <p className="mt-5 max-w-2xl text-sm leading-7 text-white/82 sm:text-base lg:text-lg lg:leading-8">{slides[activeSlide].description}</p>
+           <h1 className="max-w-3xl text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl">{currentSlide.title}</h1>
+          <p className="mt-5 max-w-2xl text-sm leading-7 text-white/82 sm:text-base lg:text-lg lg:leading-8">{currentSlide.description}</p>
+        
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
             <Link href="/admission" className="group inline-flex w-fit cursor-pointer items-center gap-2 rounded-br-2xl rounded-tl-2xl bg-gradient-to-r from-[#179BD7] to-[#1ab69d] px-5 py-3 text-sm font-bold text-white shadow-xl shadow-[#179BD7]/25 transition-all duration-300 hover:-translate-y-1">
               Explore Admissions
@@ -143,12 +140,12 @@ export default function Carousel() {
       <div className="absolute bottom-8 left-1/2 z-20 flex -translate-x-1/2 gap-3 sm:bottom-7">
         {slides.map((slide, index) => (
           <button
-            key={slide.title}
+            key={slide.id}
             type="button"
             onClick={() => changeSlide(() => index)}
-            disabled={isChanging || activeSlide === index}
+            disabled={isChanging || safeActiveSlide === index}
             className={`h-2.5 rounded-full ring-1 ring-white/20 transition-all duration-300 ${
-              activeSlide === index ? "w-9 bg-[#1ab69d]" : "w-2.5 bg-white/45 hover:bg-white/75"
+              safeActiveSlide === index ? "w-9 bg-[#1ab69d]" : "w-2.5 bg-white/45 hover:bg-white/75"
             }`}
             aria-label={`Go to slide ${index + 1}`}
           />
