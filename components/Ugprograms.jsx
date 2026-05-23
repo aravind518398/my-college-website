@@ -166,9 +166,9 @@ export default function UGProgramme() {
           </div>
         </div>
 
-        <div className="overflow-hidden rounded-lg border border-slate-200 bg-[#f7faf8] shadow-xl shadow-slate-200/70">
+        <div className="overflow-hidden rounded-lg border border-slate-200 bg-[#f7faf8] shadow-xl shadow-slate-200/70 ">
           <div className={`${activeProgramme.accent} p-5 text-white sm:p-7 lg:p-8`}>
-            <div className="grid gap-6 lg:grid-cols-[1fr_360px] lg:items-end">
+            <div className="grid gap-6 lg:grid-cols-[1fr_550px] lg:items-end">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.24em] text-white/65">
                   {activeProgramme.department}
@@ -180,10 +180,11 @@ export default function UGProgramme() {
                   {activeProgramme.focus}
                 </p>
               </div>
-            <div className="grid gap-3 grid-cols-3">
+            <div className="grid gap-3 grid-cols-2 md:grid-cols-4">
               <Stat  label="Duration" value={activeProgramme.duration} />
               <Stat  label="Semesters" value={activeProgramme.semesters} />
               <Stat  label="Seats" value={activeProgramme.seats} />
+              <Stat  label="Fees / sem" value={activeProgramme.fees ? `₹${activeProgramme.fees}` : "—"} />
             </div>
             </div>
           </div>

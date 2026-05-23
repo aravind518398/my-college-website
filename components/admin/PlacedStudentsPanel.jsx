@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBriefcase, faImage, faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { AdminStickySave } from "./AdminCmsLayout";
 
 function Field({ label, name, defaultValue, icon, multiline = false }) {
   const inputClass =
@@ -92,7 +93,7 @@ export default function PlacedStudentsPanel({ students, studentRowCount }) {
           );
         })}
       </div>
-
+        <AdminStickySave label="Save placed students" />
     </Panel>
   );
 }

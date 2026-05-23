@@ -17,6 +17,7 @@ export const ADMIN_CMS_SECTIONS = [
 
 export function AdminCmsProvider({ children, defaultSection = "carousel" }) {
   const [activeSection, setActiveSection] = useState(defaultSection);
+  const [navOpen, setNavOpen] = useState(true);
 
   useEffect(() => {
     const syncFromHash = () => {
@@ -31,13 +32,25 @@ export function AdminCmsProvider({ children, defaultSection = "carousel" }) {
     return () => window.removeEventListener("hashchange", syncFromHash);
   }, []);
 
+  useEffect(() => {
+    // default nav open state depends on screen width (open on lg and above)
+    const handleResize = () => setNavOpen(window.innerWidth >= 1024);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const selectSection = (sectionId) => {
     setActiveSection(sectionId);
     window.history.replaceState(null, "", `#${sectionId}`);
   };
 
+  const toggleNav = () => setNavOpen((v) => !v);
+
+  const closeNav = () => setNavOpen(false);
+
   return (
-    <AdminCmsContext.Provider value={{ activeSection, selectSection }}>
+    <AdminCmsContext.Provider value={{ activeSection, selectSection, navOpen, toggleNav, closeNav }}>
       {children}
     </AdminCmsContext.Provider>
   );
@@ -52,14 +65,19 @@ export function useAdminCms() {
 }
 
 export function AdminCmsNavLink({ id, label, icon }) {
-  const { activeSection, selectSection } = useAdminCms();
+  const { activeSection, selectSection, closeNav } = useAdminCms();
   const isActive = activeSection === id;
 
   return (
     <a
       type="button"
       href="#"
-      onClick={() => selectSection(id)}
+      onClick={() => {
+        selectSection(id);
+        if (window.innerWidth < 1024) {
+          closeNav();
+        }
+      }}
       className={`flex w-full items-center gap-2 rounded-lg px-3 py-2.5 text-left text-sm font-semibold transition ${
         isActive
           ? "bg-white/15 text-white shadow-inner shadow-black/10"
@@ -73,6 +91,9 @@ export function AdminCmsNavLink({ id, label, icon }) {
 }
 
 export function AdminCmsSection({ id, children }) {
+
+
+  
   const { activeSection } = useAdminCms();
   if (activeSection !== id) {
     return null;
@@ -83,10 +104,10 @@ export function AdminCmsSection({ id, children }) {
 
 export function AdminStickySave({ label = "Save changes" }) {
   return (
-    <div className="sticky bottom-4 z-20 mt-6 flex justify-end rounded-xl border border-[#dce7f0] bg-white/95 p-3 shadow-xl backdrop-blur">
+    <div className="sticky bottom-1  z-20 mt-3 flex justify-end rounded-xl border border-[#dce7f0] bg-white/10 p-3 shadow-xs backdrop-blur">
       <button
         type="submit"
-        className="inline-flex h-12 items-center gap-3 rounded-lg bg-gradient-to-r from-[#179BD7] to-[#1ab69d] px-6 text-sm font-bold text-white shadow-lg shadow-[#179BD7]/20 transition hover:-translate-y-0.5"
+        className="inline-flex h-12 items-center  gap-3 rounded-lg bg-gradient-to-r from-[#179BD7] to-[#1ab69d] px-6 text-sm font-bold text-white shadow-lg shadow-[#179BD7]/20 transition hover:-translate-y-0.5"
       >
         <FontAwesomeIcon icon={faFloppyDisk} />
         {label}
@@ -94,3 +115,5 @@ export function AdminStickySave({ label = "Save changes" }) {
     </div>
   );
 }
+
+

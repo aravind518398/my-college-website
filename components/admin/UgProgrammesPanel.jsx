@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGraduationCap, faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { AdminStickySave } from "./AdminCmsLayout";
 
 function Field({ label, name, defaultValue, icon, type = "text", multiline = false }) {
   const inputClass =
@@ -51,6 +52,18 @@ export default function UgProgrammesPanel({
     >
       <input type="hidden" name="ug-programme-row-count" value={programmeRowCount} />
 
+      <div className="mb-4 flex flex-wrap gap-3">
+        {(programmes || []).map((d, i) => (
+          <a
+            key={d?.id || `programme-${i}`}
+            href={`#${d?.id || ""}`}
+            className="border border-[#dce7f0] rounded-full bg-white/60 px-3 py-1 text-sm font-semibold text-[#179BD7] shadow-sm"
+          >
+            {d?.shortName || "Untitled"}
+          </a>
+        ))}
+      </div>
+
       <div className="mb-6">
         <Field
           label="Documents Required (one per line)"
@@ -68,24 +81,30 @@ export default function UgProgrammesPanel({
           const syllabusItems = programme.syllabus || [];
 
           return (
-            <article key={programme.id || `new-${programmeIndex}`} className="rounded-xl border border-[#dce7f0] bg-[#fbfdff] p-4">
-              <div className="mb-4 flex items-center justify-between gap-3">
-                <div>
-                  <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#1ab69d]">
-                    {isNewRow ? "New programme" : `Programme ${programmeIndex + 1}`}
-                  </p>
-                  <h3 className="mt-1 text-lg font-bold text-[#18213b]">
-                    {isNewRow ? "Add UG programme" : programme.title}
-                  </h3>
-                </div>
-                {!isNewRow ? (
-                  <label className="inline-flex items-center gap-2 rounded-lg border border-[#ffd7d7] bg-[#fff6f6] px-3 py-2 text-xs font-bold text-[#a33c3c]">
-                    <input type="checkbox" name={`${prefix}-delete`} className="h-4 w-4 accent-[#a33c3c]" />
-                    <FontAwesomeIcon icon={faTrash} />
-                    Delete programme
-                  </label>
-                ) : null}
-              </div>
+            <article  id={programme.id || undefined} key={programme.id || `new-${programmeIndex}`} className="scroll-mt-24 lg:scroll-mt-4 rounded-xl border border-[#dce7f0] bg-[#fbfdff] p-4">
+              <div className="  sticky top-20 lg:top-1  border border-[#dce7f0] bg-white/10 p-2 rounded-lg mb-4 flex items-center justify-between gap-3 backdrop-blur">
+  <div>
+    <p className="text-[10px] sm:text-xs md:text-sm font-bold uppercase tracking-[0.16em] text-[#1ab69d]">
+      {isNewRow ? "New programme" : `Programme ${programmeIndex + 1}`}
+    </p>
+
+    <h3 className="mt-1 text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-[#18213b]">
+      {isNewRow ? "Add UG programme" : programme.title}
+    </h3>
+  </div>
+
+  {!isNewRow ? (
+    <label className="inline-flex items-center gap-2 rounded-lg border border-[#ffd7d7] bg-[#fff6f6] px-3 py-2 text-[10px] sm:text-xs md:text-sm font-bold text-[#a33c3c]">
+      <input
+        type="checkbox"
+        name={`${prefix}-delete`}
+        className="h-4 w-4 accent-[#a33c3c]"
+      />
+      <FontAwesomeIcon icon={faTrash} />
+      Delete programme
+    </label>
+  ) : null}
+</div>
 
               <input type="hidden" name={`${prefix}-syllabus-count`} value={syllabusItems.length} />
 
@@ -102,6 +121,7 @@ export default function UgProgrammesPanel({
                 <Field label="Seats" name={`${prefix}-seats`} defaultValue={programme.seats ?? ""} icon={faPenToSquare} type="number" />
                 <Field label="Duration" name={`${prefix}-duration`} defaultValue={programme.duration || ""} icon={faPenToSquare} />
                 <Field label="Semesters" name={`${prefix}-semesters`} defaultValue={programme.semesters ?? ""} icon={faPenToSquare} type="number" />
+                <Field label="Fees (per semester)" name={`${prefix}-fees`} defaultValue={programme.fees ?? ""} icon={faPenToSquare} type="number" />
                 <Field label="Eligibility (one per line)" name={`${prefix}-eligibility`} defaultValue={(programme.eligibility || []).join("\n")} icon={faPenToSquare} multiline />
                 <Field label="Highlights (one per line)" name={`${prefix}-highlights`} defaultValue={(programme.highlights || []).join("\n")} icon={faPenToSquare} multiline />
               </div>
@@ -142,8 +162,9 @@ export default function UgProgrammesPanel({
             </article>
           );
         })}
+        
       </div>
-
+        <AdminStickySave label="Save UG programmes" />
     </Panel>
   );
 }

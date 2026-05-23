@@ -112,6 +112,7 @@ function ProgrammeSection({ title, description, programmes, accent, accentSoft, 
                   <th className="px-5 py-4">Name of Program</th>
                   <th className="px-5 py-4">Specialisation</th>
                   <th className="px-5 py-4 text-right">No of Seats</th>
+                  <th className="px-5 py-4 text-right">Fees</th>
                 </tr>
               </thead>
               <tbody>
@@ -129,6 +130,9 @@ function ProgrammeSection({ title, description, programmes, accent, accentSoft, 
                       <span className={`${accentSoft} inline-flex rounded-full px-3 py-1 text-xs font-bold`}>
                         {row.seats} Seats
                       </span>
+                    </td>
+                    <td className="px-5 py-4 text-right font-bold text-[#18213b]">
+                      {row.fees ? `₹${row.fees}` : "—"}
                     </td>
                   </tr>
                 ))}
@@ -151,6 +155,7 @@ function ProgrammeSection({ title, description, programmes, accent, accentSoft, 
                   </span>
                 </div>
                 <p className="mt-3 text-sm leading-6 text-slate-600">{row.specialisation}</p>
+                <p className="mt-3 text-sm font-semibold text-[#18213b]">Fees: {row.fees ? `₹${row.fees}` : "—"}</p>
               </article>
             ))}
           </div>
