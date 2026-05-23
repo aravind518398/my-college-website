@@ -28,7 +28,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     strategy: "jwt",
   },
   providers: [
-    GitHub,
+    GitHub({
+  clientId: process.env.AUTH_GITHUB_ID,
+  clientSecret: process.env.AUTH_GITHUB_SECRET,
+}),
     Credentials({
       credentials: {
         email: { label: "Email", type: "email" },
@@ -99,15 +102,17 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     },
     async jwt({ token, user }) {
       if (user) {
-        token.role = user.role ?? "admin";
+        token.id = user.id;  // ✅ Add this — needed to identify user in session
+    token.role = user.role ?? "admin";
       }
 
       return token;
     },
     async session({ session, token }) {
       if (session.user) {
-        session.user.role = token.role;
-      }
+    session.user.id = token.id;    // ✅ Add this
+    session.user.role = token.role;
+  }
 
       return session;
     },
