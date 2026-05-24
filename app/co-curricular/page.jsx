@@ -1,8 +1,9 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Image from "next/image";
-import { faTrophy, faUsers, faHeart, faVolleyballBall, faPalette, faMicrophone } from "@fortawesome/free-solid-svg-icons";
+import { faTrophy, faUsers, faHeart, faVolleyballBall, faPalette, faMicrophone, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Link from "next/link";
 
 export default function CoCurricular() {
     const activities = [
@@ -43,29 +44,72 @@ export default function CoCurricular() {
             <Header />
             <main className="overflow-hidden bg-[#f7faf8] text-[#18213b]">
                 {/* Hero Section */}
-                <section className="relative min-h-[280px] sm:min-h-[380px] lg:min-h-[480px]">
-                    <Image
-                        src="/images/nss.jpeg"
-                        alt="Co-curricular activities at KMM College"
-                        fill
-                        priority
-                        sizes="100vw"
-                        className="object-cover"
-                    />
-                    <div className="absolute inset-0 bg-[#18213b]/70" />
-                    <div className="absolute inset-0 bg-gradient-to-r from-[#18213b]/90 via-[#18213b]/45 to-transparent" />
-                    <div className="relative z-10 mx-auto flex min-h-[280px] max-w-7xl flex-col justify-center px-4 py-12 sm:min-h-[380px] sm:px-6 sm:py-16 lg:min-h-[480px] lg:py-24">
-                        <p className="mb-3 text-xs font-bold uppercase tracking-[0.28em] text-[#1ab69d]">
-                            KMM College
-                        </p>
-                        <h1 className="max-w-3xl text-3xl font-bold leading-tight text-white sm:text-5xl lg:text-7xl">
-                            Co-Curricular Activities
-                        </h1>
-                        <p className="mt-4 max-w-2xl text-sm leading-6 text-white/85 sm:mt-5 sm:text-base lg:text-lg">
-                            Beyond academics, we foster holistic development through diverse co-curricular activities that nurture leadership, creativity, teamwork, and communication skills.
-                        </p>
-                    </div>
-                </section>
+                <section className="relative overflow-hidden min-h-[480px] sm:min-h-[560px] lg:min-h-[680px]">
+  {/* Background Image */}
+  <Image
+    src="/images/nss-full.jpeg"
+    alt="Co-curricular activities at KMM College"
+    fill
+    priority
+    sizes="100vw"
+    className="object-cover object-center"
+  />
+
+  {/* Dark Overlay */}
+  <div className="absolute inset-0 bg-[#0f172a]/75" />
+
+  {/* Gradient Overlay */}
+  <div className="absolute inset-0 bg-gradient-to-r from-[#0f172a]/95 via-[#0f172a]/70 to-[#0f172a]/20" />
+
+  {/* Decorative Blur */}
+  <div className="absolute -left-24 top-24 h-72 w-72 rounded-full bg-[#1ab69d]/20 blur-3xl" />
+  <div className="absolute bottom-0 right-0 h-80 w-80 rounded-full bg-[#179BD7]/20 blur-3xl" />
+
+  {/* Content */}
+  <div className="relative z-10 mx-auto flex min-h-[480px] sm:min-h-[560px] lg:min-h-[680px] max-w-7xl items-center px-4 sm:px-6 lg:px-8">
+    <div className="max-w-3xl">
+      {/* Tag */}
+      <div className="mb-6 inline-flex items-center rounded-full border border-white/15 bg-white/10 px-4 py-1.5 backdrop-blur-md">
+        <span className="text-xs font-semibold uppercase tracking-[0.28em] text-[#1ab69d]">
+          KMM College
+        </span>
+      </div>
+
+      {/* Heading */}
+      <h1 className="text-4xl font-extrabold leading-tight tracking-tight text-white sm:text-5xl lg:text-7xl">
+        Co-Curricular
+        <span className="mt-2 block bg-gradient-to-l from-[#179BD7] to-[#1ab69d] bg-clip-text text-transparent">
+          Activities
+        </span>
+      </h1>
+
+      {/* Description */}
+      <p className="mt-6 max-w-2xl text-base leading-8 text-white/80 sm:text-lg">
+        Beyond academics, we foster holistic development through diverse
+        co-curricular activities that nurture leadership, creativity,
+        teamwork, and communication skills.
+      </p>
+
+      {/* Buttons */}
+      <div className="mt-10 flex flex-wrap gap-4">
+        <Link
+          href="/activities"
+          className="group inline-flex w-fit cursor-pointer items-center gap-2 rounded-br-2xl rounded-tl-2xl bg-gradient-to-r from-[#179BD7] to-[#1ab69d] px-5 py-3 text-sm font-bold text-white shadow-xl shadow-[#179BD7]/25 transition-all duration-300 hover:-translate-y-1"
+        >
+          Explore Activities
+          <FontAwesomeIcon icon={faArrowRight} className="text-xs transition-transform duration-300 group-hover:translate-x-1" />
+        </Link>
+
+        <Link
+          href="/gallery"
+          className="inline-flex w-fit cursor-pointer items-center gap-2 rounded-br-2xl rounded-tl-2xl bg-white/12 px-5 py-3 text-sm font-bold text-white ring-1 ring-white/25 backdrop-blur transition-all duration-300 hover:bg-white hover:text-[#18213b]"
+        >
+          View Gallery
+        </Link>
+      </div>
+    </div>
+  </div>
+</section>
 
                 {/* Activities Overview Section */}
                 <section className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">

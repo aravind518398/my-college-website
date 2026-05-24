@@ -2,20 +2,53 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGraduationCap, faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { AdminStickySave } from "./AdminCmsLayout";
 
-function Field({ label, name, defaultValue, icon, type = "text", multiline = false }) {
+function Field({
+  label,
+  name,
+  defaultValue,
+  icon,
+  type = "text",
+  multiline = false,
+  options = null,
+}) {
   const inputClass =
     "mt-2 w-full rounded-lg border border-[#d9e6f1] bg-white px-3 py-2.5 text-sm font-medium text-[#18213b] outline-none transition focus:border-[#179BD7] focus:ring-4 focus:ring-[#179BD7]/10";
 
   return (
     <label className="block">
       <span className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.14em] text-[#63708a]">
-        {icon ? <FontAwesomeIcon icon={icon} className="text-[#179BD7]" /> : null}
+        {icon ? (
+          <FontAwesomeIcon icon={icon} className="text-[#179BD7]" />
+        ) : null}
         {label}
       </span>
-      {multiline ? (
-        <textarea name={name} defaultValue={defaultValue} rows={6} className={`${inputClass} resize-y leading-6`} />
+
+      {options ? (
+        <select
+          name={name}
+          defaultValue={defaultValue}
+          className={inputClass}
+        >
+          {options.map((option) => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
+      ) : multiline ? (
+        <textarea
+          name={name}
+          defaultValue={defaultValue}
+          rows={6}
+          className={`${inputClass} resize-y leading-6`}
+        />
       ) : (
-        <input type={type} name={name} defaultValue={defaultValue} className={inputClass} />
+        <input
+          type={type}
+          name={name}
+          defaultValue={defaultValue}
+          className={inputClass}
+        />
       )}
     </label>
   );
@@ -81,30 +114,30 @@ export default function UgProgrammesPanel({
           const syllabusItems = programme.syllabus || [];
 
           return (
-            <article  id={programme.id || undefined} key={programme.id || `new-${programmeIndex}`} className="scroll-mt-24 lg:scroll-mt-4 rounded-xl border border-[#dce7f0] bg-[#fbfdff] p-4">
+            <article id={programme.id || undefined} key={programme.id || `new-${programmeIndex}`} className="scroll-mt-24 lg:scroll-mt-4 rounded-xl border border-[#dce7f0] bg-[#fbfdff] p-4">
               <div className="  sticky top-20 lg:top-1  border border-[#dce7f0] bg-white/10 p-2 rounded-lg mb-4 flex items-center justify-between gap-3 backdrop-blur">
-  <div>
-    <p className="text-[10px] sm:text-xs md:text-sm font-bold uppercase tracking-[0.16em] text-[#1ab69d]">
-      {isNewRow ? "New programme" : `Programme ${programmeIndex + 1}`}
-    </p>
+                <div>
+                  <p className="text-[10px] sm:text-xs md:text-sm font-bold uppercase tracking-[0.16em] text-[#1ab69d]">
+                    {isNewRow ? "New programme" : `Programme ${programmeIndex + 1}`}
+                  </p>
 
-    <h3 className="mt-1 text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-[#18213b]">
-      {isNewRow ? "Add UG programme" : programme.title}
-    </h3>
-  </div>
+                  <h3 className="mt-1 text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-[#18213b]">
+                    {isNewRow ? "Add UG programme" : programme.title}
+                  </h3>
+                </div>
 
-  {!isNewRow ? (
-    <label className="inline-flex items-center gap-2 rounded-lg border border-[#ffd7d7] bg-[#fff6f6] px-3 py-2 text-[10px] sm:text-xs md:text-sm font-bold text-[#a33c3c]">
-      <input
-        type="checkbox"
-        name={`${prefix}-delete`}
-        className="h-4 w-4 accent-[#a33c3c]"
-      />
-      <FontAwesomeIcon icon={faTrash} />
-      Delete programme
-    </label>
-  ) : null}
-</div>
+                {!isNewRow ? (
+                  <label className="inline-flex items-center gap-2 rounded-lg border border-[#ffd7d7] bg-[#fff6f6] px-3 py-2 text-[10px] sm:text-xs md:text-sm font-bold text-[#a33c3c]">
+                    <input
+                      type="checkbox"
+                      name={`${prefix}-delete`}
+                      className="h-4 w-4 accent-[#a33c3c]"
+                    />
+                    <FontAwesomeIcon icon={faTrash} />
+                    Delete programme
+                  </label>
+                ) : null}
+              </div>
 
               <input type="hidden" name={`${prefix}-syllabus-count`} value={syllabusItems.length} />
 
@@ -147,7 +180,13 @@ export default function UgProgrammesPanel({
                       </div>
                       <div className="grid gap-4 md:grid-cols-2">
                         <Field label="Label" name={`${syllabusPrefix}-label`} defaultValue={item.label || ""} icon={faPenToSquare} />
-                        <Field label="Status" name={`${syllabusPrefix}-status`} defaultValue={item.status || "Available"} icon={faPenToSquare} />
+                        <Field
+                          label="Status"
+                          name={`${syllabusPrefix}-status`}
+                          defaultValue={item.status || "Available"}
+                          icon={faPenToSquare}
+                          options={["Available", "Not Available"]}
+                        />
                         <div className="md:col-span-2">
                           <Field label="Detail" name={`${syllabusPrefix}-detail`} defaultValue={item.detail || ""} icon={faPenToSquare} multiline />
                         </div>
@@ -162,9 +201,9 @@ export default function UgProgrammesPanel({
             </article>
           );
         })}
-        
+
       </div>
-        <AdminStickySave label="Save UG programmes" />
+      <AdminStickySave label="Save UG programmes" />
     </Panel>
   );
 }

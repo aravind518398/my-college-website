@@ -118,14 +118,49 @@ function DepartmentSection({ department, index }) {
 
           <div className="grid gap-4 sm:grid-cols-2">
             {department.faculty.map((faculty) => (
-              <article key={faculty.name} className="rounded-lg border border-slate-200 bg-[#f8faf7] p-4 transition duration-300 hover:-translate-y-1 hover:border-[#1ab69d] hover:bg-white hover:shadow-lg hover:shadow-[#18213b]/10">
+              <article
+                key={faculty.name}
+                className="rounded-xl border border-slate-200 bg-white p-5 transition duration-300 hover:-translate-y-1  hover:shadow-xl hover:shadow-[#18213b]/10"
+              >
                 <div className="flex flex-col items-center text-center">
                   <FacultyAvatar faculty={faculty} accent={department.accent} />
-                  <h4 className="mt-4 text-base font-bold leading-tight text-[#18213b]">{faculty.name}</h4>
-                  <p className="mt-1 text-sm font-bold" style={{ color: department.accent }}>
+
+                  <h4 className="mt-4 text-lg font-bold leading-tight text-[#18213b]">
+                    {faculty.name}
+                  </h4>
+
+                  <p
+                    className="mt-1 rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wide text-white"
+                    style={{ backgroundColor: department.accent }}
+                  >
                     {faculty.role}
                   </p>
-                  <p className="mt-2 text-sm leading-6 text-[#40506f]">{faculty.area}</p>
+
+                  {/* Info Cards */}
+                  <div className="mt-4 flex w-full flex-col gap-3">
+                    <div className="flex items-center justify-between rounded-lg border border-[#d9e6f1] bg-[#f8fafc] px-4 py-3">
+                      <span className="text-xs font-bold uppercase tracking-wide text-[#63708a]">
+                        Qualification
+                      </span>
+
+                      <span className="text-sm font-semibold text-[#18213b] uppercase">
+                        {faculty.qualification || "N/A"}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center justify-between rounded-lg border border-[#d9e6f1] bg-[#f8fafc] px-4 py-3">
+                      <span className="text-xs font-bold uppercase tracking-wide text-[#63708a]">
+                        Experience
+                      </span>
+
+                      <span className="text-sm font-semibold text-[#18213b]">
+                        {faculty.experience
+                          ? `${faculty.experience} ${Number(faculty.experience) === 1 ? "year" : "years"
+                          }`
+                          : "N/A"}
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </article>
             ))}

@@ -316,6 +316,8 @@ async function updateDepartments(formData) {
         role: value(formData, `${prefix}-role`),
         area: value(formData, `${prefix}-area`),
         initials: value(formData, `${prefix}-initials`),
+        qualification: value(formData, `${prefix}-qualification`),
+        experience: value(formData, `${prefix}-experience`),
         photo: value(formData, `${prefix}-photo`),
       });
     }
@@ -438,7 +440,16 @@ function SignOutButton() {
   );
 }
 
-function Field({ label, name, defaultValue, icon, type = "text", multiline = false }) {
+function Field({
+  label,
+  name,
+  defaultValue,
+  icon,
+  type = "text",
+  multiline = false,
+  options = null,
+  min,  
+}) {
   const inputClass =
     "mt-2 w-full rounded-lg border border-[#d9e6f1] bg-white px-3 py-2.5 text-sm font-medium text-[#18213b] outline-none transition focus:border-[#179BD7] focus:ring-4 focus:ring-[#179BD7]/10";
 
@@ -448,10 +459,32 @@ function Field({ label, name, defaultValue, icon, type = "text", multiline = fal
         {icon ? <FontAwesomeIcon icon={icon} className="text-[#179BD7]" /> : null}
         {label}
       </span>
-      {multiline ? (
-        <textarea name={name} defaultValue={defaultValue} rows={4} className={`${inputClass} resize-y leading-6`} />
+
+      {options ? (
+        <select name={name} defaultValue={defaultValue} className={inputClass}>
+          <option value="">Select Role</option>
+
+          {options.map((option) => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
+      ) : multiline ? (
+        <textarea
+          name={name}
+          defaultValue={defaultValue}
+          rows={4}
+          className={`${inputClass} resize-y leading-6`}
+        />
       ) : (
-        <input type={type} name={name} defaultValue={defaultValue} className={inputClass} />
+        <input
+          type={type}
+          name={name}
+          defaultValue={defaultValue}
+          className={inputClass}
+          min={min}
+        />
       )}
     </label>
   );
@@ -530,7 +563,7 @@ export default async function AdminPage({ searchParams }) {
               <AdminCmsNavLink id="campus-sections" label="Campus Overview" icon={faLandmark} />
               <AdminCmsNavLink id="ug-programmes" label="UG Programmes" icon={faGraduationCap} />
               <AdminCmsNavLink id="placed-students" label="Placed Students" icon={faBriefcase} />
-              <AdminCmsNavLink id="departments" label="Departments" icon={faBuildingColumns} />
+              <AdminCmsNavLink id="departments" label="Departments & Faculty" icon={faBuildingColumns} />
               <p className="mt-4 px-3 text-xs font-bold uppercase tracking-[0.18em] text-white/45">Website Routes</p>
               {SITE_ROUTES.map((route) => (
                 <Link
@@ -882,12 +915,61 @@ export default async function AdminPage({ searchParams }) {
                                     ) : null}
                                   </div>
 
-                                  <div className="grid gap-4 md:grid-cols-5">
-                                    <Field label="Name" name={`${prefix}-name`} defaultValue={faculty.name || ""} icon={faPenToSquare} />
-                                    <Field label="Role" name={`${prefix}-role`} defaultValue={faculty.role || ""} icon={faPenToSquare} />
-                                    <Field label="Area" name={`${prefix}-area`} defaultValue={faculty.area || ""} icon={faPenToSquare} />
-                                    <Field label="Initials" name={`${prefix}-initials`} defaultValue={faculty.initials || ""} icon={faPenToSquare} />
-                                    <Field label="Photo Path" name={`${prefix}-photo`} defaultValue={faculty.photo || ""} icon={faImage} />
+                                  <div className="grid gap-4 md:grid-cols-6">
+                                    <Field
+                                      label="Name"
+                                      name={`${prefix}-name`}
+                                      defaultValue={faculty.name || ""}
+                                      icon={faPenToSquare}
+                                    />
+
+                                    <Field
+                                      label="Initials"
+                                      name={`${prefix}-initials`}
+                                      defaultValue={faculty.initials || ""}
+                                      icon={faPenToSquare}
+                                    />
+
+                                    <Field
+                                      label="Role"
+                                      name={`${prefix}-role`}
+                                      defaultValue={faculty.role || ""}
+                                      icon={faPenToSquare}
+                                      options={[
+                                        "Head of Department",
+                                        "Professor",
+                                        "Associate Professor",
+                                        "Assistant Professor",
+                                        "Guest Lecturer",
+                                      ]}
+                                    />
+
+                                   
+
+                                    <Field
+                                      label="Qualification"
+                                      name={`${prefix}-qualification`}
+                                      defaultValue={faculty.qualification || ""}
+                                      icon={faPenToSquare}
+                                    />
+
+                                    <Field
+                                      label="Experience"
+                                      name={`${prefix}-experience`}
+                                      defaultValue={faculty.experience || ""}
+                                      icon={faPenToSquare}
+                                      type="number"
+                                      min={1}
+                                    />
+
+                                    
+
+                                    <Field
+                                      label="Photo Path"
+                                      name={`${prefix}-photo`}
+                                      defaultValue={faculty.photo || ""}
+                                      icon={faImage}
+                                    />
                                   </div>
                                 </div>
                               );
