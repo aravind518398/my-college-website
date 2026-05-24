@@ -702,7 +702,7 @@ export default async function AdminPage({ searchParams }) {
                 <Panel
                   id="college-campus-image"
                   title="College Campus Image"
-                  description="Single image used on the Home welcome section and the About page campus photo. Updating here changes both pages."
+                  description="Single image used on the Home welcome section, About page campus photo, and Admission page. Updating here changes all three pages."
                   icon={faImage}
                 >
                   <div className="grid gap-4 md:grid-cols-2">
