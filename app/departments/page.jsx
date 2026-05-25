@@ -154,10 +154,12 @@ function DepartmentSection({ department, index }) {
                       </span>
 
                       <span className="text-sm font-semibold text-[#18213b]">
-                        {faculty.experience
-                          ? `${faculty.experience} ${Number(faculty.experience) === 1 ? "year" : "years"
-                          }`
-                          : "N/A"}
+                        {faculty.experience === 0
+                          ? "Fresher"
+                          : faculty.experience
+                            ? `${faculty.experience} ${Number(faculty.experience) === 1 ? "year" : "years"
+                            }`
+                            : "N/A"}
                       </span>
                     </div>
                   </div>

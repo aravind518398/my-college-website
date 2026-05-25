@@ -21,7 +21,7 @@ export default function DepartmentStickyHeader({ id, name, facultyCount }) {
   return (
   <div
   className={` sticky top-20 lg:top-1 z-20 
-    rounded-xl border border-[#dce7f0] bg-[#fbfdff]/10
+    rounded-xl border border-[#1ab69d] bg-[#fbfdff]/10
     px-3 py-3 sm:px-4 sm:py-4
     mb-4 sm:mb-5
     flex gap-2 sm:gap-3 flex-row items-start justify-between

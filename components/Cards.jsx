@@ -5,19 +5,14 @@ import { useRouter } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faGraduationCap } from "@fortawesome/free-solid-svg-icons";
 
-const courseToIdMap = {
-    "B.Com": "bcom",
-    "B.Sc": "bsc-psychology",
-    "BCA": "bca",
-    "BBA": "bba",
-};
-
-export default function Cards({ course, img, detail }) {
+export default function Cards({ course, img, detail, programId, level = "ug" }) {
     const router = useRouter();
-    const programId = courseToIdMap[course] || course.toLowerCase();
+    const resolvedProgramId =
+        programId || String(course || "").toLowerCase().replace(/\s+/g, "-");
+    const detailsAnchor = level === "pg" ? "pg-programme-details" : "ug-programme-details";
 
     const handleViewProgramme = () => {
-        router.push(`/academics?program=${programId}#ug-programme-details`);
+        router.push(`/academics?program=${resolvedProgramId}#${detailsAnchor}`);
     };
 
     return (

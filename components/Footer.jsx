@@ -7,8 +7,8 @@ import { faArrowRight, faEnvelope, faLocationDot, faPhone, faShieldHalved } from
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import Link from "next/link";
+import { defaultSiteSettings as sharedDefaults } from "@/lib/siteSettingsDefaults";
 import { useEffect, useState } from "react";
-
 
 const departments = [
   { label: "Department of Commerce", href: "/departments#commerce" },
@@ -35,23 +35,13 @@ const pgProgrammes = [
 
 const defaultSiteSettings = {
   identity: {
-    shortName: "KMM College",
-    tagline: "Kumbalam",
-    affiliation: "Affiliated to MG University",
-    footerText: "K.M.M. College, Kumbalam is committed to quality education, professional confidence, and student-focused academic growth.",
+    shortName: sharedDefaults.identity.shortName,
+    tagline: sharedDefaults.identity.tagline,
+    affiliation: sharedDefaults.identity.affiliation,
+    footerText: sharedDefaults.identity.footerText,
   },
-  contact: {
-    email: "kmmkumbalam@gmail.com",
-    primaryPhone: "9037002130",
-    address: "K.M.M. College, Kumbalam, Kerala - 682506",
-    mapUrl: "https://www.google.com/maps/search/?api=1&query=KMM+College+Kumbalam+Kerala",
-  },
-  social: {
-    facebook: "https://facebook.com/Kmmcollegekumbalam",
-    instagram: "https://www.instagram.com/kmmcollege_kumbalam?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
-    youtube: "https://www.youtube.com/@kmmcollegeofartsandscience1164",
-    whatsapp: "https://wa.me/919037002130?text=Hi",
-  },
+  contact: sharedDefaults.contact,
+  social: sharedDefaults.social,
   images: {
     footerLogo: "/images/kmm-logo.png",
   },
@@ -112,6 +102,7 @@ export default function Footer() {
   ].filter((item) => item.href);
   const phoneNumbers = [
     settings.contact.primaryPhone,
+    settings.contact.secondaryPhone,
   ].filter(Boolean);
 
   return (
@@ -145,7 +136,7 @@ export default function Footer() {
                   <span>{phone}</span>
                 </a>
               ))}
-              <a href={`mailto:${settings.contact.email}`} className="flex items-center gap-3 break-all transition-colors duration-300 hover:text-white">
+              <a href="contact#enquiry-form" className="flex items-center gap-3 break-all transition-colors duration-300 hover:text-white">
                 <FontAwesomeIcon icon={faEnvelope} className="text-[#1ab69d]" />
                 <span>{settings.contact.email}</span>
               </a>

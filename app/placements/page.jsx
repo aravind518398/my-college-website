@@ -136,11 +136,11 @@ export default function Placements() {
               </div>
 
               <a
-                href="mailto:placements@kmmcollege.edu.in"
+                href="contact#enquiry-form"
                 className="mt-8 inline-flex items-center gap-3 rounded-full bg-white px-5 py-3 text-sm font-bold text-[#18213b] transition hover:bg-[#1ab69d] hover:text-white focus:outline-none focus:ring-4 focus:ring-[#1ab69d]/25"
               >
                 <FontAwesomeIcon icon={faEnvelope} />
-                placements@kmmcollege.edu.in
+                kmmkumbalam@gmail.com
               </a>
             </div>
 

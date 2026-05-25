@@ -112,7 +112,7 @@ export default function CoCurricular() {
 </section>
 
                 {/* Activities Overview Section */}
-                <section className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
+                <section id="our-activities" className="scroll-mt-20 mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
                     <div className="mb-12 flex flex-col items-center text-center sm:mb-16">
                         <p className="mb-2 text-xs font-bold uppercase tracking-[0.28em] text-[#1ab69d]">
                             Our Activities

@@ -125,7 +125,7 @@ function ProgrammeSection({ id, eyebrow, title, description, programmes }) {
   );
 }
 
-export default function Admission({ collegeCampus }) {
+export default function Admission({ collegeCampus, admissionPhone }) {
   return (
     <>
       <Header />
@@ -149,7 +149,7 @@ export default function Admission({ collegeCampus }) {
 
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <a
-                  href="tel:9037002130"
+                  href={`tel:${admissionPhone}`}
                   className="inline-flex items-center justify-center gap-3 rounded-full bg-[#1ab69d] px-6 py-3.5 text-sm font-bold text-white transition hover:bg-white hover:text-[#18213b]"
                 >
                   <FontAwesomeIcon icon={faPhone} />
@@ -360,7 +360,7 @@ export default function Admission({ collegeCampus }) {
 
             <div className="grid gap-4 bg-white p-6 sm:grid-cols-2 sm:p-8 lg:p-12">
               <a
-                href="tel:9037002130"
+                href={`tel:${admissionPhone}`}
                 className="rounded-2xl border border-[#dceae5] bg-[#f8faf7] p-5 transition hover:border-[#1ab69d]"
               >
                 <span className="grid h-11 w-11 place-items-center rounded-xl bg-white text-[#12826f] shadow-sm">
@@ -369,7 +369,7 @@ export default function Admission({ collegeCampus }) {
                 <p className="mt-4 text-sm font-bold text-[#18213b]">
                   Admission Helpline
                 </p>
-                <p className="mt-1 text-sm leading-6 text-[#40506f]">9037002130</p>
+                <p className="mt-1 text-sm leading-6 text-[#40506f]">{admissionPhone}</p>
               </a>
               <a
                 href="mailto:kmmkumbalam@gmail.com"

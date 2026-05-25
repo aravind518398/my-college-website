@@ -4,6 +4,19 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faCompass, faGraduationCap, faHouse, faPhone } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 import Link from "next/link";
+import { pickCollegeCampusImage } from "@/lib/collegeImageDefaults";
+import { connectDB } from "@/lib/mongodb";
+import SiteSettings from "@/models/SiteSettings";
+
+async function getCollegeCampus() {
+  try {
+    await connectDB();
+    const settings = await SiteSettings.findOne().lean();
+    return pickCollegeCampusImage(settings?.images);
+  } catch {
+    return pickCollegeCampusImage({});
+  }
+}
 
 const helpfulLinks = [
   {
@@ -23,7 +36,8 @@ const helpfulLinks = [
   },
 ];
 
-export default function NotFound() {
+export default async function NotFound() {
+  const collegeCampus = await getCollegeCampus();
   return (
     <div className="flex min-h-screen flex-col bg-white">
       <Header />
@@ -68,7 +82,7 @@ export default function NotFound() {
           </section>
 
           <section className="relative min-h-[360px] overflow-hidden rounded-2xl bg-[#18213b] shadow-2xl ring-1 ring-black/5 sm:min-h-[460px] lg:min-h-[560px]">
-            <Image src="/images/college2.png" fill priority alt="KMM College campus" className="object-cover" sizes="(max-width: 1024px) 100vw, 52vw" />
+            <Image src={collegeCampus.src} fill priority alt={collegeCampus.alt} className="object-cover" sizes="(max-width: 1024px) 100vw, 52vw" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#18213b]/95 via-[#18213b]/35 to-transparent"></div>
             <div className="absolute inset-x-5 bottom-5 rounded-2xl bg-white/94 p-5 shadow-2xl backdrop-blur sm:inset-x-7 sm:bottom-7 sm:p-6">
               <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#1ab69d]">KMM College</p>

@@ -5,8 +5,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
+import { getWhatsappHref } from "@/lib/siteSettingsDefaults";
 import { motion } from "motion/react";
-const defaultWhatsappHref = "https://wa.me/919037002130?text=Hi";
+
+const defaultWhatsappHref = getWhatsappHref();
 
 export default function WhatsAppFloatingButton() {
   const pathname = usePathname();
@@ -18,8 +20,8 @@ export default function WhatsAppFloatingButton() {
     fetch("/api/site-settings")
       .then((response) => (response.ok ? response.json() : null))
       .then((data) => {
-        if (isMounted && data?.settings?.social?.whatsapp) {
-          setWhatsappHref(data.settings.social.whatsapp);
+        if (isMounted && data?.settings) {
+          setWhatsappHref(getWhatsappHref(data.settings));
         }
       })
       .catch(() => {});

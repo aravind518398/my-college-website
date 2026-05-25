@@ -1,7 +1,9 @@
 import { connectDB } from "@/lib/mongodb";
 import SiteSettings from "@/models/SiteSettings";
 import { pickCollegeCampusImage } from "@/lib/collegeImageDefaults";
-import Admission from "@/components/Admission"; // move your current code here
+import { defaultSiteSettings } from "@/lib/siteSettingsDefaults";
+import { getSiteSettings } from "@/lib/siteSettings";
+import Admission from "@/components/Admission";
 
 async function getCollegeCampus() {
   try {
@@ -14,6 +16,13 @@ async function getCollegeCampus() {
 }
 
 export default async function AdmissionPage() {
-  const collegeCampus = await getCollegeCampus();
-  return <Admission collegeCampus={collegeCampus} />;
+  const [collegeCampus, settings] = await Promise.all([
+    getCollegeCampus(),
+    getSiteSettings(),
+  ]);
+
+  const admissionPhone =
+    settings.contact.admissionPhone || defaultSiteSettings.contact.admissionPhone;
+
+  return <Admission collegeCampus={collegeCampus} admissionPhone={admissionPhone} />;
 }

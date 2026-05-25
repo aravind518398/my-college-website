@@ -13,48 +13,14 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 
-import { useMemo, useState } from "react";
+import { defaultAboutMessages } from "@/lib/aboutMessagesDefaults";
+import { useEffect, useMemo, useState } from "react";
 
 
 const values = [
   { label: "Critical Thinking", icon: faStar },
   { label: "Academic Excellence", icon: faGraduationCap },
   { label: "Social Commitment", icon: faUsers },
-];
-
-const messages = [
-  {
-    title: "Message From Chairman",
-    name: "A M Aboobacker",
-    role: "Chairman, KMM Group of Institutions",
-    image: "/images/peoples/chairman.webp",
-    quote:
-      "Education is the most powerful weapon which you can use to change the world.",
-    author: "Nelson Mandela",
-    paragraphs: [
-      "At KMM College Thrikkakara, Vazhakkala, we believe that education is the foundation for transforming individuals and society. Our institution is committed to nurturing curious minds, creative thinkers, and compassionate individuals who contribute meaningfully to the world.",
-      "With a dedicated faculty, modern facilities, and a curriculum that blends tradition with innovation, we strive to create an environment where students are encouraged to question, explore, and grow. Beyond academics, we emphasize ethical leadership, empathy, and resilience - qualities that prepare students not just for careers but for life.",
-      "Our vision is rooted in the belief that education holds the power to uplift communities. We are dedicated to instilling values of integrity, compassion, and service, ensuring our students emerge as responsible global citizens.",
-      "As you embark on this journey with us, I encourage you to embrace every opportunity for growth and discovery. Together, let us build a future where knowledge drives positive change and learning shapes a better world.",
-      "Welcome to KMM College, Thrikkakara Vazhakkala - where ambitions are nurtured and the journey towards excellence knows no limits.",
-    ],
-  },
-  {
-    title: "Message From Principal",
-    name: "Dr Maheen M N",
-    role: "Principal",
-    image: "/images/peoples/principal.webp",
-    quote:
-      "Education is not the learning of facts, but the training of the mind to think.",
-    author: "Albert Einstein",
-    paragraphs: [
-      "Greetings from KMM College, Thrikkakara Vazhakkala.",
-      "At KMM College, we believe that education is the foundation for personal growth and societal transformation. Our institution is dedicated to nurturing inquisitive minds, fostering creativity, and building ethical leaders. We strive to create a dynamic learning environment where students are encouraged to think critically, embrace challenges, and develop the skills needed to thrive in an ever-evolving world.",
-      "Beyond academics, we place great emphasis on character building, discipline, and social responsibility. Our goal is to shape individuals who are not only academically proficient but also compassionate, resilient, and committed to making a positive impact.",
-      "With a team of dedicated faculty, modern facilities, and a student-centric approach, we empower learners to excel in both academics and co-curricular pursuits. We encourage students to step out of their comfort zones, discover their potential, and embrace lifelong learning.",
-      "I am confident that every student at KMM will leave as a capable, confident, and responsible individual, ready to contribute meaningfully to society and lead with integrity.",
-    ],
-  },
 ];
 
 function SectionTitle({ align = "left", kicker, title }) {
@@ -96,8 +62,26 @@ function ParallaxShape({ mouse, speed, className }) {
 }
 
 
-export default function AboutPage({ collegeCampus }) { // ← receives as prop
+export default function AboutPage({ collegeCampus }) {
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
+  const [messages, setMessages] = useState(defaultAboutMessages);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    fetch("/api/about-messages")
+      .then((response) => (response.ok ? response.json() : null))
+      .then((data) => {
+        if (isMounted && Array.isArray(data?.messages) && data.messages.length) {
+          setMessages(data.messages);
+        }
+      })
+      .catch(() => {});
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   
 
@@ -275,57 +259,59 @@ export default function AboutPage({ collegeCampus }) { // ← receives as prop
               <SectionTitle kicker="Leadership" title="Messages" />
   
               <div className="mt-10 grid gap-8">
-                {messages.map((message, index) => (
-                  <article
-                    key={message.title}
-                    className="group grid overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-2xl lg:grid-cols-[300px_1fr]"
-                  >
-                    <div
-                      className={`relative min-h-[300px] ${
-                        index % 2 === 0 ? "bg-[#18213b]" : "bg-[#1ab69d]"
-                      }`}
-                    >
-                      <Image
-                        src={message.image}
-                        alt={message.name}
-                        width={300}
-                        height={380}
-                        className="absolute top-6 left-1/2 max-h-[92%] w-auto -translate-x-1/2 object-contain drop-shadow-2xl transition duration-300 group-hover:scale-105"
-                      />
-                    </div>
-  
-                    <div className="p-6 sm:p-8 lg:p-10">
-                      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-                        <div>
-                          <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#1ab69d]">
-                            {message.title}
-                          </p>
-                          <h3 className="mt-2 text-2xl font-semibold text-[#18213b] sm:text-3xl">
-                            {message.name}
-                          </h3>
-                          <p className="mt-1 font-medium text-slate-500">
-                            {message.role}
-                          </p>
-                        </div>
-                        <FontAwesomeIcon
-                          icon={faQuoteLeft}
-                          className="hidden text-4xl text-[#1ab69d]/25 sm:block"
-                        />
-                      </div>
-  
-                      <blockquote className="mt-6 rounded-xl border-l-4 border-[#1ab69d] bg-[#f8faf7] p-4 text-sm font-semibold leading-7 text-[#18213b] sm:text-base">
-                        &quot;{message.quote}&quot; - {message.author}
-                      </blockquote>
-  
-                      <div className="mt-6 space-y-4 text-sm leading-7 text-slate-700 sm:text-base sm:leading-8">
-                        {message.paragraphs.map((paragraph) => (
-                          <p key={paragraph}>{paragraph}</p>
-                        ))}
-                      </div>
-                    </div>
-                  </article>
-                ))}
-              </div>
+  {messages.map((message, index) => (
+    <article
+      key={message.id || message.title}
+      className="group grid overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-2xl lg:grid-cols-[300px_1fr]"
+    >
+      <div
+        className={`relative flex items-start pt-10 justify-center min-h-[300px] ${
+          index % 2 === 0 ? "bg-[#18213b]" : "bg-[#1ab69d]"
+        }`}
+      >
+        <div className="relative h-[240px] w-[240px] overflow-hidden rounded-full shadow-2xl transition duration-300 group-hover:scale-105">
+          <Image
+            src={message.image}
+            alt={message.name}
+            width={240}
+            height={240}
+            className="h-full w-full object-cover"
+          />
+        </div>
+      </div>
+
+      <div className="p-6 sm:p-8 lg:p-10">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#1ab69d]">
+              {message.title}
+            </p>
+            <h3 className="mt-2 text-2xl font-semibold text-[#18213b] sm:text-3xl">
+              {message.name}
+            </h3>
+            <p className="mt-1 font-medium text-slate-500">
+              {message.role}
+            </p>
+          </div>
+          <FontAwesomeIcon
+            icon={faQuoteLeft}
+            className="hidden text-4xl text-[#1ab69d]/25 sm:block"
+          />
+        </div>
+
+        <blockquote className="mt-6 rounded-xl border-l-4 border-[#1ab69d] bg-[#f8faf7] p-4 text-sm font-semibold leading-7 text-[#18213b] sm:text-base">
+          &quot;{message.quote}&quot; - {message.author}
+        </blockquote>
+
+        <div className="mt-6 space-y-4 text-sm leading-7 text-slate-700 sm:text-base sm:leading-8">
+          {message.paragraphs.map((paragraph, paragraphIndex) => (
+            <p key={`${message.id || message.title}-${paragraphIndex}`}>{paragraph}</p>
+          ))}
+        </div>
+      </div>
+    </article>
+  ))}
+</div>
             </div>
           </section>
         </main>

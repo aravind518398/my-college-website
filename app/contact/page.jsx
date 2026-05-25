@@ -16,16 +16,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-const defaultContactSettings = {
-  email: "kmmkumbalam@gmail.com",
-  primaryPhone: "9037002130",
-  secondaryPhone: "8590601342",
-  address: "K.M.M. College, Kumbalam, Kerala - 682506",
-  mapUrl:
-    "https://www.google.com/maps/search/?api=1&query=KMM+College+Kumbalam+Kerala",
-  mapEmbedUrl:
-    "https://www.google.com/maps?q=KMM%20College%20Kumbalam%20Kerala&output=embed",
-};
+import { defaultSiteSettings } from "@/lib/siteSettingsDefaults";
+
+const defaultContactSettings = defaultSiteSettings.contact;
 
 function mergeContactSettings(saved = {}) {
   const merged = { ...defaultContactSettings };

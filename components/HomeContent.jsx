@@ -13,6 +13,8 @@ import Cards from "./Cards";
 export default function HomeContent({
   collegeCampus,
   campusSections,
+  ugProgrammeCards,
+  pgProgrammeCards,
 }) {
   return (
     <div className="flex min-h-screen flex-col  cursor-default">
@@ -156,10 +158,16 @@ export default function HomeContent({
                   <div className="h-px flex-1 bg-gradient-to-r from-[#179BD7]/40 to-transparent"></div>
                 </div>
                 <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-                  <Cards course="B.Com" detail="Finance and commerce focused undergraduate pathway" img="/images/close-up-graduation-woman.png" />
-                  <Cards course="B.Sc" detail="Science-focused undergraduate programme" img="/images/woman-graduate-student-wearing.webp" />
-                  <Cards course="BBA" detail="Business administration, management, and leadership" img="/images/close-up-graduation-certificate.png" />
-                  <Cards course="BCA" detail="Computer applications, software, and digital skills" img="/images/girl-graduating.png" />
+                  {ugProgrammeCards.map((card) => (
+                    <Cards
+                      key={card.id}
+                      course={card.course}
+                      detail={card.detail}
+                      img={card.img}
+                      programId={card.programId}
+                      level="ug"
+                    />
+                  ))}
                 </div>
               </div>
 
@@ -169,9 +177,16 @@ export default function HomeContent({
                   <div className="h-px flex-1 bg-gradient-to-r from-[#1ab69d]/40 to-transparent"></div>
                 </div>
                 <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-                  <Cards course="MBA" detail="Advanced business administration and management" img="/images/close-up-graduation-woman.png" />
-                  <Cards course="M.Sc" detail="Postgraduate study with focused subject expertise" img="/images/girl-graduating.png" />
-                  <Cards course="MCA" detail="Advanced computer application and technology skills" img="/images/close-up-graduation-certificate.png" />
+                  {pgProgrammeCards.map((card) => (
+                    <Cards
+                      key={card.id}
+                      course={card.course}
+                      detail={card.detail}
+                      img={card.img}
+                      programId={card.programId}
+                      level="pg"
+                    />
+                  ))}
                 </div>
               </div>
             </div>

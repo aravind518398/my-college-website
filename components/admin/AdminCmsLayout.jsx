@@ -8,9 +8,16 @@ const AdminCmsContext = createContext(null);
 
 export const ADMIN_CMS_SECTIONS = [
   { id: "carousel", label: "Home Carousel" },
+  { id: "latest-updates", label: "Latest Updates" },
+  { id: "home-programme-cards", label: "Home Programme Cards" },
   { id: "college-campus-image", label: "Campus Image" },
+  { id: "contact-settings", label: "Contact & Social" },
+  { id: "about-messages", label: "About Messages" },
+  { id: "add-on-courses", label: "Add-On Courses" },
+  { id: "facilities", label: "Facilities" },
   { id: "campus-sections", label: "Campus Overview" },
   { id: "ug-programmes", label: "UG Programmes" },
+  { id: "pg-programmes", label: "PG Programmes" },
   { id: "placed-students", label: "Placed Students" },
   { id: "departments", label: "Departments" },
 ];

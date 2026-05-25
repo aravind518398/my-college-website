@@ -10,6 +10,8 @@ function Field({
   type = "text",
   multiline = false,
   options = null,
+  placeholder = "",
+  disabled = false,
 }) {
   const inputClass =
     "mt-2 w-full rounded-lg border border-[#d9e6f1] bg-white px-3 py-2.5 text-sm font-medium text-[#18213b] outline-none transition focus:border-[#179BD7] focus:ring-4 focus:ring-[#179BD7]/10";
@@ -40,14 +42,18 @@ function Field({
           name={name}
           defaultValue={defaultValue}
           rows={6}
+          placeholder={placeholder}
           className={`${inputClass} resize-y leading-6`}
+          disabled={disabled}
         />
       ) : (
         <input
           type={type}
           name={name}
+          placeholder={placeholder}
           defaultValue={defaultValue}
           className={inputClass}
+          disabled={disabled}
         />
       )}
     </label>
@@ -118,7 +124,7 @@ export default function UgProgrammesPanel({
               <div className="  sticky top-20 lg:top-1  border border-[#dce7f0] bg-white/10 p-2 rounded-lg mb-4 flex items-center justify-between gap-3 backdrop-blur">
                 <div>
                   <p className="text-[10px] sm:text-xs md:text-sm font-bold uppercase tracking-[0.16em] text-[#1ab69d]">
-                    {isNewRow ? "New programme" : `Programme ${programmeIndex + 1}`}
+                    {isNewRow ? "New Programme" : `Programme ${programmeIndex + 1}`}
                   </p>
 
                   <h3 className="mt-1 text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-[#18213b]">
@@ -142,21 +148,26 @@ export default function UgProgrammesPanel({
               <input type="hidden" name={`${prefix}-syllabus-count`} value={syllabusItems.length} />
 
               <div className="grid gap-4 md:grid-cols-2">
-                <Field label="Slug ID (URL)" name={`${prefix}-id`} defaultValue={programme.id || ""} icon={faPenToSquare} />
-                <Field label="Short Name" name={`${prefix}-shortName`} defaultValue={programme.shortName || ""} icon={faPenToSquare} />
+                <Field label="Slug ID (URL)" name={`${prefix}-id`} defaultValue={programme.id || ""} icon={faPenToSquare} placeholder={"eg: bca"} />
+                <Field label="Short Name" name={`${prefix}-shortName`} defaultValue={programme.shortName || ""} icon={faPenToSquare} placeholder={"eg: BCA"} />
                 <div className="md:col-span-2">
-                  <Field label="Full Title" name={`${prefix}-title`} defaultValue={programme.title || ""} icon={faPenToSquare} />
+                  <Field label="Full Title" name={`${prefix}-title`} defaultValue={programme.title || ""} icon={faPenToSquare} placeholder={"eg: Bachelor of Computer Applications"} />
+
                 </div>
-                <Field label="Table Program Name" name={`${prefix}-program`} defaultValue={programme.program || ""} icon={faPenToSquare} />
-                <Field label="Table Specialisation" name={`${prefix}-specialisation`} defaultValue={programme.specialisation || ""} icon={faPenToSquare} />
-                <Field label="Department" name={`${prefix}-department`} defaultValue={programme.department || ""} icon={faPenToSquare} />
-                <Field label="Focus" name={`${prefix}-focus`} defaultValue={programme.focus || ""} icon={faPenToSquare} />
+                <div className="md:col-span-2">
+                  <Field label="Focus" name={`${prefix}-focus`} defaultValue={programme.focus || ""} icon={faPenToSquare} placeholder={"eg: Comprehensive computer education with practical exposure and industry relevance"} />
+                </div>
+                <Field label="Programme Type" name={`${prefix}-programmeType`} defaultValue={programme.programmeType || ""} icon={faPenToSquare} options={["Regular", "Honours", "Honours with Research"]} />
+
+
+                <Field label="Department" name={`${prefix}-department`} defaultValue={programme.department || ""} icon={faPenToSquare} placeholder={"eg: Computer Application"} />
+
                 <Field label="Seats" name={`${prefix}-seats`} defaultValue={programme.seats ?? ""} icon={faPenToSquare} type="number" />
-                <Field label="Duration" name={`${prefix}-duration`} defaultValue={programme.duration || ""} icon={faPenToSquare} />
+                <Field label="Duration" name={`${prefix}-duration`} defaultValue={programme.duration || ""} icon={faPenToSquare} type="number" />
                 <Field label="Semesters" name={`${prefix}-semesters`} defaultValue={programme.semesters ?? ""} icon={faPenToSquare} type="number" />
                 <Field label="Fees (per semester)" name={`${prefix}-fees`} defaultValue={programme.fees ?? ""} icon={faPenToSquare} type="number" />
                 <Field label="Eligibility (one per line)" name={`${prefix}-eligibility`} defaultValue={(programme.eligibility || []).join("\n")} icon={faPenToSquare} multiline />
-                <Field label="Highlights (one per line)" name={`${prefix}-highlights`} defaultValue={(programme.highlights || []).join("\n")} icon={faPenToSquare} multiline />
+                <Field label="Specialisations (one per line)" name={`${prefix}-specialisations`} defaultValue={(programme.specialisations || []).join("\n")} icon={faPenToSquare} multiline />
               </div>
 
               <div className="mt-6 space-y-4 border-t border-[#dce7f0] pt-5">
@@ -179,16 +190,16 @@ export default function UgProgrammesPanel({
                         ) : null}
                       </div>
                       <div className="grid gap-4 md:grid-cols-2">
-                        <Field label="Label" name={`${syllabusPrefix}-label`} defaultValue={item.label || ""} icon={faPenToSquare} />
+                        <Field label="Label" name={`${syllabusPrefix}-label`} defaultValue={item.label || ""} icon={faPenToSquare} placeholder={"eg: BCA Semesters 1 & 2 Syllabus"} />
                         <Field
                           label="Status"
                           name={`${syllabusPrefix}-status`}
                           defaultValue={item.status || "Available"}
                           icon={faPenToSquare}
-                          options={["Available", "Not Available"]}
+                          options={["Available", "Coming soon"]}
                         />
                         <div className="md:col-span-2">
-                          <Field label="Detail" name={`${syllabusPrefix}-detail`} defaultValue={item.detail || ""} icon={faPenToSquare} multiline />
+                          <Field label="Detail" name={`${syllabusPrefix}-detail`} defaultValue={item.detail || ""} icon={faPenToSquare} multiline placeholder={"Describe the syllabus content, core subjects, practical training, project work, and learning outcomes for this semester."} />
                         </div>
                         <div className="md:col-span-2">
                           <Field label="PDF Path" name={`${syllabusPrefix}-href`} defaultValue={item.href || ""} icon={faPenToSquare} />

@@ -15,6 +15,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import Link from "next/link";
+import { defaultSiteSettings as sharedDefaults } from "@/lib/siteSettingsDefaults";
 import { useEffect, useRef, useState } from "react";
 
 const primaryLinks = [
@@ -23,7 +24,7 @@ const primaryLinks = [
     label: "About Us",
     href: "/about",
     items: [
-      { label: "About us", href: "/about" },
+      { label: "Introduction", href: "/about" },
       { label: "Vision", href: "/about#vision" },
       { label: "Messages", href: "/about#messages" },
       { label: "Code of Conduct", href: "/about/coc" },
@@ -34,15 +35,18 @@ const primaryLinks = [
     label: "Academics",
     href: "/academics",
     items: [
+      { label: "Introduction", href: "/academics" },
       { label: "UG Programmes", href: "/academics#ug-programmes" },
       { label: "PG Programmes", href: "/academics#pg-programmes" },
       { label: "Academic Calendar", href: "/academics#academic-calendar" },
+     
     ],
   },
   {
-    label: "Department",
+    label: "Departments",
     href: "/departments",
     items: [
+      { label: "Introduction", href: "/departments" },
       { label: "Department of Commerce", href: "/departments#commerce" },
       { label: "Department of Computer Application", href: "/departments#computer-application" },
       { label: "Department of Psychology", href: "/departments#psychology" },
@@ -55,6 +59,8 @@ const primaryLinks = [
     label: "Co-Curricular",
     href: "/co-curricular",
     items: [
+      { label: "Introduction", href: "/co-curricular" },
+      { label: "Our Activities", href: "/co-curricular#our-activities" },
       { label: "NSS", href: "/co-curricular#nss" },
     ],
   },
@@ -65,73 +71,67 @@ const primaryLinks = [
 ];
 const quickLinks = [
   { label: "Add On Courses", href: "/add-on-courses" },
+ 
 ];
 
 const menuGroups = [
-  {
-    title: "Admission",
-    items: [
-      { label: "UG Admission", href: "/admission#ug-admission" },
-      { label: "PG Admission", href: "/admission#pg-admission" },
-      { label: "Fee Structure", href: "/admission#fee-structure" },
-    ],
-    href: "/admission",
-  },
-  {
-    title: "Clubs",
-    items: [
-      "Nature Club",
-      "Literary Club",
-      "Media Club",
-      "Staff Recreation Club",
-      "KMM Veranda",
-      "Sports Club",
-      "Entrepreneurship Development Club",
-      "Social Outreach Club",
-      "Scholarship Support Club",
-      "Quiz Club",
-      "Yoga Club",
-      "Electoral Literacy Club",
-      "Arts Club",
-    ],
-    href: "/clubs",
-  },
-  {
-    title: "Cells",
-    items: [
-      "Internal Exam and Test Paper",
-      "OBC Cell",
-      "SC/ST Cell",
-      "RTI Act Cell",
-      "Women's Cell",
-      "Anti Drug Narcotic Cell",
-      "Minority Cell",
-      "Research Cell",
-      "Placement and Training Cell",
-      "IPR Cell",
-      "Counseling Cell",
-    ],
-    href: "/cells",
-  },
-  {
-    title: "Committees",
-    items: ["Anti Ragging", "Grievance Redressal Committee", "Internal Complaints Committee", "Energy Monitoring Committee"],
-    href: "/committees",
-  },
-  {
-    title: "Research",
-    items: ["Research Cell", "IIC", "IEDC"],
-    href: "/research",
-  },
-  {
-    title: "Student Support",
-    items: ["SQAC"],
-    href: "/student-support",
-  },
-  {
-    title: "IQAC",
-    href: "/iqac",
-  },
+  // {
+  //   title: "Committees",
+  //   items: ["Anti Ragging", "Grievance Redressal Committee", "Internal Complaints Committee", "Energy Monitoring Committee"],
+  //   href: "/committees",
+  // },
+  
+  // {
+  //   title: "Clubs",
+  //   items: [
+  //     "Nature Club",
+  //     "Literary Club",
+  //     "Media Club",
+  //     "Staff Recreation Club",
+  //     "KMM Veranda",
+  //     "Sports Club",
+  //     "Entrepreneurship Development Club",
+  //     "Social Outreach Club",
+  //     "Scholarship Support Club",
+  //     "Quiz Club",
+  //     "Yoga Club",
+  //     "Electoral Literacy Club",
+  //     "Arts Club",
+  //   ],
+  //   href: "/clubs",
+  // },
+  // {
+  //   title: "Cells",
+  //   items: [
+  //     "Internal Exam and Test Paper",
+  //     "OBC Cell",
+  //     "SC/ST Cell",
+  //     "RTI Act Cell",
+  //     "Women's Cell",
+  //     "Anti Drug Narcotic Cell",
+  //     "Minority Cell",
+  //     "Research Cell",
+  //     "Placement and Training Cell",
+  //     "IPR Cell",
+  //     "Counseling Cell",
+  //   ],
+  //   href: "/cells",
+  // },
+  
+  // {
+  //   title: "Research",
+  //   items: ["Research Cell", "IIC", "IEDC"],
+  //   href: "/research",
+  // },
+  // {
+  //   title: "Student Support",
+  //   items: ["SQAC"],
+  //   href: "/student-support",
+  // },
+  // {
+  //   title: "IQAC",
+  //   href: "/iqac",
+  // },
   {
     title: "Facilities",
     href: "/facilities",
@@ -149,19 +149,10 @@ const menuGroups = [
 
 const defaultSiteSettings = {
   identity: {
-    announcement: "KMM College Kumbalam Affiliated to MG University, Approved by AICTE & Govt. Of Kerala",
+    announcement: sharedDefaults.identity.announcement,
   },
-  contact: {
-    email: "kmmkumbalam@gmail.com",
-    primaryPhone: "9037002130",
-    secondaryPhone: "8590601342",
-  },
-  social: {
-    facebook: "https://facebook.com/Kmmcollegekumbalam",
-    instagram: "https://www.instagram.com/kmmcollege_kumbalam?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
-    youtube: "https://www.youtube.com/@kmmcollegeofartsandscience1164",
-    whatsapp: "https://wa.me/919037002130?text=Hi",
-  },
+  contact: sharedDefaults.contact,
+  social: sharedDefaults.social,
   images: {
     navLogo: "/images/kmm-nav-logo.png",
   },
@@ -228,11 +219,11 @@ export function ContactBar({ settings }) {
     <div className="hidden bg-[#18213b] text-white xl:block">
       <div className="mx-auto flex min-h-14 max-w-7xl items-center justify-between gap-6 px-6 text-sm">
         <div className="flex min-w-0 items-center gap-5">
-          <Link href="/admin/login" className="flex items-center gap-2 font-semibold transition-colors duration-300 hover:text-[#1ab69d]">
+          {/* <Link href="/admin/login" className="flex items-center gap-2 font-semibold transition-colors duration-300 hover:text-[#1ab69d]">
             <FontAwesomeIcon icon={faArrowRightToBracket} className="text-[#1ab69d]" />
             <span>Admin Login</span>
-          </Link>
-          <a href={`mailto:${settings.contact.email}`} className="hidden items-center gap-2 text-white/75 transition-colors duration-300 hover:text-white xl:flex">
+          </Link> */}
+          <a href="contact#enquiry-form" className="hidden items-center gap-2 text-white/75 transition-colors duration-300 hover:text-white xl:flex">
             <FontAwesomeIcon icon={faEnvelope} className="text-[#1ab69d]" />
             <span>{settings.contact.email}</span>
           </a>
@@ -467,17 +458,17 @@ export function MobileHeader({ settings }) {
                 <FontAwesomeIcon icon={faPhone} className="text-[#1ab69d]" />
                 <span>{settings.contact.primaryPhone}</span>
               </a>
-              <a href={`mailto:${settings.contact.email}`} className="flex min-w-0 items-center gap-2 transition-colors duration-300 hover:text-[#1ab69d]">
+              <a href="contact#enquiry-form" className="flex min-w-0 items-center gap-2 transition-colors duration-300 hover:text-[#1ab69d]">
                 <FontAwesomeIcon icon={faEnvelope} className="text-[#1ab69d]" />
                 <span className="break-all">{settings.contact.email}</span>
               </a>
             </div>
             <div className="mt-4 flex items-center justify-between gap-4">
               <SocialLinks social={settings.social} />
-              <Link href="#" className="flex items-center gap-2 rounded-br-2xl rounded-tl-2xl bg-white px-4 py-2 text-xs font-bold text-[#1469b8]">
-                Embase
+              {/* <Link href="/admin/login" className="flex items-center gap-2 rounded-br-2xl rounded-tl-2xl bg-white px-4 py-2 text-xs font-bold text-[#1469b8]">
+                Admin Login
                 <FontAwesomeIcon icon={faArrowRightToBracket} />
-              </Link>
+              </Link> */}
             </div>
           </div>
 

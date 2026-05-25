@@ -2,17 +2,13 @@ import { Suspense } from "react";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import UGProgramme from "../../components/Ugprograms";
+import PGProgramme from "../../components/Pgprograms";
+import { getPgProgrammes } from "@/lib/pgProgrammes";
 import { getUgProgrammes } from "@/lib/ugProgrammes";
 import Image from "next/image";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
-
-const pgProgrammes = [
-  { id: 1, program: "MSc", specialisation: "Psychology", seats: 40 },
-  { id: 2, program: "MBA", specialisation: "General Management", seats: 40 },
-  { id: 3, program: "MCA", specialisation: "Computer Applications", seats: 40 },
-];
 
 const ugCalendar = [
   { sem: "I & II (2024-25 Admission)", start: "-", end: "-", remarks: "Will inform later", holiday: false },
@@ -113,22 +109,24 @@ function ProgrammeSection({ title, description, programmes, accent, accentSoft, 
                 <tr>
                   <th className="px-5 py-4">Sl No</th>
                   <th className="px-5 py-4">Name of Program</th>
-                  <th className="px-5 py-4">Specialisation</th>
+                  <th className="px-5 py-4">Department</th>
                   <th className="px-5 py-4 text-right">No of Seats</th>
-                  <th className="px-5 py-4 text-right">Fees</th>
+                  <th className="px-5 py-4 text-right">Fees / Sem</th>
                 </tr>
               </thead>
               <tbody>
                 {programmes.map((row, index) => (
                   <tr
                     key={row.id}
-                    className={`border-b border-slate-100 last:border-b-0 ${
-                      index % 2 === 0 ? "bg-white" : "bg-slate-50"
-                    }`}
+                    className={`border-b border-slate-100 last:border-b-0 ${index % 2 === 0 ? "bg-white" : "bg-slate-50"
+                      }`}
                   >
                     <td className="px-5 py-4 font-bold text-[#18213b]">{row.id}</td>
-                    <td className="px-5 py-4 font-bold text-slate-900">{row.program}</td>
-                    <td className="px-5 py-4 text-slate-600">{row.specialisation}</td>
+                    <td className="px-5 py-4 font-bold text-slate-900">
+                      {row.shortName}
+                      {row.programType ? ` (${row.programType})` : " (Regular)"}
+                    </td>
+                    <td className="px-5 py-4 text-slate-600">{row.department}</td>
                     <td className="px-5 py-4 text-right">
                       <span className={`${accentSoft} inline-flex rounded-full px-3 py-1 text-xs font-bold`}>
                         {row.seats} Seats
@@ -213,9 +211,8 @@ function CalendarTable({ title, rows, accent, textAccent, holidayTone, icon }) {
             {rows.map((row, index) => (
               <tr
                 key={`${row.sem}-${index}`}
-                className={`border-b border-slate-100 last:border-b-0 ${
-                  row.holiday ? holidayTone : index % 2 === 0 ? "bg-white" : "bg-slate-50"
-                }`}
+                className={`border-b border-slate-100 last:border-b-0 ${row.holiday ? holidayTone : index % 2 === 0 ? "bg-white" : "bg-slate-50"
+                  }`}
               >
                 <td className={`px-5 py-4 font-bold ${textAccent}`}>{row.sem}</td>
                 <td className="px-5 py-4 text-slate-600">{row.start}</td>
@@ -235,15 +232,13 @@ function CalendarTable({ title, rows, accent, textAccent, holidayTone, icon }) {
         {rows.map((row, index) => (
           <div
             key={`${row.sem}-mobile-${index}`}
-            className={`rounded-lg border p-4 ${
-              row.holiday ? "border-amber-200 bg-amber-50" : "border-slate-200 bg-white"
-            }`}
+            className={`rounded-lg border p-4 ${row.holiday ? "border-amber-200 bg-amber-50" : "border-slate-200 bg-white"
+              }`}
           >
             <div className="flex items-start justify-between gap-3">
               <h4 className={`text-sm font-bold leading-6 ${textAccent}`}>{row.sem}</h4>
-              <span className={`shrink-0 rounded-full px-2.5 py-1 text-[11px] font-bold ${
-                row.holiday ? "bg-amber-200 text-amber-900" : `${accent} text-white`
-              }`}>
+              <span className={`shrink-0 rounded-full px-2.5 py-1 text-[11px] font-bold ${row.holiday ? "bg-amber-200 text-amber-900" : `${accent} text-white`
+                }`}>
                 {row.remarks}
               </span>
             </div>
@@ -270,88 +265,89 @@ function CalendarTable({ title, rows, accent, textAccent, holidayTone, icon }) {
 
 export default async function AcademicsPage() {
   const { tableRows: ugProgrammes } = await getUgProgrammes();
+  const { tableRows: pgProgrammes } = await getPgProgrammes();
 
   return (
     <>
       <Header />
       <main className="overflow-hidden bg-[#f7faf8] text-[#18213b]">
         <section className="relative overflow-hidden min-h-[480px] sm:min-h-[560px] lg:min-h-[680px]">
-  {/* Background Image */}
-  <Image
-    src="/images/peoples/banner-03.webp"
-    alt="Students in an academic laboratory"
-    fill
-    priority
-    sizes="100vw"
-    className="object-cover object-center"
-  />
+          {/* Background Image */}
+          <Image
+            src="/images/banner-03.webp"
+            alt="Students in an academic laboratory"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-center"
+          />
 
-  {/* Dark Overlay */}
-  <div className="absolute inset-0 bg-[#0f172a]/75" />
+          {/* Dark Overlay */}
+          <div className="absolute inset-0 bg-[#0f172a]/75" />
 
-  {/* Gradient Overlay */}
-  <div className="absolute inset-0 bg-gradient-to-r from-[#0f172a]/95 via-[#0f172a]/70 to-[#0f172a]/20" />
+          {/* Gradient Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0f172a]/95 via-[#0f172a]/70 to-[#0f172a]/20" />
 
-  {/* Decorative Blur */}
-  <div className="absolute -left-24 top-24 h-72 w-72 rounded-full bg-[#1ab69d]/20 blur-3xl" />
-  <div className="absolute bottom-0 right-0 h-80 w-80 rounded-full bg-[#179BD7]/20 blur-3xl" />
+          {/* Decorative Blur */}
+          <div className="absolute -left-24 top-24 h-72 w-72 rounded-full bg-[#1ab69d]/20 blur-3xl" />
+          <div className="absolute bottom-0 right-0 h-80 w-80 rounded-full bg-[#179BD7]/20 blur-3xl" />
 
-  {/* Content */}
-  <div className="relative z-10 mx-auto flex min-h-[480px] sm:min-h-[560px] lg:min-h-[680px] max-w-7xl items-center px-4 sm:px-6 lg:px-8">
-    <div className="max-w-3xl">
-      {/* Tag */}
-      <div className="mb-6 inline-flex items-center rounded-full border border-white/15 bg-white/10 px-4 py-1.5 backdrop-blur-md">
-        <span className="text-xs font-semibold uppercase tracking-[0.28em] text-[#1ab69d]">
-          KMM College
-        </span>
-      </div>
+          {/* Content */}
+          <div className="relative z-10 mx-auto flex min-h-[480px] sm:min-h-[560px] lg:min-h-[680px] max-w-7xl items-center px-4 sm:px-6 lg:px-8">
+            <div className="max-w-3xl">
+              {/* Tag */}
+              <div className="mb-6 inline-flex items-center rounded-full border border-white/15 bg-white/10 px-4 py-1.5 backdrop-blur-md">
+                <span className="text-xs font-semibold uppercase tracking-[0.28em] text-[#1ab69d]">
+                  KMM College
+                </span>
+              </div>
 
-      {/* Heading */}
-      <h1 className="text-4xl font-extrabold leading-tight tracking-tight text-white sm:text-5xl lg:text-7xl">
-        Academic Excellence
-        <span className="mt-2 block bg-gradient-to-l from-[#179BD7] to-[#1ab69d] bg-clip-text text-transparent">
-  For Your Future
-</span>
-      </h1>
+              {/* Heading */}
+              <h1 className="text-4xl font-extrabold leading-tight tracking-tight text-white sm:text-5xl lg:text-7xl">
+                Academic Excellence
+                <span className="mt-2 block bg-gradient-to-l from-[#179BD7] to-[#1ab69d] bg-clip-text text-transparent">
+                  For Your Future
+                </span>
+              </h1>
 
-      {/* Description */}
-      <p className="mt-6 max-w-2xl text-base leading-8 text-white/80 sm:text-lg">
-        Explore undergraduate and postgraduate programmes, semester
-        schedules, academic resources, holidays, and the official
-        academic calendar designed to support your educational journey.
-      </p>
+              {/* Description */}
+              <p className="mt-6 max-w-2xl text-base leading-8 text-white/80 sm:text-lg">
+                Explore undergraduate and postgraduate programmes, semester
+                schedules, academic resources, holidays, and the official
+                academic calendar designed to support your educational journey.
+              </p>
 
-      {/* Buttons */}
-      <div className="mt-10 flex flex-wrap gap-4">
-        <Link href="/academics#ug-programme-details" className="group inline-flex w-fit cursor-pointer items-center gap-2 rounded-br-2xl rounded-tl-2xl bg-gradient-to-r from-[#179BD7] to-[#1ab69d] px-5 py-3 text-sm font-bold text-white shadow-xl shadow-[#179BD7]/25 transition-all duration-300 hover:-translate-y-1">
-              Explore Programmes
-              <FontAwesomeIcon icon={faArrowRight} className="text-xs transition-transform duration-300 group-hover:translate-x-1" />
-            </Link>
+              {/* Buttons */}
+              <div className="mt-10 flex flex-wrap gap-4">
+                <Link href="/academics#ug-programme-details" className="group inline-flex w-fit cursor-pointer items-center gap-2 rounded-br-2xl rounded-tl-2xl bg-gradient-to-r from-[#179BD7] to-[#1ab69d] px-5 py-3 text-sm font-bold text-white shadow-xl shadow-[#179BD7]/25 transition-all duration-300 hover:-translate-y-1">
+                  Explore Programmes
+                  <FontAwesomeIcon icon={faArrowRight} className="text-xs transition-transform duration-300 group-hover:translate-x-1" />
+                </Link>
 
-        <Link href="/academics#academic-calendar" className="inline-flex w-fit cursor-pointer items-center gap-2 rounded-br-2xl rounded-tl-2xl bg-white/12 px-5 py-3 text-sm font-bold text-white ring-1 ring-white/25 backdrop-blur transition-all duration-300 hover:bg-white hover:text-[#18213b]">
-               Academic Calendar
-            </Link>
-      </div>
-    </div>
-  </div>
-</section>
-    <div id="ug-programmes" className="scroll-mt-14">
-        <ProgrammeSection
-          id="ug-programmes"
-          title="UG Programmes"
-          description="Undergraduate programmes designed for focused learning, practical growth and future leadership."
-          programmes={ugProgrammes}
-          accent="bg-[#18213b]"
-          accentSoft="bg-[#18213b]/10 text-[#18213b]"
-          label="Undergraduate"
-        />
-    </div>
+                <Link href="/academics#academic-calendar" className="inline-flex w-fit cursor-pointer items-center gap-2 rounded-br-2xl rounded-tl-2xl bg-white/12 px-5 py-3 text-sm font-bold text-white ring-1 ring-white/25 backdrop-blur transition-all duration-300 hover:bg-white hover:text-[#18213b]">
+                  Academic Calendar
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+        <div id="ug-programmes" className="scroll-mt-14">
+          <ProgrammeSection
+            id="ug-programmes"
+            title="UG Programmes"
+            description="Undergraduate programmes designed for focused learning, practical growth and future leadership."
+            programmes={ugProgrammes}
+            accent="bg-[#18213b]"
+            accentSoft="bg-[#18213b]/10 text-[#18213b]"
+            label="Undergraduate"
+          />
+        </div>
 
-    <Suspense fallback={<div className="h-96 bg-white" />}>
-      <UGProgramme />
-    </Suspense>
+        <Suspense fallback={<div className="h-96 bg-white" />}>
+          <UGProgramme />
+        </Suspense>
 
-        <div className="bg-white scroll-mt-14" id="pg-programmes">
+        <div className="scroll-mt-14 bg-white" id="pg-programmes">
           <ProgrammeSection
             title="PG Programmes"
             description="Postgraduate programmes for advanced academic excellence and professional readiness."
@@ -362,7 +358,11 @@ export default async function AcademicsPage() {
           />
         </div>
 
-        <section  className=" px-4 py-14 sm:px-6 lg:py-20 scroll-mt-14" id="academic-calendar">
+        <Suspense fallback={<div className="h-96 bg-white" />}>
+          <PGProgramme />
+        </Suspense>
+
+        <section className=" px-4 py-14 sm:px-6 lg:py-20 scroll-mt-14" id="academic-calendar">
           <SectionHeader
             eyebrow="Mahatma Gandhi University"
             title="Academic Calendar"

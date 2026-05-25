@@ -93,7 +93,7 @@ export default function UGProgramme() {
           setDocumentsRequired(data.documentsRequired);
         }
       })
-      .catch(() => {});
+      .catch(() => { });
 
     return () => {
       isMounted = false;
@@ -127,10 +127,10 @@ export default function UGProgramme() {
     return null;
   }
 
-  const availableCount = activeProgramme.syllabus.filter((item) => item.status === "Available").length;
+  const availableCount = (activeProgramme.syllabus || []).filter((item) => item.status === "Available").length;
 
   return (
-    <section  className="scroll-mt-[70px] lg:scroll-mt-24 bg-white px-4 py-14 sm:px-6 lg:py-20" id="ug-programme-details">
+    <section className="scroll-mt-[70px] lg:scroll-mt-24 bg-white px-4 py-14 sm:px-6 lg:py-20" id="ug-programme-details">
       <div className="mx-auto max-w-6xl">
         <div className="mb-10 grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
           <div>
@@ -151,15 +151,14 @@ export default function UGProgramme() {
                 type="button"
                 key={programme.id}
                 onClick={() => setActiveId(programme.id)}
-                className={`rounded-md px-3 py-3 text-left transition-all duration-200 ${
-                  activeId === programme.id
+                className={`rounded-md px-3 py-3 text-left transition-all duration-200 ${activeId === programme.id
                     ? `${programme.accent} text-white shadow-lg shadow-slate-300/50`
                     : "bg-white text-slate-600 hover:text-[#18213b]"
-                }`}
+                  }`}
               >
                 <span className="block text-sm font-bold">{programme.shortName}</span>
                 <span className={`mt-1 block text-[11px] font-semibold ${activeId === programme.id ? "text-white/70" : "text-slate-400"}`}>
-                  Honours
+                  {programme.programType || "Regular"}
                 </span>
               </button>
             ))}
@@ -171,7 +170,7 @@ export default function UGProgramme() {
             <div className="grid gap-6 lg:grid-cols-[1fr_550px] lg:items-end">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.24em] text-white/65">
-                  {activeProgramme.department}
+                  Department of {activeProgramme.department}
                 </p>
                 <h3 className="mt-3 max-w-3xl text-2xl font-bold leading-tight sm:text-3xl">
                   {activeProgramme.title}
@@ -180,20 +179,20 @@ export default function UGProgramme() {
                   {activeProgramme.focus}
                 </p>
               </div>
-            <div className="grid gap-3 grid-cols-2 md:grid-cols-4">
-              <Stat  label="Duration" value={activeProgramme.duration} />
-              <Stat  label="Semesters" value={activeProgramme.semesters} />
-              <Stat  label="Seats" value={activeProgramme.seats} />
-              <Stat  label="Fees / sem" value={activeProgramme.fees ? `₹${activeProgramme.fees}` : "—"} />
-            </div>
+              <div className="grid gap-3 grid-cols-2 md:grid-cols-4">
+                <Stat label="Duration" value={`${activeProgramme.duration} years`} />
+                <Stat label="Semesters" value={activeProgramme.semesters} />
+                <Stat label="Seats" value={activeProgramme.seats} />
+                <Stat label="Fees / sem" value={activeProgramme.fees ? `₹${activeProgramme.fees}` : "—"} />
+              </div>
             </div>
           </div>
 
           <div className="grid gap-0 lg:grid-cols-[360px_1fr]">
             <aside className="border-b border-slate-200 bg-white p-5 sm:p-6 lg:border-b-0 lg:border-r">
-              <h4 className="text-lg font-bold text-[#18213b]">Programme Strengths</h4>
+              <h4 className="text-lg font-bold text-[#18213b]">Specialisations</h4>
               <div className="mt-4 grid gap-3">
-                {activeProgramme.highlights.map((item) => (
+                {(activeProgramme.specialisations || []).map((item) => (
                   <div key={item} className="flex gap-3 rounded-lg bg-slate-50 p-3 text-sm font-semibold text-slate-700">
                     <span className={`mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full ${activeProgramme.softAccent}`}>
                       <Icon name="check" className="h-4 w-4" />
@@ -209,7 +208,7 @@ export default function UGProgramme() {
                 </p>
                 <p className="mt-2 text-3xl font-bold text-[#18213b]">
                   {availableCount}
-                  <span className="text-base text-slate-400">/{activeProgramme.syllabus.length}</span>
+                  <span className="text-base text-slate-400">/{(activeProgramme.syllabus || []).length}</span>
                 </p>
                 <p className="mt-1 text-sm leading-6 text-slate-600">
                   Available for download now.
@@ -224,7 +223,7 @@ export default function UGProgramme() {
                     Eligibility Criteria for Admission
                   </h4>
                   <div className="mt-4 grid gap-3">
-                    {activeProgramme.eligibility.map((item, index) => (
+                    {(activeProgramme.eligibility || []).map((item, index) => (
                       <div key={item} className="flex gap-3 rounded-lg border border-slate-200 bg-white p-4">
                         <span className={`${activeProgramme.softAccent} grid h-7 w-7 shrink-0 place-items-center rounded-full text-xs font-bold`}>
                           {index + 1}
@@ -259,12 +258,13 @@ export default function UGProgramme() {
                     </p>
                   </div>
                   <span className={`${activeProgramme.softAccent} w-fit rounded-full px-3 py-1 text-xs font-bold`}>
-                    {activeProgramme.shortName} Honours
+                    {activeProgramme.shortName} 
+                    {activeProgramme.programType ? ` ${activeProgramme.programType}` : " Regular"}
                   </span>
                 </div>
 
                 <div className="grid gap-3">
-                  {activeProgramme.syllabus.map((item) => (
+                  {(activeProgramme.syllabus || []).map((item) => (
                     <SyllabusItem key={item.label} item={item} programme={activeProgramme} />
                   ))}
                 </div>
