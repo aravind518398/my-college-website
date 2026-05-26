@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import Cards from "./Cards";
 
+
 export default function HomeContent({
   collegeCampus,
   campusSections,
@@ -20,7 +21,7 @@ export default function HomeContent({
     <div className="flex min-h-screen flex-col  cursor-default">
       <Header />
       <main className="min-h-0 flex-1">
-        <Carousel />
+        <Carousel/>
         <section className="relative overflow-hidden bg-[radial-gradient(circle_at_top_left,rgba(26,182,157,0.22),transparent_34%),radial-gradient(circle_at_bottom_right,rgba(23,155,215,0.24),transparent_32%),linear-gradient(135deg,#f7fbff_0%,#eef9f7_46%,#f5f7fb_100%)] px-4 py-12 sm:px-6 lg:px-8 lg:py-20">
           <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-white/80 to-transparent"></div>
           <div className="absolute -left-28 top-28 h-72 w-72 rounded-full bg-[#179BD7]/10 blur-3xl"></div>

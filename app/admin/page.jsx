@@ -41,6 +41,7 @@ import AboutMessagesPanel from "@/components/admin/AboutMessagesPanel";
 import AddOnCoursesPanel from "@/components/admin/AddOnCoursesPanel";
 import FacilitiesPanel from "@/components/admin/FacilitiesPanel";
 import HomeProgrammeCardsPanel from "@/components/admin/HomeProgrammeCardsPanel";
+import ImageUploadField from "@/components/admin/ImageUploadField";
 import PlacedStudentsPanel from "@/components/admin/PlacedStudentsPanel";
 import PgProgrammesPanel from "@/components/admin/PgProgrammesPanel";
 import UgProgrammesPanel from "@/components/admin/UgProgrammesPanel";
@@ -111,8 +112,12 @@ async function updatePlacedStudents(formData) {
     redirect("/admin/login");
   }
 
+  const existingStudents = await getPlacedStudents();
+  const currentSettings = await getSiteSettings();
+
   const rowCount = Number(formData.get("placed-row-count") || 0);
   const students = [];
+  let firstSubmittedImage = "";
 
   for (let studentIndex = 0; studentIndex < rowCount; studentIndex += 1) {
     const prefix = `placed-${studentIndex}`;
@@ -123,21 +128,41 @@ async function updatePlacedStudents(formData) {
     }
 
     const title = value(formData, `${prefix}-title`);
-    const image = value(formData, `${prefix}-image`);
+    const submittedImage = value(formData, `${prefix}-image`);
 
-    if (!title || !image) {
+    // Preserve existing student image when no new image was uploaded
+    const finalImage = submittedImage || (existingStudents?.[studentIndex]?.image || "");
+
+    if (submittedImage && !firstSubmittedImage) {
+      firstSubmittedImage = submittedImage;
+    }
+
+    if (!title || !finalImage) {
       continue;
     }
 
     students.push({
       id: value(formData, `${prefix}-id`) || `placed-${Date.now()}-${studentIndex}`,
       title,
-      image,
+      image: finalImage,
       alt: value(formData, `${prefix}-alt`),
     });
   }
 
   await savePlacedStudents(students);
+
+  // If any new image was uploaded in this save, persist it to site settings
+  if (firstSubmittedImage) {
+    await saveSiteSettings({
+      ...currentSettings,
+      images: {
+        ...currentSettings.images,
+        collegeCampusImage: firstSubmittedImage,
+      },
+    });
+    revalidatePath("/", "layout");
+    revalidatePath("/about");
+  }
 
   revalidatePath("/placements");
   redirect("/admin?placedStudentsSaved=1#placed-students");
@@ -327,7 +352,7 @@ async function updateCampusSections(formData) {
   if (!session?.user) {
     redirect("/admin/login");
   }
-
+  const currentSections = await getCampusSections();
   const rowCount = Number(formData.get("campus-row-count") || 0);
   const sections = [];
 
@@ -340,9 +365,12 @@ async function updateCampusSections(formData) {
     }
 
     const title = value(formData, `${prefix}-title`);
-    const img = value(formData, `${prefix}-img`);
+    const submittedImg = value(formData, `${prefix}-img`);
 
-    if (!title || !img) {
+    // Preserve existing image when no new image was uploaded
+    const finalImg = submittedImg || (currentSections?.[sectionIndex]?.img || "");
+
+    if (!title || !finalImg) {
       continue;
     }
 
@@ -350,7 +378,7 @@ async function updateCampusSections(formData) {
       id: value(formData, `${prefix}-id`) || `campus-${Date.now()}-${sectionIndex}`,
       title,
       label: value(formData, `${prefix}-label`),
-      img,
+      img: finalImg,
       alt: value(formData, `${prefix}-alt`),
       description: value(formData, `${prefix}-description`),
     });
@@ -386,7 +414,16 @@ async function updateCarousel(formData) {
     const title = value(formData, `${prefix}-title`);
     const image = value(formData, `${prefix}-image`);
 
-    if (!title || !image) {
+    // fallback to existing slide image when the submitted image value is empty
+    const finalImage = image || (currentSlides?.[slideIndex]?.image || "");
+
+    // debug: log received image values for troubleshooting
+    try {
+      // eslint-disable-next-line no-console
+      console.log(`updateCarousel: slide ${slideIndex} image received ->`, image, "final ->", finalImage);
+    } catch (err) {}
+
+    if (!title || !finalImage) {
       continue;
     }
 
@@ -395,7 +432,7 @@ async function updateCarousel(formData) {
       title,
       eyebrow: value(formData, `${prefix}-eyebrow`),
       description: value(formData, `${prefix}-description`),
-      image,
+      image: finalImage,
       alt: value(formData, `${prefix}-alt`),
     });
   }
@@ -704,11 +741,14 @@ async function updateCollegeCampusImage(formData) {
 
   const current = await getSiteSettings();
 
+  const submittedImage = value(formData, "collegeCampusImage");
+  const finalImage = submittedImage || (current.images && current.images.collegeCampusImage) || "";
+
   await saveSiteSettings({
     ...current,
     images: {
       ...current.images,
-      collegeCampusImage: value(formData, "collegeCampusImage"),
+      collegeCampusImage: finalImage,
       collegeCampusAlt: value(formData, "collegeCampusAlt"),
     },
   });
@@ -843,6 +883,7 @@ function Field({
   multiline = false,
   options = null,
   min, 
+  step,
   maxLength,
   placeholder,
 }) {
@@ -881,6 +922,7 @@ function Field({
           defaultValue={defaultValue}
           className={inputClass}
           min={min}
+          step={step}
           placeholder={placeholder}
           maxLength={maxLength}
         />
@@ -1145,7 +1187,7 @@ export default async function AdminPage({ searchParams }) {
                 <Panel
                   id="carousel"
                   title="Home Carousel"
-                  description={`Manage up to ${MAX_CAROUSEL_SLIDES} homepage hero slides. Edit title, eyebrow, description, image path, and image description. Tick delete to remove a slide, or fill the blank row to add a new one.`}
+                  description={`Manage up to ${MAX_CAROUSEL_SLIDES} homepage hero slides. Upload or replace images, edit text, and tick delete to remove a slide.`}
                   icon={faImage}
                 >
                   <input type="hidden" name="carousel-row-count" value={carouselRowCount} />
@@ -1198,7 +1240,13 @@ export default async function AdminPage({ searchParams }) {
                             <div className="md:col-span-2">
                               <Field label="Description" name={`${prefix}-description`} defaultValue={slide.description || ""} icon={faPenToSquare} multiline />
                             </div>
-                            <Field label="Image Path" name={`${prefix}-image`} defaultValue={slide.image || ""} icon={faImage} />
+                            <ImageUploadField
+                              label="Image"
+                              name={`${prefix}-image`}
+                              defaultValue={slide.image || ""}
+                              previewAlt={slide.alt || slide.title || "Carousel image preview"}
+                              variant="carousel"
+                            />
                             <Field label="Image Description" name={`${prefix}-alt`} defaultValue={slide.alt || ""} icon={faPenToSquare} />
                           </div>
                         </article>
@@ -1357,7 +1405,7 @@ export default async function AdminPage({ searchParams }) {
                         multiline
                       />
                     </div>
-                    <Field
+                    {/* <Field
                       label="Google Maps Link"
                       name="mapUrl"
                       defaultValue={settings.contact.mapUrl}
@@ -1368,7 +1416,7 @@ export default async function AdminPage({ searchParams }) {
                       name="mapEmbedUrl"
                       defaultValue={settings.contact.mapEmbedUrl}
                       icon={faLink}
-                    />
+                    /> */}
                   </div>
 
                   <div className="mt-8 border-t border-[#e1ebf4] pt-6">
@@ -1444,11 +1492,12 @@ export default async function AdminPage({ searchParams }) {
                   icon={faImage}
                 >
                   <div className="grid gap-4 md:grid-cols-2">
-                    <Field
-                      label="Image Path"
+                    <ImageUploadField
+                      label="Image"
                       name="collegeCampusImage"
                       defaultValue={settings.images.collegeCampusImage}
-                      icon={faImage}
+                      previewAlt="College campus image preview"
+                      variant="campus"
                     />
                     <Field
                       label="Image Description"
@@ -1552,7 +1601,13 @@ export default async function AdminPage({ searchParams }) {
                             <div className="md:col-span-2">
                               <Field label="Description" name={`${prefix}-description`} defaultValue={section.description || ""} icon={faPenToSquare} multiline />
                             </div>
-                            <Field label="Image Path" name={`${prefix}-img`} defaultValue={section.img || ""} icon={faImage} />
+                            <ImageUploadField
+                              label="Image"
+                              name={`${prefix}-img`}
+                              defaultValue={section.img || ""}
+                              previewAlt={section.title || "Campus section image preview"}
+                              variant="campus"
+                            />
                             <Field label="Image Description" name={`${prefix}-alt`} defaultValue={section.alt || ""} icon={faPenToSquare} />
                           </div>
                         </article>
@@ -1679,16 +1734,18 @@ export default async function AdminPage({ searchParams }) {
                                       defaultValue={faculty.experience || ""}
                                       icon={faPenToSquare}
                                       type="number"
+                                      step="any"
                                       min={0}
                                     />
 
                                     
 
-                                    <Field
-                                      label="Photo Path"
+                                    <ImageUploadField
+                                      label="Photo"
                                       name={`${prefix}-photo`}
                                       defaultValue={faculty.photo || ""}
-                                      icon={faImage}
+                                      previewAlt={faculty.name || "Faculty photo preview"}
+                                      variant="faculty"
                                     />
                                   </div>
                                 </div>

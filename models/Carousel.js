@@ -1,5 +1,41 @@
 import mongoose from "mongoose";
 
+const CarouselSlideSchema = new mongoose.Schema(
+  {
+    id: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    title: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    eyebrow: {
+      type: String,
+      default: "",
+      trim: true,
+    },
+    description: {
+      type: String,
+      default: "",
+      trim: true,
+    },
+    image: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    alt: {
+      type: String,
+      default: "",
+      trim: true,
+    },
+  },
+  { _id: false }
+);
+
 const CarouselSchema = new mongoose.Schema(
   {
     key: {
@@ -9,7 +45,7 @@ const CarouselSchema = new mongoose.Schema(
       index: true,
     },
     slides: {
-      type: Array,
+      type: [CarouselSlideSchema],
       default: [],
     },
   },

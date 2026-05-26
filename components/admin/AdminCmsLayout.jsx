@@ -25,6 +25,7 @@ export const ADMIN_CMS_SECTIONS = [
 export function AdminCmsProvider({ children, defaultSection = "carousel" }) {
   const [activeSection, setActiveSection] = useState(defaultSection);
   const [navOpen, setNavOpen] = useState(true);
+  const [uploadingCount, setUploadingCount] = useState(0);
 
   useEffect(() => {
     const syncFromHash = () => {
@@ -56,8 +57,22 @@ export function AdminCmsProvider({ children, defaultSection = "carousel" }) {
 
   const closeNav = () => setNavOpen(false);
 
+  const startUpload = () => setUploadingCount((c) => c + 1);
+  const finishUpload = () => setUploadingCount((c) => Math.max(0, c - 1));
+
   return (
-    <AdminCmsContext.Provider value={{ activeSection, selectSection, navOpen, toggleNav, closeNav }}>
+    <AdminCmsContext.Provider
+      value={{
+        activeSection,
+        selectSection,
+        navOpen,
+        toggleNav,
+        closeNav,
+        uploadingCount,
+        startUpload,
+        finishUpload,
+      }}
+    >
       {children}
     </AdminCmsContext.Provider>
   );
@@ -110,14 +125,22 @@ export function AdminCmsSection({ id, children }) {
 }
 
 export function AdminStickySave({ label = "Save changes" }) {
+  const { uploadingCount } = useAdminCms();
+
   return (
     <div className="sticky bottom-1  z-20 mt-3 flex justify-end rounded-xl border border-[#dce7f0] bg-white/10 p-3 shadow-xs backdrop-blur">
       <button
         type="submit"
-        className="inline-flex h-12 items-center  gap-3 rounded-lg bg-gradient-to-r from-[#179BD7] to-[#1ab69d] px-6 text-sm font-bold text-white shadow-lg shadow-[#179BD7]/20 transition hover:-translate-y-0.5"
+        disabled={uploadingCount > 0}
+        className={`inline-flex h-12 items-center  gap-3 rounded-lg px-6 text-sm font-bold text-white shadow-lg transition ${
+          uploadingCount > 0
+            ? "bg-gray-400 cursor-not-allowed"
+            : "bg-gradient-to-r from-[#179BD7] to-[#1ab69d] hover:-translate-y-0.5 shadow-[#179BD7]/20"
+        }`}
+        title={uploadingCount > 0 ? "Please wait for image uploads to finish" : undefined}
       >
         <FontAwesomeIcon icon={faFloppyDisk} />
-        {label}
+        {uploadingCount > 0 ? "Uploading images..." : label}
       </button>
     </div>
   );

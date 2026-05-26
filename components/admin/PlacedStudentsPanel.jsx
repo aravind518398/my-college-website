@@ -1,8 +1,9 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBriefcase, faImage, faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { AdminStickySave } from "./AdminCmsLayout";
+import ImageUploadField from "./ImageUploadField";
 
-function Field({ label, name, defaultValue, icon, multiline = false }) {
+function Field({ label, name, defaultValue, icon, multiline = false, placeholder = "" }) {
   const inputClass =
     "mt-2 w-full rounded-lg border border-[#d9e6f1] bg-white px-3 py-2.5 text-sm font-medium text-[#18213b] outline-none transition focus:border-[#179BD7] focus:ring-4 focus:ring-[#179BD7]/10";
 
@@ -13,9 +14,9 @@ function Field({ label, name, defaultValue, icon, multiline = false }) {
         {label}
       </span>
       {multiline ? (
-        <textarea name={name} defaultValue={defaultValue} rows={3} className={`${inputClass} resize-y leading-6`} />
+        <textarea name={name} defaultValue={defaultValue} rows={3} className={`${inputClass} resize-y leading-6`} placeholder={placeholder} />
       ) : (
-        <input type="text" name={name} defaultValue={defaultValue} className={inputClass} />
+        <input type="text" name={name} defaultValue={defaultValue} className={inputClass} placeholder={placeholder} />
       )}
     </label>
   );
@@ -83,10 +84,16 @@ export default function PlacedStudentsPanel({ students, studentRowCount }) {
               {!isNewRow ? <input type="hidden" name={`${prefix}-id`} value={student.id} /> : null}
 
               <div className="grid gap-4 md:grid-cols-2">
-                <Field label="Title" name={`${prefix}-title`} defaultValue={student.title || ""} icon={faPenToSquare} />
-                <Field label="Image Path" name={`${prefix}-image`} defaultValue={student.image || ""} icon={faImage} />
+                <Field label="Title" name={`${prefix}-title`} defaultValue={student.title || ""} icon={faPenToSquare} placeholder="eg: Arjun Suresh, B.Com 2021–2024" />
+                <ImageUploadField
+                  label="Image"
+                  name={`${prefix}-image`}
+                  defaultValue={student.image || ""}
+                  previewAlt={student.title || "Placed student image preview"}
+                  variant="placedStudents"
+                />
                 <div className="md:col-span-2">
-                  <Field label="Alt Text" name={`${prefix}-alt`} defaultValue={student.alt || ""} icon={faPenToSquare} />
+                  <Field label="Image Description" name={`${prefix}-alt`} defaultValue={student.alt || ""} icon={faPenToSquare} placeholder="eg: Arjun B.Com placement announcement" />
                 </div>
               </div>
             </article>

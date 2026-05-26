@@ -436,7 +436,7 @@ export default async function AcademicsPage() {
               </div>
 
               <a
-                href="/documents/Academic-Calendar_2024-25).pdf"
+                href="/documents/Academic-Calendar_2024-25.pdf"
                 download="Academic-Calendar-2024-25.pdf"
                 className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#18213b] px-5 py-3 text-sm font-bold text-white transition-colors duration-200 hover:bg-[#1ab69d] sm:w-auto"
               >
