@@ -39,7 +39,7 @@ const primaryLinks = [
       { label: "UG Programmes", href: "/academics#ug-programmes" },
       { label: "PG Programmes", href: "/academics#pg-programmes" },
       { label: "Academic Calendar", href: "/academics#academic-calendar" },
-     
+
     ],
   },
   {
@@ -71,7 +71,7 @@ const primaryLinks = [
 ];
 const quickLinks = [
   { label: "Add On Courses", href: "/add-on-courses" },
- 
+
 ];
 
 const menuGroups = [
@@ -80,7 +80,7 @@ const menuGroups = [
   //   items: ["Anti Ragging", "Grievance Redressal Committee", "Internal Complaints Committee", "Energy Monitoring Committee"],
   //   href: "/committees",
   // },
-  
+
   // {
   //   title: "Clubs",
   //   items: [
@@ -117,7 +117,7 @@ const menuGroups = [
   //   ],
   //   href: "/cells",
   // },
-  
+
   // {
   //   title: "Research",
   //   items: ["Research Cell", "IIC", "IEDC"],
@@ -172,7 +172,7 @@ export default function Header() {
           setSettings(data.settings);
         }
       })
-      .catch(() => {});
+      .catch(() => { });
 
     return () => {
       isMounted = false;
@@ -563,32 +563,27 @@ export function MobileHeader({ settings }) {
 }
 
 function SocialLinks({ social }) {
+  const links = [
+    { label: "Instagram", icon: faInstagram, href: social.instagram },
+    { label: "Facebook", icon: faFacebook, href: social.facebook },
+    { label: "YouTube", icon: faYoutube, href: social.youtube },
+    { label: "WhatsApp", icon: faWhatsapp, href: social.whatsapp },
+  ].filter((item) => item.href);
+
   return (
     <div className="flex items-center gap-4">
-      {social.instagram?.trim() && (
-        <a href={social.instagram} target="_blank" rel="noopener noreferrer" className="transition-colors duration-300 hover:text-[#1ab69d]" aria-label="Instagram">
-          <FontAwesomeIcon icon={faInstagram} />
-        </a>
-      )}
-      {social.facebook?.trim() && (
-        <a href={social.facebook} target="_blank" rel="noopener noreferrer" className="transition-colors duration-300 hover:text-[#1ab69d]" aria-label="Facebook">
-          <FontAwesomeIcon icon={faFacebook} />
-        </a>
-      )}
-      {social.youtube?.trim() && (
+      {links.map((item) => (
         <a
-    href={social.youtube}
-    target="_blank"
-    rel="noopener noreferrer"
-    className="transition-colors duration-300 hover:text-[#1ab69d]"
-    aria-label="YouTube"
-  >
-    <FontAwesomeIcon icon={faYoutube} />
-  </a>
-)}
-      <a href={social.whatsapp} target="_blank" rel="noopener noreferrer" className="transition-colors duration-300 hover:text-[#1ab69d]" aria-label="WhatsApp">
-        <FontAwesomeIcon icon={faWhatsapp} />
-      </a>
+          key={item.label}
+          href={item.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="transition-colors duration-300 hover:text-[#1ab69d]"
+          aria-label={item.label}
+        >
+          <FontAwesomeIcon icon={item.icon} />
+        </a>
+      ))}
     </div>
   );
 }

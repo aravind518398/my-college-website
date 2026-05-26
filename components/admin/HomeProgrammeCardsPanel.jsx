@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGraduationCap, faImage, faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { AdminStickySave } from "./AdminCmsLayout";
+import ImageUploadField from "./ImageUploadField";
 
 function Field({
   label,
@@ -83,7 +84,13 @@ function CardRows({ title, cards, prefix, canAdd }) {
                 icon={faPenToSquare}
                 placeholder={"eg: bca"}
               />
-              <Field label="Image Path" name={`${rowPrefix}-img`} defaultValue={card.img || ""} icon={faImage} />
+              <ImageUploadField 
+              label="Image Path" 
+              name={`${rowPrefix}-img`} 
+              defaultValue={card.img || ""} 
+              icon={faImage} 
+              variant="placedStudents"
+              />
               <div className="md:col-span-2">
                 <Field
                   label="Short Description"

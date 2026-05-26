@@ -258,7 +258,7 @@ export default function CoCurricular() {
                                     <div className="relative">
                                         <div className="absolute -inset-1 rounded-full bg-gradient-to-br from-[#1ab69d]/20 to-[#12826f]/10 blur opacity-75 transition group-hover:opacity-100" />
                                         <Image
-                                            src="/images/peoples/nss_person_2.jpg"
+                                            src="/images/peoples/person_left.png"
                                             width={160}
                                             height={160}
                                             alt="NSS Program Officer 1"
@@ -278,7 +278,7 @@ export default function CoCurricular() {
                                     <div className="relative">
                                         <div className="absolute -inset-1 rounded-full bg-gradient-to-br from-[#1ab69d]/20 to-[#12826f]/10 blur opacity-75 transition group-hover:opacity-100" />
                                         <Image
-                                            src="/images/peoples/nss_person_1.avif"
+                                            src="/images/peoples/person_right.png"
                                             width={160}
                                             height={160}
                                             alt="NSS Program Officer 2"

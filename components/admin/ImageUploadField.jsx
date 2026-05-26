@@ -21,6 +21,9 @@ export default function ImageUploadField({
     faculty:
       "relative h-20 w-20 shrink-0 overflow-hidden rounded-full ring-4 ring-white shadow-lg shadow-[#18213b]/10",
 
+    person:
+    "relative h-[240px] w-[240px] overflow-hidden rounded-full shadow-2xl transition duration-300 group-hover:scale-105",
+
     carousel:
       "relative aspect-[16/9] w-full overflow-hidden rounded-2xl border border-[#d9e6f1] bg-[#edf5fb] shadow-lg shadow-[#18213b]/5",
     campus:

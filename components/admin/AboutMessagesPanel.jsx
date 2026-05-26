@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faQuoteLeft, faTrash, faUser } from "@fortawesome/free-solid-svg-icons";
 import { AdminStickySave } from "./AdminCmsLayout";
+import ImageUploadField from "./ImageUploadField";
 
 function Field({
   label,
@@ -131,14 +132,7 @@ export default function AboutMessagesPanel({
                   defaultValue={message.role || ""}
                   icon={faPenToSquare}
                 />
-                <div className="md:col-span-2">
-                  <Field
-                    label="Photo Path"
-                    name={`${prefix}-image`}
-                    defaultValue={message.image || ""}
-                    icon={faPenToSquare}
-                  />
-                </div>
+                
                 <div className="md:col-span-2">
                   <Field
                     label="Quote"
@@ -155,6 +149,16 @@ export default function AboutMessagesPanel({
                   icon={faPenToSquare}
                 />
                 <div className="md:col-span-2">
+                  <ImageUploadField
+                    label="Photo Path"
+                    name={`${prefix}-image`}
+                    defaultValue={message.image || ""}
+                    icon={faPenToSquare}
+                    className="h-full w-full object-cover"
+                    variant="person"
+                  />
+                </div>
+                <div className="md:col-span-2">
                   <Field
                     label="Message Paragraphs (one per line)"
                     name={`${prefix}-paragraphs`}
@@ -163,6 +167,7 @@ export default function AboutMessagesPanel({
                     multiline
                   />
                 </div>
+                
               </div>
             </article>
           );
