@@ -26,17 +26,26 @@ function getAllowedGitHubEmails() {
 export const { handlers, auth, signIn, signOut } = NextAuth({
   session: {
     strategy: "jwt",
+    maxAge: 8 * 60 * 60, // 8 hours
+    updateAge: 0,
   },
+
+  jwt: {
+    maxAge: 8 * 60 * 60, // 8 hours
+  },
+
   providers: [
     GitHub({
       clientId: process.env.AUTH_GITHUB_ID,
       clientSecret: process.env.AUTH_GITHUB_SECRET,
     }),
+
     Credentials({
       credentials: {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
+
       async authorize(credentials) {
         const parsedCredentials = loginSchema.safeParse(credentials);
 
@@ -54,7 +63,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           return null;
         }
 
-        const isPasswordValid = await bcrypt.compare(password, user.password);
+        const isPasswordValid = await bcrypt.compare(
+          password,
+          user.password
+        );
 
         if (!isPasswordValid) {
           return null;
@@ -68,6 +80,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       },
     }),
   ],
+
   callbacks: {
     async signIn({ user, account }) {
       if (account?.provider !== "github") {
@@ -100,23 +113,26 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
       return true;
     },
+
     async jwt({ token, user }) {
       if (user) {
-        token.id = user.id;  // ✅ Add this — needed to identify user in session
+        token.id = user.id;
         token.role = user.role ?? "admin";
       }
 
       return token;
     },
+
     async session({ session, token }) {
       if (session.user) {
-        session.user.id = token.id;    // ✅ Add this
+        session.user.id = token.id;
         session.user.role = token.role;
       }
 
       return session;
     },
   },
+
   pages: {
     signIn: "/admin/login",
   },

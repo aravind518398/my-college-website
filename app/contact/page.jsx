@@ -1,6 +1,7 @@
 "use client";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import Link from "next/link";
 import {
   faClock,
   faEnvelope,
@@ -220,8 +221,8 @@ export default function Contact() {
                     {contactSettings.primaryPhone}
                   </span>
                 </a>
-                <a
-                  href={`mailto:${contactSettings.email}`}
+                <Link
+                  href="/contact#enquiry-form"
                   className="group rounded-2xl border border-white/10 bg-white/[0.08] p-4 transition hover:border-[#1ab69d] hover:bg-[#1ab69d]"
                 >
                   <span className="grid h-11 w-11 place-items-center rounded-xl bg-white text-[#18213b]">
@@ -233,7 +234,7 @@ export default function Contact() {
                   <span className="mt-1 block break-words text-sm font-bold leading-6 text-white">
                     {contactSettings.email}
                   </span>
-                </a>
+                </Link>
               </div>
             </div>
 

@@ -416,7 +416,8 @@ async function updateLatestUpdates(formData) {
   }
 
   const rowCount = Number(formData.get("latest-updates-row-count") || 0);
-  const updates = [];
+  const newRows = [];
+  const existingRows = [];
 
   for (let updateIndex = 0; updateIndex < rowCount; updateIndex += 1) {
     const prefix = `latest-updates-${updateIndex}`;
@@ -432,14 +433,23 @@ async function updateLatestUpdates(formData) {
       continue;
     }
 
-    updates.push({
-      id: value(formData, `${prefix}-id`) || `update-${Date.now()}-${updateIndex}`,
+    const idValue = value(formData, `${prefix}-id`);
+    const entry = {
+      id: idValue || `update-${Date.now()}-${updateIndex}`,
       title,
       date: value(formData, `${prefix}-date`),
-    });
+    };
+
+    if (!idValue) {
+      newRows.push(entry);
+    } else {
+      existingRows.push(entry);
+    }
   }
 
-  await saveLatestUpdates(updates.slice(0, MAX_LATEST_UPDATES));
+  const updates = [...newRows, ...existingRows].slice(0, MAX_LATEST_UPDATES);
+
+  await saveLatestUpdates(updates);
 
   revalidatePath("/");
   redirect("/admin?latestUpdatesSaved=1#latest-updates");
