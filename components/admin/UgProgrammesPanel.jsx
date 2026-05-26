@@ -121,7 +121,7 @@ export default function UgProgrammesPanel({
 
           return (
             <article id={programme.id || undefined} key={programme.id || `new-${programmeIndex}`} className="scroll-mt-24 lg:scroll-mt-4 rounded-xl border border-[#dce7f0] bg-[#fbfdff] p-4">
-              <div className="  sticky top-20 lg:top-1  border border-[#dce7f0] bg-white/10 p-2 rounded-lg mb-4 flex items-center justify-between gap-3 backdrop-blur">
+              <div className="  sticky top-20 lg:top-1  border border-[#1ab69d] bg-white/10 p-2 rounded-lg mb-4 flex items-center justify-between gap-3 backdrop-blur">
                 <div>
                   <p className="text-[10px] sm:text-xs md:text-sm font-bold uppercase tracking-[0.16em] text-[#1ab69d]">
                     {isNewRow ? "New Programme" : `Programme ${programmeIndex + 1}`}

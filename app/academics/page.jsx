@@ -274,7 +274,7 @@ export default async function AcademicsPage() {
         <section className="relative overflow-hidden min-h-[480px] sm:min-h-[560px] lg:min-h-[680px]">
           {/* Background Image */}
           <Image
-            src="/images/banner-03.webp"
+            src="/images/computer_lab_photo-2.webp"
             alt="Students in an academic laboratory"
             fill
             priority

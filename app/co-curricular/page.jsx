@@ -181,8 +181,7 @@ export default function CoCurricular() {
                             <aside className="flex flex-col items-center rounded-2xl border border-[#d6e8e2] bg-[#f7faf8] p-6 sm:p-7">
                                 <div className="rounded-full bg-white p-4 shadow-[0_12px_28px_-18px_rgba(24,33,59,0.55)]">
                                     <Image
-                                        src="/images/nss-logo.webp
-                                        "
+                                        src="/images/nss-logo.webp"
                                         width={140}
                                         height={140}
                                         alt="NSS Logo"
