@@ -270,7 +270,7 @@ export default function Placements() {
             <div className="grid overflow-hidden rounded-[28px] border border-[#d6e8e2] bg-[#18213b] shadow-[0_24px_60px_-40px_rgba(24,33,59,0.75)] lg:grid-cols-[0.95fr_1.05fr]">
               <div className="relative min-h-[260px] sm:min-h-[360px] lg:min-h-full">
                 <Image
-                  src="/images/close-up-graduation-certificate.png"
+                  src="/images/close-up-graduation-certificate.webp"
                   alt="Graduate holding a certificate"
                   fill
                   sizes="(min-width: 1024px) 50vw, 100vw"
