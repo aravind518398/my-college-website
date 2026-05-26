@@ -181,7 +181,7 @@ export default function Placements() {
                 <div className="grid gap-5 sm:grid-cols-[0.8fr_1.2fr]">
                   <div className="overflow-hidden rounded-[24px] bg-white shadow-xl shadow-[#18213b]/10">
                     <Image
-                      src="/images/close-up-graduation-certificate.png"
+                      src="/images/close-up-graduation-certificate.webp"
                       width={360}
                       height={440}
                       alt="Graduate holding a certificate"
