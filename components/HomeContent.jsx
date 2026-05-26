@@ -1,6 +1,4 @@
-
 import Image from "next/image";
-
 import Carousel from "./Carousel";
 import Footer from "./Footer";
 import Header from "./Header";
@@ -10,18 +8,20 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import Cards from "./Cards";
 
-
 export default function HomeContent({
   collegeCampus,
   campusSections,
   ugProgrammeCards,
   pgProgrammeCards,
+  initialCarouselSlides, // <-- FIXED: Added this here to receive the array from app/page.jsx
 }) {
   return (
-    <div className="flex min-h-screen flex-col  cursor-default">
+    <div className="flex min-h-screen flex-col cursor-default">
       <Header />
       <main className="min-h-0 flex-1">
-        <Carousel/>
+        {/* Forward the prop safely down into the client carousel instance */}
+        <Carousel initialSlides={initialCarouselSlides} />
+        
         <section className="relative overflow-hidden bg-[radial-gradient(circle_at_top_left,rgba(26,182,157,0.22),transparent_34%),radial-gradient(circle_at_bottom_right,rgba(23,155,215,0.24),transparent_32%),linear-gradient(135deg,#f7fbff_0%,#eef9f7_46%,#f5f7fb_100%)] px-4 py-12 sm:px-6 lg:px-8 lg:py-20">
           <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-white/80 to-transparent"></div>
           <div className="absolute -left-28 top-28 h-72 w-72 rounded-full bg-[#179BD7]/10 blur-3xl"></div>
@@ -45,7 +45,6 @@ export default function HomeContent({
                     className="object-cover"
                     sizes="(max-width: 768px) 100vw, 50vw"
                     priority
-                    
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#18213b]/85 via-[#18213b]/20 to-transparent"></div>
                   <div className="absolute bottom-4 left-4 right-4 rounded-2xl bg-white/92 p-4 shadow-xl backdrop-blur">
@@ -79,7 +78,7 @@ export default function HomeContent({
               <LatestUpdates />
             </div>
 
-            <div className="mt-6 grid gap-4  sm:grid-cols-2  w-full">
+            <div className="mt-6 grid gap-4 sm:grid-cols-2 w-full">
               <a href="/documents/AICTE-APPROVALS.pdf" target="_blank" rel="noopener noreferrer" className="group relative flex min-h-32 cursor-pointer items-center gap-4 overflow-hidden rounded-2xl bg-gradient-to-br from-[#179BD7] via-[#1469b8] to-[#18213b] p-5 text-white shadow-2xl transition-all duration-300 hover:-translate-y-1 hover:shadow-[#179BD7]/40">
                 <div className="absolute -right-8 -top-8 h-28 w-28 rounded-full bg-white/15"></div>
                 <div className="absolute -bottom-10 left-8 h-24 w-24 rounded-full bg-white/10"></div>
@@ -92,7 +91,7 @@ export default function HomeContent({
                 </div>
               </a>
 
-              <a href="/documents/AICTE-MANDATORY-DISCLOSURE.pdf" target="_blank" rel="noopener noreferrer" className="group relative flex  min-h-32 cursor-pointer items-center gap-4 overflow-hidden rounded-2xl bg-gradient-to-br from-[#1ab69d] via-[#179BD7] to-[#18213b] p-5 text-white shadow-2xl transition-all duration-300 hover:-translate-y-1 hover:shadow-[#1ab69d]/40">
+              <a href="/documents/AICTE-MANDATORY-DISCLOSURE.pdf" target="_blank" rel="noopener noreferrer" className="group relative flex min-h-32 cursor-pointer items-center gap-4 overflow-hidden rounded-2xl bg-gradient-to-br from-[#1ab69d] via-[#179BD7] to-[#18213b] p-5 text-white shadow-2xl transition-all duration-300 hover:-translate-y-1 hover:shadow-[#1ab69d]/40">
                 <div className="absolute -right-8 -top-8 h-28 w-28 rounded-full bg-white/15"></div>
                 <div className="absolute -bottom-10 left-8 h-24 w-24 rounded-full bg-white/10"></div>
                 <div className="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-white/20 ring-1 ring-white/35 transition-transform duration-300 group-hover:scale-110">
