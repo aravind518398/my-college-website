@@ -1,4 +1,6 @@
 // app/page.jsx
+
+export const revalidate = 3600;
 import { pickCollegeCampusImage } from "@/lib/collegeImageDefaults";
 import { defaultCampusSections } from "@/lib/campusSectionDefaults";
 import { getHomeProgrammeCards } from "@/lib/homeProgrammeCards";

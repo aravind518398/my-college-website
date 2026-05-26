@@ -11,9 +11,9 @@ async function getCarouselSlides() {
     // If using the API, you must provide an absolute URL:
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
     
-    const response = await fetch(`${baseUrl}/api/carousel`, {
-      cache: "no-store", // Ensures data is fetched fresh on every single reload
-    });
+   const response = await fetch(`${baseUrl}/api/carousel`, {
+  next: { revalidate: 3600 } // Match your page's revalidation setting
+});
 
     if (!response.ok) return defaultCarouselSlides;
 
