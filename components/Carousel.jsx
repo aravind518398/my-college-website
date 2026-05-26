@@ -1,32 +1,12 @@
 import CarouselClient from "./CarouselClient";
-import { defaultCarouselSlides } from "@/lib/carouselDefaults";
+import { getCarouselSlides } from "@/lib/carousel"; // ✅ direct DB function
 
-// Forces Next.js to bypass static caching so you always get fresh MongoDB data on reload
-export const dynamic = "force-dynamic";
-
-async function getCarouselSlides() {
-  try {
-    // NOTE: Because this runs on the server, relative URLs like "/api/carousel" won't work.
-    // It's highly recommended to call your MongoDB query function directly here instead!
-    // If using the API, you must provide an absolute URL:
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
-    
-    const response = await fetch(`${baseUrl}/api/carousel`, {
-      cache: "no-store", // Ensures data is fetched fresh on every single reload
-    });
-
-    if (!response.ok) return defaultCarouselSlides;
-
-    const data = await response.json();
-    return Array.isArray(data?.slides) && data.slides.length ? data.slides : defaultCarouselSlides;
-  } catch (error) {
-    console.error("Database fetch failed, falling back to defaults:", error);
-    return defaultCarouselSlides;
-  }
-}
+// Remove force-dynamic ❌
+// ISR - rebuilds once per hour as safety net
+export const revalidate = 3600;
 
 export default async function Carousel() {
-  const slides = await getCarouselSlides();
+  const slides = await getCarouselSlides(); // ✅ direct MongoDB call
 
   return <CarouselClient initialSlides={slides} />;
 }
