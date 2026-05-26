@@ -37,9 +37,9 @@ export default async function About() {
 
   return (
     <>
-      <Header />
+      
       <AboutPage collegeCampus={campusDetails} initialMessages={initialMessages} />
-      <Footer />
+      
     </>
   );
 }
