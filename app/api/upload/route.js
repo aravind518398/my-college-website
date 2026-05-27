@@ -42,10 +42,7 @@ export async function POST(req) {
     const file = data.get("file");
 
     if (!file || typeof file.arrayBuffer !== "function") {
-      return Response.json(
-        { error: "No file uploaded" },
-        { status: 400 }
-      );
+      return Response.json({ error: "No file uploaded" }, { status: 400 });
     }
 
     if (!ALLOWED_IMAGE_TYPES.has(file.type)) {
@@ -57,7 +54,7 @@ export async function POST(req) {
 
     if (file.size > MAX_FILE_SIZE) {
       return Response.json(
-        { error: "Image must be 5MB or smaller." },
+        { error: "Image must be 5 MB or smaller." },
         { status: 400 }
       );
     }
@@ -72,6 +69,34 @@ export async function POST(req) {
             folder: process.env.CLOUDINARY_UPLOAD_FOLDER || "kmm-college/carousel",
             resource_type: "image",
             overwrite: false,
+
+            // ── Server-side compression (stage 2 of 2) ────────────────────
+            //
+            // The browser has already resized & re-encoded the image via
+            // canvas (stage 1).  These transformations let Cloudinary do a
+            // second, lossless-to-the-eye pass:
+            //
+            //   • width 1920 / crop limit  — hard cap on stored dimensions;
+            //     images already ≤ 1920 px are unaffected.
+            //   • quality auto:best        — Cloudinary's perceptual quality
+            //     engine; typically 20–40 % smaller than a fixed quality:80.
+            //   • fetch_format auto        — serves WebP to Chrome/Edge,
+            //     AVIF to modern browsers, JPEG to older ones — no extra work
+            //     required on your side.
+            //   • strip_profile true       — removes EXIF / ICC metadata
+            //     (often 20–100 KB on camera photos).
+            //   • progressive true         — JPEG progressive scan so the
+            //     image fades in rather than loading top-to-bottom.
+            transformation: [
+              {
+                width: 1920,
+                crop: "limit",           // never upscale
+                quality: "auto:best",    // perceptual quality optimisation
+                fetch_format: "auto",    // WebP / AVIF based on browser
+                strip_profile: true,     // strip EXIF / ICC metadata
+                progressive: true,       // progressive JPEG encoding
+              },
+            ],
           },
           (error, result) => {
             if (error) reject(error);
@@ -101,13 +126,8 @@ export async function POST(req) {
       publicId: uploadResponse.public_id,
       image: savedImage,
     });
-
   } catch (error) {
     console.error("Cloudinary upload failed:", error);
-
-    return Response.json(
-      { error: "Upload failed" },
-      { status: 500 }
-    );
+    return Response.json({ error: "Upload failed" }, { status: 500 });
   }
 }
