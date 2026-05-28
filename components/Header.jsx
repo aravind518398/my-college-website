@@ -71,7 +71,6 @@ const primaryLinks = [
 ];
 const quickLinks = [
   { label: "Add On Courses", href: "/add-on-courses" },
-
 ];
 
 const menuGroups = [
@@ -303,7 +302,7 @@ function DesktopHeaderContent({ compact = false, settings }) {
             ))}
             {quickLinks.map((link) => (
               <li key={link.label} className="hidden xl:block">
-                <Link href={link.href} className="block whitespace-nowrap rounded-full px-2.5 py-2 text-[#1469b8] transition-colors duration-300 hover:bg-[#179BD7]/10 2xl:px-0.5">
+                <Link href={link.href} className="block whitespace-nowrap rounded-full px-2.5 py-2 text-[#1469b8] transition-colors duration-300 hover:bg-[#179BD7]/10 2xl:px-0.5 ">
                   {link.label}
                 </Link>
               </li>

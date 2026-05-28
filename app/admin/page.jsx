@@ -886,12 +886,13 @@ function Field({
   step,
   maxLength,
   placeholder,
+  className="",
 }) {
   const inputClass =
     "mt-2 w-full rounded-lg border border-[#d9e6f1] bg-white px-3 py-2.5 text-sm font-medium text-[#18213b] outline-none transition focus:border-[#179BD7] focus:ring-4 focus:ring-[#179BD7]/10";
 
   return (
-    <label className="block">
+    <label className={`block ${className}`}>
       <span className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.14em] text-[#63708a]">
         {icon ? <FontAwesomeIcon icon={icon} className="text-[#179BD7]" /> : null}
         {label}
@@ -1726,6 +1727,7 @@ export default async function AdminPage({ searchParams }) {
                                       defaultValue={faculty.qualification || ""}
                                       icon={faPenToSquare}
                                       placeholder="eg: MCA"
+                                      className="md:col-span-2"
                                     />
 
                                     <Field

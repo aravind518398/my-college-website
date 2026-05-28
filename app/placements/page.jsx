@@ -77,7 +77,7 @@ function SectionTitle({ kicker, title, description }) {
 }
 
 export default function Placements() {
-  const [placedStudents, setPlacedStudents] = useState(defaultPlacedStudents);
+  const [placedStudents, setPlacedStudents] = useState([]);
 
   useEffect(() => {
     let isMounted = true;
@@ -85,11 +85,15 @@ export default function Placements() {
     fetch("/api/placed-students")
       .then((response) => (response.ok ? response.json() : null))
       .then((data) => {
-        if (isMounted && Array.isArray(data?.students) && data.students.length) {
+        if (isMounted && Array.isArray(data?.students)) {
           setPlacedStudents(data.students);
         }
       })
-      .catch(() => {});
+      .catch(() => {
+        if (isMounted) {
+          setPlacedStudents([]);
+        }
+      });
 
     return () => {
       isMounted = false;
@@ -248,9 +252,8 @@ export default function Placements() {
               {supportAreas.map((area, index) => (
                 <article
                   key={area.title}
-                  className={`rounded-2xl border border-[#dceae5] bg-[#f8faf7] p-6 shadow-sm ${
-                    index === 2 ? "sm:col-span-2" : ""
-                  }`}
+                  className={`rounded-2xl border border-[#dceae5] bg-[#f8faf7] p-6 shadow-sm ${index === 2 ? "sm:col-span-2" : ""
+                    }`}
                 >
                   <div className="mb-4 grid h-12 w-12 place-items-center rounded-xl bg-white text-[#12826f] shadow-[0_10px_22px_-18px_rgba(24,33,59,0.7)]">
                     <FontAwesomeIcon icon={area.icon} className="text-lg" />
@@ -318,35 +321,49 @@ export default function Placements() {
               title="Students placed with various companies"
               description="A glimpse of recent placement achievements shared by the Placement and Training Cell."
             />
+            <div className="mt-10">
+              {placedStudents.length > 0 ? (
+                <div className=" grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                  {placedStudents.map((student) => (
+                    <article
+                      key={student.id}
+                      className="group overflow-hidden rounded-2xl border border-[#dceae5] bg-[#f8faf7] shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#18213b]/10"
+                    >
+                      <div className="relative aspect-[4/5] overflow-hidden bg-white">
+                        <Image
+                          src={student.image}
+                          alt={student.alt}
+                          fill
+                          sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                          className="object-contain p-3 transition duration-300 group-hover:scale-[1.03]"
+                        />
+                      </div>
+                      <div className="border-t border-[#dceae5] bg-white p-5">
+                        <div className="flex items-center gap-3">
+                          <span className="grid h-10 w-10 place-items-center rounded-xl bg-[#1ab69d]/12 text-[#12826f]">
+                            <FontAwesomeIcon icon={faBriefcase} />
+                          </span>
+                          <h3 className="text-base font-bold text-[#18213b]">
+                            {student.title}
+                          </h3>
+                        </div>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              ) : (
+                <div className="rounded-2xl border border-[#dceae5] bg-[#f8faf7] p-10 text-center">
+                  <h3 className="text-xl font-bold text-[#18213b]">
+                    No placements available
+                  </h3>
 
-            <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {placedStudents.map((student) => (
-                <article
-                  key={student.id}
-                  className="group overflow-hidden rounded-2xl border border-[#dceae5] bg-[#f8faf7] shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#18213b]/10"
-                >
-                  <div className="relative aspect-[4/5] overflow-hidden bg-white">
-                    <Image
-                      src={student.image}
-                      alt={student.alt}
-                      fill
-                      sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                      className="object-contain p-3 transition duration-300 group-hover:scale-[1.03]"
-                    />
-                  </div>
-                  <div className="border-t border-[#dceae5] bg-white p-5">
-                    <div className="flex items-center gap-3">
-                      <span className="grid h-10 w-10 place-items-center rounded-xl bg-[#1ab69d]/12 text-[#12826f]">
-                        <FontAwesomeIcon icon={faBriefcase} />
-                      </span>
-                      <h3 className="text-base font-bold text-[#18213b]">
-                        {student.title}
-                      </h3>
-                    </div>
-                  </div>
-                </article>
-              ))}
+                  <p className="mt-3 text-sm text-[#40506f]">
+                    Placement updates will appear here once new students are placed.
+                  </p>
+                </div>
+              )}
             </div>
+
           </div>
         </section>
       </main>

@@ -27,19 +27,19 @@ export default async function AdminLoginPage() {
   }
 
   return (
-    <main className="h-screen overflow-hidden bg-[linear-gradient(135deg,#eef7fb_0%,#f4fcfa_48%,#f8fbff_100%)]">
+    <main className="h-screen overflow-y-auto bg-[linear-gradient(135deg,#eef7fb_0%,#f4fcfa_48%,#f8fbff_100%)] ">
       <div className="mx-auto flex h-full max-w-7xl flex-col px-4 py-6 sm:px-6 lg:px-8">
 
         {/* Header */}
-        <div className="flex items-center justify-between gap-4">
+        <div className="flex items-center justify-between gap-4 pb-[24px]">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/80 px-4 py-2 text-sm font-semibold text-[#18213b] shadow-sm backdrop-blur transition hover:border-[#179BD7]/30 hover:text-[#179BD7]"
+            className="inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/80 px-2 py-2 text-sm font-semibold text-[#18213b] shadow-sm backdrop-blur transition hover:border-[#179BD7]/30 hover:text-[#179BD7]"
           >
             <FontAwesomeIcon icon={faArrowLeft} />
             Back to website
           </Link>
-          <div className="rounded-full border border-[#179BD7]/10 bg-white/80 px-4 py-2 text-xs font-bold uppercase tracking-[0.22em] text-[#179BD7] shadow-sm backdrop-blur">
+          <div className="rounded-full border border-[#179BD7]/10 bg-white/80 px-2 py-2 text-xs font-bold uppercase tracking-[0.22em] text-[#179BD7] shadow-sm backdrop-blur">
             Admin Portal
           </div>
         </div>

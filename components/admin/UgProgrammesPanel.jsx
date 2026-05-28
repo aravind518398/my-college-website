@@ -12,6 +12,7 @@ function Field({
   options = null,
   placeholder = "",
   disabled = false,
+  min=""
 }) {
   const inputClass =
     "mt-2 w-full rounded-lg border border-[#d9e6f1] bg-white px-3 py-2.5 text-sm font-medium text-[#18213b] outline-none transition focus:border-[#179BD7] focus:ring-4 focus:ring-[#179BD7]/10";
@@ -54,6 +55,7 @@ function Field({
           defaultValue={defaultValue}
           className={inputClass}
           disabled={disabled}
+          min={min}
         />
       )}
     </label>
@@ -148,7 +150,7 @@ export default function UgProgrammesPanel({
               <input type="hidden" name={`${prefix}-syllabus-count`} value={syllabusItems.length} />
 
               <div className="grid gap-4 md:grid-cols-2">
-                <Field label="Slug ID (URL)" name={`${prefix}-id`} defaultValue={programme.id || ""} icon={faPenToSquare} placeholder={"eg: bca"} />
+                <Field label="Slug ID (must be unique)" name={`${prefix}-id`} defaultValue={programme.id || ""} icon={faPenToSquare} placeholder={"eg: bca-honours"} />
                 <Field label="Short Name" name={`${prefix}-shortName`} defaultValue={programme.shortName || ""} icon={faPenToSquare} placeholder={"eg: BCA"} />
                 <div className="md:col-span-2">
                   <Field label="Full Title" name={`${prefix}-title`} defaultValue={programme.title || ""} icon={faPenToSquare} placeholder={"eg: Bachelor of Computer Applications"} />
@@ -162,10 +164,10 @@ export default function UgProgrammesPanel({
 
                 <Field label="Department" name={`${prefix}-department`} defaultValue={programme.department || ""} icon={faPenToSquare} placeholder={"eg: Computer Application"} />
 
-                <Field label="Seats" name={`${prefix}-seats`} defaultValue={programme.seats ?? ""} icon={faPenToSquare} type="number" />
-                <Field label="Duration" name={`${prefix}-duration`} defaultValue={programme.duration || ""} icon={faPenToSquare} type="number" />
-                <Field label="Semesters" name={`${prefix}-semesters`} defaultValue={programme.semesters ?? ""} icon={faPenToSquare} type="number" />
-                <Field label="Fees (per semester)" name={`${prefix}-fees`} defaultValue={programme.fees ?? ""} icon={faPenToSquare} type="number" />
+                <Field label="Seats" name={`${prefix}-seats`} defaultValue={programme.seats ?? ""} icon={faPenToSquare} type="number" min={0}/>
+                <Field label="Duration" name={`${prefix}-duration`} defaultValue={programme.duration || ""} icon={faPenToSquare} type="number" min={0} />
+                <Field label="Semesters" name={`${prefix}-semesters`} defaultValue={programme.semesters ?? ""} icon={faPenToSquare} type="number" min={0}/>
+                <Field label="Fees (per semester)" name={`${prefix}-fees`} defaultValue={programme.fees ?? ""} icon={faPenToSquare} type="number" min={0} />
                 <Field label="Eligibility (one per line)" name={`${prefix}-eligibility`} defaultValue={(programme.eligibility || []).join("\n")} icon={faPenToSquare} multiline />
                 <Field label="Specialisations (one per line)" name={`${prefix}-specialisations`} defaultValue={(programme.specialisations || []).join("\n")} icon={faPenToSquare} multiline />
               </div>

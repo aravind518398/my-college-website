@@ -93,7 +93,7 @@ export default function CoCurricular() {
       {/* Buttons */}
       <div className="mt-10 flex flex-wrap gap-4">
         <Link
-          href="/activities"
+          href="/co-curricular#our-activities"
           className="group inline-flex w-fit cursor-pointer items-center gap-2 rounded-br-2xl rounded-tl-2xl bg-gradient-to-r from-[#179BD7] to-[#1ab69d] px-5 py-3 text-sm font-bold text-white shadow-xl shadow-[#179BD7]/25 transition-all duration-300 hover:-translate-y-1"
         >
           Explore Activities
@@ -112,7 +112,7 @@ export default function CoCurricular() {
 </section>
 
                 {/* Activities Overview Section */}
-                <section id="our-activities" className="scroll-mt-20 mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
+                <section id="our-activities" className="scroll-mt-[70px] lg:scroll-mt-24 mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
                     <div className="mb-12 flex flex-col items-center text-center sm:mb-16">
                         <p className="mb-2 text-xs font-bold uppercase tracking-[0.28em] text-[#1ab69d]">
                             Our Activities
@@ -268,7 +268,7 @@ export default function CoCurricular() {
                                     <div className="mt-5 text-center">
                                         <p className="text-base font-bold text-[#18213b] sm:text-lg">Program Officer 1</p>
                                         <p className="mt-2 text-xs font-semibold uppercase tracking-[0.12em] text-[#1ab69d]">NSS Coordinator</p>
-                                        <p className="mt-3 text-xs leading-5 text-[#4b5875] sm:text-sm">Name will be updated</p>
+                                        <p className="mt-3 text-xs leading-5 text-[#4b5875] sm:text-sm">Anjali Menon</p>
                                     </div>
                                     <div className="mt-4 flex gap-2">
                                         <span className="inline-flex rounded-full bg-[#e9f8f4] px-3 py-1 text-[10px] font-semibold text-[#12826f]">Unit 251</span>
@@ -288,7 +288,7 @@ export default function CoCurricular() {
                                     <div className="mt-5 text-center">
                                         <p className="text-base font-bold text-[#18213b] sm:text-lg">Program Officer 2</p>
                                         <p className="mt-2 text-xs font-semibold uppercase tracking-[0.12em] text-[#1ab69d]">NSS Coordinator</p>
-                                        <p className="mt-3 text-xs leading-5 text-[#4b5875] sm:text-sm">Name will be updated</p>
+                                        <p className="mt-3 text-xs leading-5 text-[#4b5875] sm:text-sm">Rahul Krishnan</p>
                                     </div>
                                     <div className="mt-4 flex gap-2">
                                         <span className="inline-flex rounded-full bg-[#e9f8f4] px-3 py-1 text-[10px] font-semibold text-[#12826f]">Unit 252</span>

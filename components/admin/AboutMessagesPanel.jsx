@@ -10,6 +10,7 @@ function Field({
   icon,
   type = "text",
   multiline = false,
+  placeholder= "",
 }) {
   const inputClass =
     "mt-2 w-full rounded-lg border border-[#d9e6f1] bg-white px-3 py-2.5 text-sm font-medium text-[#18213b] outline-none transition focus:border-[#179BD7] focus:ring-4 focus:ring-[#179BD7]/10";
@@ -26,9 +27,10 @@ function Field({
           defaultValue={defaultValue}
           rows={8}
           className={`${inputClass} resize-y leading-6`}
+          placeholder={placeholder}
         />
       ) : (
-        <input type={type} name={name} defaultValue={defaultValue} className={inputClass} />
+        <input type={type} name={name} defaultValue={defaultValue} className={inputClass} placeholder={placeholder} />
       )}
     </label>
   );
@@ -109,10 +111,11 @@ export default function AboutMessagesPanel({
 
               <div className="grid gap-4 md:grid-cols-2">
                 <Field
-                  label="Slug ID"
+                  label="Slug ID (must be unique)"
                   name={`${prefix}-id`}
                   defaultValue={message.id || ""}
                   icon={faPenToSquare}
+                  placeholder="e.g. principal-message"
                 />
                 <Field
                   label="Section Title"

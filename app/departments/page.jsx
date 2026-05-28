@@ -138,14 +138,15 @@ function DepartmentSection({ department, index }) {
 
                   {/* Info Cards */}
                   <div className="mt-4 flex w-full flex-col gap-3">
-                    <div className="flex items-center justify-between rounded-lg border border-[#d9e6f1] bg-[#f8fafc] px-4 py-3">
-                      <span className="text-xs font-bold uppercase tracking-wide text-[#63708a]">
-                        Qualification
-                      </span>
-
-                      <span className="text-sm font-semibold text-[#18213b] uppercase">
-                        {faculty.qualification || "N/A"}
-                      </span>
+                    <div className="rounded-lg border border-[#d9e6f1] bg-[#f8fafc] px-4 py-3">
+                      <div className="flex flex-wrap items-center justify-between gap-2">
+                        <span className="text-xs font-bold uppercase tracking-wide text-[#63708a] shrink-0">
+                          Qualification
+                        </span>
+                        <span className="text-sm font-semibold text-[#18213b] uppercase text-left break-words min-w-0">
+                          {faculty.qualification || "N/A"}
+                        </span>
+                      </div>
                     </div>
 
                     <div className="flex items-center justify-between rounded-lg border border-[#d9e6f1] bg-[#f8fafc] px-4 py-3">

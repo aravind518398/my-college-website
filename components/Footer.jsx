@@ -10,28 +10,37 @@ import Link from "next/link";
 import { defaultSiteSettings as sharedDefaults } from "@/lib/siteSettingsDefaults";
 import { useEffect, useState } from "react";
 
-const departments = [
-  { label: "Department of Commerce", href: "/departments#commerce" },
-  { label: "Department of Computer Applications", href: "/departments#computer-application" },
-  { label: "Department of Psychology", href: "/departments#psychology" },
-  { label: "Department of Business Administration", href: "/departments#business-administration" },
-  { label: "Department of Mathematics", href: "/departments#mathematics" },
-  { label: "Department of Languages", href: "/departments#languages" },
-];
+// const departments = [
+//   { label: "Department of Commerce", href: "/departments#commerce" },
+//   { label: "Department of Computer Applications", href: "/departments#computer-application" },
+//   { label: "Department of Psychology", href: "/departments#psychology" },
+//   { label: "Department of Business Administration", href: "/departments#business-administration" },
+//   { label: "Department of Mathematics", href: "/departments#mathematics" },
+//   { label: "Department of Languages", href: "/departments#languages" },
+// ];
 
-const ugProgrammes = [
-  { label: "B.Com Finance and Taxation", href: "academics?program=bcom#ug-programme-details" },
-  { label: "BSc Psychology", href: "academics?program=bsc-psychology#ug-programme-details" },
-  { label: "BBA", href: "academics?program=bba#ug-programme-details" },
-  { label: "BCA", href: "academics?program=bca#ug-programme-details" },
-  
-];
+// const ugProgrammes = [
+//   { label: "B.Com Finance and Taxation", href: "academics?program=bcom#ug-programme-details" },
+//   { label: "BSc Psychology", href: "academics?program=bsc-psychology#ug-programme-details" },
+//   { label: "BBA", href: "academics?program=bba#ug-programme-details" },
+//   { label: "BCA", href: "academics?program=bca#ug-programme-details" },
 
-const pgProgrammes = [
-  { label: "MBA", href: "academics?program=mba#pg-programme-details" },
-  { label: "MCA", href: "academics?program=mca#pg-programme-details" },
-  { label: "M.Sc Psychology", href: "academics?program=msc-psychology#pg-programme-details" },
-];
+// ];
+
+// const pgProgrammes = [
+//   { label: "MBA", href: "academics?program=mba#pg-programme-details" },
+//   { label: "MCA", href: "academics?program=mca#pg-programme-details" },
+//   { label: "M.Sc Psychology", href: "academics?program=msc-psychology#pg-programme-details" },
+// ];
+
+
+
+
+
+
+
+
+
 
 const defaultSiteSettings = {
   identity: {
@@ -65,7 +74,7 @@ function FooterColumn({ title, items }) {
       <div className="mt-3 h-0.5 w-10 rounded-full bg-[#179BD7]"></div>
       <ul className="mt-5 space-y-2">
         {items.map((item) => (
-          <FooterLink href={item.href} key={item.label}>
+          <FooterLink href={item.href} key={`${item.label}-${item.href}`}>
             {item.label}
           </FooterLink>
         ))}
@@ -75,7 +84,73 @@ function FooterColumn({ title, items }) {
 }
 
 export default function Footer() {
+  
   const [settings, setSettings] = useState(defaultSiteSettings);
+  const [ugProgrammes, setUgProgrammes] = useState([]);
+  const [pgProgrammes, setPgProgrammes] = useState([]);
+  const [departments, setDepartments] = useState([]);
+
+
+  useEffect(() => {
+    let isMounted = true;
+
+    Promise.all([
+      fetch("/api/ug-programmes").then((res) => res.json()),
+      fetch("/api/pg-programmes").then((res) => res.json()),
+      fetch("/api/departments").then((res) => res.json()),
+    ])
+    .then(([ugData, pgData, departmentData]) => {
+
+      console.log("UG:", ugData);
+      console.log("PG:", pgData);
+      console.log("DEPT:", departmentData);
+    
+      if (isMounted) {
+        setUgProgrammes(
+          Array.isArray(ugData?.programmes)
+            ? ugData.programmes
+            : []
+        );
+    
+        setPgProgrammes(
+          Array.isArray(pgData?.programmes)
+            ? pgData.programmes
+            : []
+        );
+    
+        setDepartments(
+          Array.isArray(departmentData)
+            ? departmentData
+            : departmentData?.departments || []
+        );
+      }
+    })
+      .catch(() => { });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+
+
+  const footerDepartments = departments.map((department) => ({
+    label: `Department of ${department.name}`,
+    href: `/departments#${department.id}`,
+  }));
+
+  const ugFooterProgrammes = ugProgrammes.map((programme) => ({
+    label: `${programme.shortName} (${programme.programType})`,
+    href: `/academics?program=${programme.id}#ug-programme-details`,
+  }));
+
+
+  const pgFooterProgrammes = pgProgrammes.map((programme) => ({
+    label: `${programme.shortName} (${programme.programType})`,
+    href: `/academics?program=${programme.id}#pg-programme-details`,
+  }));
+
+
 
   useEffect(() => {
     let isMounted = true;
@@ -87,12 +162,15 @@ export default function Footer() {
           setSettings(data.settings);
         }
       })
-      .catch(() => {});
+      .catch(() => { });
 
     return () => {
       isMounted = false;
     };
   }, []);
+
+
+
 
   const socialLinks = [
     { label: "Facebook", icon: faFacebook, href: settings.social.facebook },
@@ -152,9 +230,9 @@ export default function Footer() {
           </div>
 
           <div className="grid gap-8 sm:grid-cols-2 xl:grid-cols-3">
-            <FooterColumn title="Departments" items={departments} />
-            <FooterColumn title="UG Programmes" items={ugProgrammes} />
-            <FooterColumn title="PG Programmes" items={pgProgrammes} />
+            <FooterColumn title="Departments" items={footerDepartments} />
+            <FooterColumn title="UG Programmes" items={ugFooterProgrammes} />
+            <FooterColumn title="PG Programmes" items={pgFooterProgrammes} />
           </div>
         </div>
 
