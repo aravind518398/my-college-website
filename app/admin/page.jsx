@@ -27,6 +27,9 @@ import {
   faShareNodes,
   faTrash,
   faUserPlus,
+  faUsers,
+  faIdBadge,
+  faUserTie,
 } from "@fortawesome/free-solid-svg-icons";
 
 import {
@@ -45,6 +48,7 @@ import ImageUploadField from "@/components/admin/ImageUploadField";
 import PlacedStudentsPanel from "@/components/admin/PlacedStudentsPanel";
 import PgProgrammesPanel from "@/components/admin/PgProgrammesPanel";
 import UgProgrammesPanel from "@/components/admin/UgProgrammesPanel";
+import NssProgrammeOfficersPanel from "@/components/admin/NssProgrammeOfficersPanel";
 import { auth, signOut } from "@/auth";
 import {
   getCampusSections,
@@ -81,8 +85,10 @@ import { getDepartments, saveDepartments } from "@/lib/departments";
 import { getPlacedStudents, savePlacedStudents } from "@/lib/placements";
 import { getPgProgrammes, savePgProgrammes } from "@/lib/pgProgrammes";
 import { getUgProgrammes, saveUgProgrammes } from "@/lib/ugProgrammes";
+import { getNssProgrammeOfficers, MAX_NSS_PROGRAMME_OFFICERS, saveNssProgrammeOfficers, } from "@/lib/nssProgrammeOfficers";
 import { buildWhatsappUrl } from "@/lib/siteSettingsDefaults";
 import { getSiteSettings, saveSiteSettings, SITE_ROUTES } from "@/lib/siteSettings";
+import { faUser } from "@fortawesome/free-solid-svg-icons/faUser";
 
 export const metadata = {
   title: "Admin Dashboard | KMM College Kumbalam",
@@ -235,7 +241,7 @@ async function updateUgProgrammes(formData) {
       focus: value(formData, `${prefix}-focus`),
       seats: Number(value(formData, `${prefix}-seats`) || 0),
       fees: Number(value(formData, `${prefix}-fees`) || 0),
-    duration: Number(value(formData, `${prefix}-duration`) || 0),
+      duration: Number(value(formData, `${prefix}-duration`) || 0),
       semesters: Number(value(formData, `${prefix}-semesters`) || 0),
       accent: existingProgramme?.accent,
       softAccent: existingProgramme?.softAccent,
@@ -243,7 +249,7 @@ async function updateUgProgrammes(formData) {
       eligibility: lines(formData, `${prefix}-eligibility`),
       specialisations: lines(formData, `${prefix}-specialisations`),
       syllabus,
-    programType: value(formData, `${prefix}-programType`),
+      programType: value(formData, `${prefix}-programType`),
     });
   }
 
@@ -421,7 +427,7 @@ async function updateCarousel(formData) {
     try {
       // eslint-disable-next-line no-console
       console.log(`updateCarousel: slide ${slideIndex} image received ->`, image, "final ->", finalImage);
-    } catch (err) {}
+    } catch (err) { }
 
     if (!title || !finalImage) {
       continue;
@@ -671,11 +677,99 @@ async function updateAboutMessages(formData) {
     });
   }
 
+
+
   await saveAboutMessages(messages.slice(0, MAX_ABOUT_MESSAGES));
 
   revalidatePath("/about");
   redirect("/admin?aboutMessagesSaved=1#about-messages");
 }
+
+
+
+
+
+async function updateNssProgrammeOfficers(formData) {
+  "use server";
+
+  const session = await auth();
+
+  if (!session?.user) {
+    redirect("/admin/login");
+  }
+
+  const rowCount = Number(
+    formData.get("nss-officer-row-count") || 0
+  );
+
+  const officers = [];
+
+  for (
+    let officerIndex = 0;
+    officerIndex < rowCount;
+    officerIndex += 1
+  ) {
+    const prefix = `nss-officer-${officerIndex}`;
+
+    const isDeleted =
+      formData.get(`${prefix}-delete`) === "on";
+
+    if (isDeleted) {
+      continue;
+    }
+
+    const name = value(formData, `${prefix}-name`);
+
+    const designation = value(
+      formData,
+      `${prefix}-designation`
+    );
+
+    if (!name || !designation) {
+      continue;
+    }
+
+    officers.push({
+      id:
+        value(formData, `${prefix}-id`) ||
+        `nss-officer-${Date.now()}-${officerIndex}`,
+
+      name,
+
+      designation,
+
+      department: value(
+        formData,
+        `${prefix}-department`
+      ),
+
+      unit: value(formData, `${prefix}-unit`),
+
+      image: value(formData, `${prefix}-image`),
+
+      alt: value(formData, `${prefix}-alt`),
+
+      description: value(
+        formData,
+        `${prefix}-description`
+      ),
+    });
+  }
+
+  await saveNssProgrammeOfficers(
+    officers.slice(0, MAX_NSS_PROGRAMME_OFFICERS)
+  );
+
+  revalidatePath("/co-curricular");
+
+  redirect(
+    "/admin?nssProgrammeOfficersSaved=1#nss-programme-officers"
+  );
+}
+
+
+
+
 
 async function updateDepartments(formData) {
   "use server";
@@ -882,11 +976,11 @@ function Field({
   type = "text",
   multiline = false,
   options = null,
-  min, 
+  min,
   step,
   maxLength,
   placeholder,
-  className="",
+  className = "",
 }) {
   const inputClass =
     "mt-2 w-full rounded-lg border border-[#d9e6f1] bg-white px-3 py-2.5 text-sm font-medium text-[#18213b] outline-none transition focus:border-[#179BD7] focus:ring-4 focus:ring-[#179BD7]/10";
@@ -968,7 +1062,12 @@ export default async function AdminPage({ searchParams }) {
   const addOnCoursesPage = await getAddOnCoursesPage();
   const facilitiesPage = await getFacilitiesPage();
   const placedStudents = await getPlacedStudents();
+  const nssProgrammeOfficers = await getNssProgrammeOfficers();
   const resolvedSearchParams = await searchParams;
+  const nssProgrammeOfficersSaved = resolvedSearchParams?.nssProgrammeOfficersSaved === "1";
+  const canAddNssProgrammeOfficer = nssProgrammeOfficers.length < MAX_NSS_PROGRAMME_OFFICERS;
+  const nssProgrammeOfficerRowCount = canAddNssProgrammeOfficer ? nssProgrammeOfficers.length + 1 : nssProgrammeOfficers.length;
+  
   const saved = resolvedSearchParams?.saved === "1";
   const departmentsSaved = resolvedSearchParams?.departmentsSaved === "1";
   const carouselSaved = resolvedSearchParams?.carouselSaved === "1";
@@ -1015,6 +1114,7 @@ export default async function AdminPage({ searchParams }) {
   const managedImages = Object.keys(settings.images).length;
   const facultyCount = departments.reduce((total, department) => total + department.faculty.length, 0);
 
+
   return (
     <AdminCmsProvider defaultSection="carousel">
       <main className="min-h-screen bg-[#eef4f8] text-[#18213b]">
@@ -1032,27 +1132,31 @@ export default async function AdminPage({ searchParams }) {
 
             <nav className=" md:mt-6 space-y-2 ">
               <p className="px-3 text-xs font-bold uppercase tracking-[0.18em] text-white/45">Content</p>
-              
+
               <AdminCmsNavLink id="carousel" label="Home Carousel" icon={faImage} />
               <AdminCmsNavLink id="college-campus-image" label="College Image" icon={faImage} />
               <AdminCmsNavLink id="latest-updates" label="Latest Updates" icon={faBullhorn} />
-               <AdminCmsNavLink id="campus-sections" label="Campus Overview" icon={faLandmark} />
+              <AdminCmsNavLink id="campus-sections" label="Campus Overview" icon={faLandmark} />
               <AdminCmsNavLink id="home-programme-cards" label=" Programme Cards" icon={faGraduationCap} />
-              
+
               <AdminCmsNavLink id="contact-settings" label="Contact & Social" icon={faPhone} />
-              
-              
+
+
               <AdminCmsNavLink id="departments" label="Departments & Faculties" icon={faBuildingColumns} />
-             
+
               <AdminCmsNavLink id="ug-programmes" label="UG Programmes" icon={faGraduationCap} />
               <AdminCmsNavLink id="pg-programmes" label="PG Programmes" icon={faGraduationCap} />
-             
-              
-               <AdminCmsNavLink id="placed-students" label="Placed Students" icon={faBriefcase} />
+
+
+              <AdminCmsNavLink id="placed-students" label="Placed Students" icon={faBriefcase} />
               <AdminCmsNavLink id="add-on-courses" label="Add-On Courses" icon={faGraduationCap} />
+              
               <AdminCmsNavLink id="facilities" label="Facilities" icon={faBuilding} />
               <AdminCmsNavLink id="about-messages" label="About Messages" icon={faQuoteLeft} />
+              <AdminCmsNavLink id="nss-programme-officers" label="NSS Programme Officers" icon={faUsers} />
               
+
+
               <p className="mt-4 px-3 text-xs font-bold uppercase tracking-[0.18em] text-white/45">Website Routes</p>
               {SITE_ROUTES.map((route) => (
                 <Link
@@ -1061,7 +1165,7 @@ export default async function AdminPage({ searchParams }) {
                   target="_blank"
                   className="flex items-center justify-between rounded-lg px-3 py-2.5 text-sm font-semibold text-white/78 transition hover:bg-white/10 hover:text-white"
                 >
-                 
+
                   <span className="text-xs text-[#8fe8db]">{route.label}</span>
                 </Link>
               ))}
@@ -1182,6 +1286,15 @@ export default async function AdminPage({ searchParams }) {
                 Facilities page saved successfully.
               </div>
             ) : null}
+
+            {nssProgrammeOfficersSaved ? (
+              <div className="mt-5 rounded-lg border border-[#bdebdc] bg-[#effdf8] px-4 py-3 text-sm font-bold text-[#12826f]">
+                NSS Programme Officers saved successfully.
+              </div>
+            ) : null}
+
+
+
 
             <AdminCmsSection id="carousel">
               <form action={updateCarousel}>
@@ -1462,6 +1575,18 @@ export default async function AdminPage({ searchParams }) {
               </form>
             </AdminCmsSection>
 
+
+            <AdminCmsSection id="nss-programme-officers">
+              <form action={updateNssProgrammeOfficers}>
+                <NssProgrammeOfficersPanel
+                  officers={nssProgrammeOfficers}
+                  officerRowCount={nssProgrammeOfficerRowCount}
+                />
+              </form>
+            </AdminCmsSection>
+
+
+
             <AdminCmsSection id="add-on-courses">
               <form action={updateAddOnCourses}>
                 <AddOnCoursesPanel
@@ -1701,7 +1826,7 @@ export default async function AdminPage({ searchParams }) {
                                       defaultValue={faculty.initials || ""}
                                       icon={faPenToSquare}
                                       placeholder="eg: JD"
-                                      
+
                                       maxLength={3}
                                     />
 
@@ -1719,7 +1844,7 @@ export default async function AdminPage({ searchParams }) {
                                       ]}
                                     />
 
-                                   
+
 
                                     <Field
                                       label="Qualification"
@@ -1740,7 +1865,7 @@ export default async function AdminPage({ searchParams }) {
                                       min={0}
                                     />
 
-                                    
+
 
                                     <ImageUploadField
                                       label="Photo"

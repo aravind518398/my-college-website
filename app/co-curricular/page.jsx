@@ -4,8 +4,11 @@ import Image from "next/image";
 import { faTrophy, faUsers, faHeart, faVolleyballBall, faPalette, faMicrophone, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
+import { getNssProgrammeOfficers, } from "@/lib/nssProgrammeOfficers";
 
-export default function CoCurricular() {
+export default async function CoCurricular() {
+
+    const officers = await getNssProgrammeOfficers();
     const activities = [
         {
             icon: faVolleyballBall,
@@ -45,71 +48,71 @@ export default function CoCurricular() {
             <main className="overflow-hidden bg-[#f7faf8] text-[#18213b]">
                 {/* Hero Section */}
                 <section className="relative overflow-hidden min-h-[480px] sm:min-h-[560px] lg:min-h-[680px]">
-  {/* Background Image */}
-  <Image
-    src="/images/nss_2025.webp"
-    alt="Co-curricular activities at KMM College"
-    fill
-    priority
-    sizes="100vw"
-    className="object-cover object-center"
-  />
+                    {/* Background Image */}
+                    <Image
+                        src="/images/nss_2025.webp"
+                        alt="Co-curricular activities at KMM College"
+                        fill
+                        priority
+                        sizes="100vw"
+                        className="object-cover object-center"
+                    />
 
-  {/* Dark Overlay */}
-  <div className="absolute inset-0 bg-[#0f172a]/75" />
+                    {/* Dark Overlay */}
+                    <div className="absolute inset-0 bg-[#0f172a]/75" />
 
-  {/* Gradient Overlay */}
-  <div className="absolute inset-0 bg-gradient-to-r from-[#0f172a]/95 via-[#0f172a]/70 to-[#0f172a]/20" />
+                    {/* Gradient Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-[#0f172a]/95 via-[#0f172a]/70 to-[#0f172a]/20" />
 
-  {/* Decorative Blur */}
-  <div className="absolute -left-24 top-24 h-72 w-72 rounded-full bg-[#1ab69d]/20 blur-3xl" />
-  <div className="absolute bottom-0 right-0 h-80 w-80 rounded-full bg-[#179BD7]/20 blur-3xl" />
+                    {/* Decorative Blur */}
+                    <div className="absolute -left-24 top-24 h-72 w-72 rounded-full bg-[#1ab69d]/20 blur-3xl" />
+                    <div className="absolute bottom-0 right-0 h-80 w-80 rounded-full bg-[#179BD7]/20 blur-3xl" />
 
-  {/* Content */}
-  <div className="relative z-10 mx-auto flex min-h-[480px] sm:min-h-[560px] lg:min-h-[680px] max-w-7xl items-center px-4 sm:px-6 lg:px-8">
-    <div className="max-w-3xl">
-      {/* Tag */}
-      <div className="mb-6 inline-flex items-center rounded-full border border-white/15 bg-white/10 px-4 py-1.5 backdrop-blur-md">
-        <span className="text-xs font-semibold uppercase tracking-[0.28em] text-[#1ab69d]">
-          KMM College
-        </span>
-      </div>
+                    {/* Content */}
+                    <div className="relative z-10 mx-auto flex min-h-[480px] sm:min-h-[560px] lg:min-h-[680px] max-w-7xl items-center px-4 sm:px-6 lg:px-8">
+                        <div className="max-w-3xl">
+                            {/* Tag */}
+                            <div className="mb-6 inline-flex items-center rounded-full border border-white/15 bg-white/10 px-4 py-1.5 backdrop-blur-md">
+                                <span className="text-xs font-semibold uppercase tracking-[0.28em] text-[#1ab69d]">
+                                    KMM College
+                                </span>
+                            </div>
 
-      {/* Heading */}
-      <h1 className="text-4xl font-extrabold leading-tight tracking-tight text-white sm:text-5xl lg:text-7xl">
-        Co-Curricular
-        <span className="mt-2 block bg-gradient-to-l from-[#179BD7] to-[#1ab69d] bg-clip-text text-transparent">
-          Activities
-        </span>
-      </h1>
+                            {/* Heading */}
+                            <h1 className="text-4xl font-extrabold leading-tight tracking-tight text-white sm:text-5xl lg:text-7xl">
+                                Co-Curricular
+                                <span className="mt-2 block bg-gradient-to-l from-[#179BD7] to-[#1ab69d] bg-clip-text text-transparent">
+                                    Activities
+                                </span>
+                            </h1>
 
-      {/* Description */}
-      <p className="mt-6 max-w-2xl text-base leading-8 text-white/80 sm:text-lg">
-        Beyond academics, we foster holistic development through diverse
-        co-curricular activities that nurture leadership, creativity,
-        teamwork, and communication skills.
-      </p>
+                            {/* Description */}
+                            <p className="mt-6 max-w-2xl text-base leading-8 text-white/80 sm:text-lg">
+                                Beyond academics, we foster holistic development through diverse
+                                co-curricular activities that nurture leadership, creativity,
+                                teamwork, and communication skills.
+                            </p>
 
-      {/* Buttons */}
-      <div className="mt-10 flex flex-wrap gap-4">
-        <Link
-          href="/co-curricular#our-activities"
-          className="group inline-flex w-fit cursor-pointer items-center gap-2 rounded-br-2xl rounded-tl-2xl bg-gradient-to-r from-[#179BD7] to-[#1ab69d] px-5 py-3 text-sm font-bold text-white shadow-xl shadow-[#179BD7]/25 transition-all duration-300 hover:-translate-y-1"
-        >
-          Explore Activities
-          <FontAwesomeIcon icon={faArrowRight} className="text-xs transition-transform duration-300 group-hover:translate-x-1" />
-        </Link>
+                            {/* Buttons */}
+                            <div className="mt-10 flex flex-wrap gap-4">
+                                <Link
+                                    href="/co-curricular#our-activities"
+                                    className="group inline-flex w-fit cursor-pointer items-center gap-2 rounded-br-2xl rounded-tl-2xl bg-gradient-to-r from-[#179BD7] to-[#1ab69d] px-5 py-3 text-sm font-bold text-white shadow-xl shadow-[#179BD7]/25 transition-all duration-300 hover:-translate-y-1"
+                                >
+                                    Explore Activities
+                                    <FontAwesomeIcon icon={faArrowRight} className="text-xs transition-transform duration-300 group-hover:translate-x-1" />
+                                </Link>
 
-        <Link
-          href="/gallery"
-          className="inline-flex w-fit cursor-pointer items-center gap-2 rounded-br-2xl rounded-tl-2xl bg-white/12 px-5 py-3 text-sm font-bold text-white ring-1 ring-white/25 backdrop-blur transition-all duration-300 hover:bg-white hover:text-[#18213b]"
-        >
-          View Gallery
-        </Link>
-      </div>
-    </div>
-  </div>
-</section>
+                                <Link
+                                    href="/gallery"
+                                    className="inline-flex w-fit cursor-pointer items-center gap-2 rounded-br-2xl rounded-tl-2xl bg-white/12 px-5 py-3 text-sm font-bold text-white ring-1 ring-white/25 backdrop-blur transition-all duration-300 hover:bg-white hover:text-[#18213b]"
+                                >
+                                    View Gallery
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+                </section>
 
                 {/* Activities Overview Section */}
                 <section id="our-activities" className="scroll-mt-[70px] lg:scroll-mt-24 mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
@@ -248,66 +251,89 @@ export default function CoCurricular() {
                         </div>
 
                         {/* Program Officers */}
-                        <div className="mt-10 rounded-2xl border border-[#dceae5] bg-[#fcfefd] p-6 sm:p-7 lg:p-8">
-                            <h3 className="text-lg font-bold text-[#18213b] sm:text-xl">Program Officers</h3>
-                            <p className="mt-2 text-xs font-semibold text-[#364565] sm:text-sm">
-                                KMM College, Kumbalam - NSS Unit No. 251 & 252
-                            </p>
-                            <div className="mt-8 grid gap-6 sm:grid-cols-2">
-                                <article className="group flex flex-col items-center rounded-2xl border border-[#dceae5] bg-white p-6  sm:p-8">
-                                    <div className="relative">
-                                        <div className="absolute -inset-1 rounded-full bg-gradient-to-br from-[#1ab69d]/20 to-[#12826f]/10 blur opacity-75 transition group-hover:opacity-100" />
-                                        <Image
-                                            src="/images/peoples/person_left.png"
-                                            width={160}
-                                            height={160}
-                                            alt="NSS Program Officer 1"
-                                            className="relative h-32 w-32 rounded-full border-4 border-white object-cover shadow-lg sm:h-40 sm:w-40"
-                                        />
-                                    </div>
-                                    <div className="mt-5 text-center">
-                                        <p className="text-base font-bold text-[#18213b] sm:text-lg">Program Officer 1</p>
-                                        <p className="mt-2 text-xs font-semibold uppercase tracking-[0.12em] text-[#1ab69d]">NSS Coordinator</p>
-                                        <p className="mt-3 text-xs leading-5 text-[#4b5875] sm:text-sm">Anjali Menon</p>
-                                    </div>
-                                    <div className="mt-4 flex gap-2">
-                                        <span className="inline-flex rounded-full bg-[#e9f8f4] px-3 py-1 text-[10px] font-semibold text-[#12826f]">Unit 251</span>
-                                    </div>
-                                </article>
-                                <article className="group flex flex-col items-center rounded-2xl border border-[#dceae5] bg-white p-6  sm:p-8">
-                                    <div className="relative">
-                                        <div className="absolute -inset-1 rounded-full bg-gradient-to-br from-[#1ab69d]/20 to-[#12826f]/10 blur opacity-75 transition group-hover:opacity-100" />
-                                        <Image
-                                            src="/images/peoples/person_right.png"
-                                            width={160}
-                                            height={160}
-                                            alt="NSS Program Officer 2"
-                                            className="relative h-32 w-32 rounded-full border-4 border-white object-cover shadow-lg sm:h-40 sm:w-40"
-                                        />
-                                    </div>
-                                    <div className="mt-5 text-center">
-                                        <p className="text-base font-bold text-[#18213b] sm:text-lg">Program Officer 2</p>
-                                        <p className="mt-2 text-xs font-semibold uppercase tracking-[0.12em] text-[#1ab69d]">NSS Coordinator</p>
-                                        <p className="mt-3 text-xs leading-5 text-[#4b5875] sm:text-sm">Rahul Krishnan</p>
-                                    </div>
-                                    <div className="mt-4 flex gap-2">
-                                        <span className="inline-flex rounded-full bg-[#e9f8f4] px-3 py-1 text-[10px] font-semibold text-[#12826f]">Unit 252</span>
-                                    </div>
-                                </article>
-                            </div>
-                        </div>
+                        <div
+  id="nss-officers"
+  className="mt-10 scroll-mt-[90px] rounded-2xl border border-[#dceae5] bg-[#fcfefd] p-6 sm:p-7 lg:scroll-mt-28 lg:p-8"
+>
+  {/* Header Section */}
+  <h3 className="text-lg font-bold text-[#18213b] sm:text-xl">
+    Program Officers
+  </h3>
+  
 
-                        <p className="mt-8 text-xs font-semibold text-[#2f3d5f] sm:text-sm">
-                            NSS UNIT NO. 251 & 252 -{" "}
-                            <a
-                                href="http://www.nssvoice.org/"
-                                target="_blank"
-                                rel="noreferrer"
-                                className="text-[#12826f] underline decoration-[#12826f]/40 underline-offset-4 transition hover:decoration-[#12826f]"
-                            >
-                                www.nssvoice.org
-                            </a>
-                        </p>
+<p className="mt-2 text-xs font-semibold text-[#364565] sm:text-sm">
+  KMM College, Kumbalam -{" "}
+  {[...new Set(officers.map((officer) => officer.unit))].join(", ")}
+</p>
+
+
+
+
+
+  {/* Officers Grid */}
+  <div className="mt-8 grid gap-6 sm:grid-cols-2">
+    {officers.map((officer) => (
+      <article
+        key={officer.id}
+        className="group flex flex-col items-center rounded-2xl border border-[#dceae5] bg-white p-6 shadow-sm transition hover:shadow-xl sm:p-8"
+      >
+        {/* Profile Image with Glow Effect */}
+        <div className="relative">
+          <div className="absolute -inset-1 opacity-80 blur transition duration-300 rounded-full bg-gradient-to-br from-[#1ab69d]/20 to-[#12826f]/10 group-hover:opacity-100" />
+          <Image
+            src={officer.image}
+            width={180}
+            height={180}
+            alt={officer.alt || officer.name}
+            className="relative h-32 w-32 object-cover border-4 border-white rounded-full shadow-lg sm:h-40 sm:w-40"
+          />
+        </div>
+
+        {/* content Section */}
+        <div className="mt-6 text-center">
+          <h3 className="text-xl font-bold text-[#18213b]">{officer.name}</h3>
+          
+          <p className="mt-2 text-sm font-semibold uppercase tracking-[0.12em] text-[#1ab69d]">
+            {officer.designation}
+          </p>
+          
+          <p className="mt-3 text-sm text-[#4b5875]">
+            {officer.department}
+          </p>
+          
+          <p className="mt-4 max-w-xs text-sm leading-6 text-[#667085]">
+            {officer.description}
+          </p>
+        </div>
+
+        {/* Unit Badge */}
+        <div className="mt-5 flex gap-2">
+          <span className="inline-flex px-4 py-1.5 text-xs font-semibold text-[#12826f] bg-[#e9f8f4] rounded-full">
+            {officer.unit}
+          </span>
+        </div>
+      </article>
+    ))}
+  </div>
+</div>
+
+
+
+                        
+<p className="mt-8 text-xs font-semibold text-[#2f3d5f] sm:text-sm">
+  {[...new Set(officers.map((officer) => officer.unit))].join(", ")} -{" "}
+
+  <a
+    href="http://www.nssvoice.org/"
+    target="_blank"
+    rel="noreferrer"
+    className="text-[#12826f] underline decoration-[#12826f]/40 underline-offset-4 transition hover:decoration-[#12826f]"
+  >
+    www.nssvoice.org
+  </a>
+</p>
+
+
                     </div>
                 </section>
             </main>
