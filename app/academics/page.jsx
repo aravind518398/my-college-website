@@ -5,6 +5,7 @@ import UGProgramme from "../../components/Ugprograms";
 import PGProgramme from "../../components/Pgprograms";
 import { getPgProgrammes } from "@/lib/pgProgrammes";
 import { getUgProgrammes } from "@/lib/ugProgrammes";
+import { getAcademicCalendar } from "@/lib/academicCalendar";
 import Image from "next/image";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -266,6 +267,8 @@ function CalendarTable({ title, rows, accent, textAccent, holidayTone, icon }) {
 export default async function AcademicsPage() {
   const { tableRows: ugProgrammes } = await getUgProgrammes();
   const { tableRows: pgProgrammes } = await getPgProgrammes();
+  const academicCalendar = await getAcademicCalendar();
+  const hasAcademicCalendarPdf = Boolean(academicCalendar.pdfUrl);
 
   return (
     <>
@@ -422,30 +425,34 @@ export default async function AcademicsPage() {
               </div>
             </article>
 
-            <div className="grid gap-5 rounded-lg border border-slate-200 bg-white p-5 shadow-xl shadow-slate-200/70 sm:grid-cols-[1fr_auto] sm:items-center sm:p-6">
-              <div>
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#1ab69d]">
-                  Official Notification
-                </p>
-                <h3 className="mt-2 text-xl font-bold text-[#18213b]">
-                  Academic Calendar 2024-25
-                </h3>
-                <p className="mt-2 text-sm leading-6 text-slate-600">
-                  Official notification from Mahatma Gandhi University, Kottayam.
-                </p>
-              </div>
+            {hasAcademicCalendarPdf ? (
+              <div className="grid gap-5 rounded-lg border border-slate-200 bg-white p-5 shadow-xl shadow-slate-200/70 sm:grid-cols-[1fr_auto] sm:items-center sm:p-6">
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#1ab69d]">
+                    Official Notification
+                  </p>
+                  <h3 className="mt-2 text-xl font-bold text-[#18213b]">
+                    {academicCalendar.title || "Academic Calendar"}
+                  </h3>
+                  <p className="mt-2 text-sm leading-6 text-slate-600">
+                    Official notification from Mahatma Gandhi University, Kottayam.
+                  </p>
+                </div>
 
-              <a
-                href="/documents/Academic-Calendar_2024-25.pdf"
-                download="Academic-Calendar-2024-25.pdf"
-                className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#18213b] px-5 py-3 text-sm font-bold text-white transition-colors duration-200 hover:bg-[#1ab69d] sm:w-auto"
-              >
-                <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                </svg>
-                Download PDF
-              </a>
-            </div>
+                <a
+                  href={academicCalendar.pdfUrl}
+                  download={academicCalendar.title || "Academic Calendar"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#18213b] px-5 py-3 text-sm font-bold text-white transition-colors duration-200 hover:bg-[#1ab69d] sm:w-auto"
+                >
+                  <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                  </svg>
+                  Download PDF
+                </a>
+              </div>
+            ) : null}
           </div>
         </section>
       </main>

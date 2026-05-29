@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGraduationCap, faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { AdminStickySave } from "./AdminCmsLayout";
+import PDFUploadField from "./PDFUploadField";
 
 function Field({
   label,
@@ -204,7 +205,17 @@ export default function UgProgrammesPanel({
                           <Field label="Detail" name={`${syllabusPrefix}-detail`} defaultValue={item.detail || ""} icon={faPenToSquare} multiline placeholder={"Describe the syllabus content, core subjects, practical training, project work, and learning outcomes for this semester."} />
                         </div>
                         <div className="md:col-span-2">
-                          <Field label="PDF Path" name={`${syllabusPrefix}-href`} defaultValue={item.href || ""} icon={faPenToSquare} />
+                          <PDFUploadField
+                            label="Syllabus PDF"
+                            name={`${syllabusPrefix}-href`}
+                            defaultValue={item.href || ""}
+                            defaultPublicId={item.pdfPublicId || ""}
+                            defaultTitle={item.pdfTitle || item.label || ""}
+                            publicIdName={`${syllabusPrefix}-pdfPublicId`}
+                            titleName={`${syllabusPrefix}-pdfTitle`}
+                            deleteName={`${syllabusPrefix}-pdfDelete`}
+                            folder="kmm-college/pdfs"
+                          />
                         </div>
                       </div>
                     </div>

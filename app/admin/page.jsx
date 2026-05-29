@@ -29,6 +29,7 @@ import {
   faUserPlus,
   faUsers,
   faIdBadge,
+  faFilePdf,
   faUserTie,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -45,6 +46,7 @@ import AddOnCoursesPanel from "@/components/admin/AddOnCoursesPanel";
 import FacilitiesPanel from "@/components/admin/FacilitiesPanel";
 import HomeProgrammeCardsPanel from "@/components/admin/HomeProgrammeCardsPanel";
 import ImageUploadField from "@/components/admin/ImageUploadField";
+import PDFUploadField from "@/components/admin/PDFUploadField";
 import PlacedStudentsPanel from "@/components/admin/PlacedStudentsPanel";
 import PgProgrammesPanel from "@/components/admin/PgProgrammesPanel";
 import UgProgrammesPanel from "@/components/admin/UgProgrammesPanel";
@@ -89,6 +91,8 @@ import { getNssProgrammeOfficers, MAX_NSS_PROGRAMME_OFFICERS, saveNssProgrammeOf
 import { buildWhatsappUrl } from "@/lib/siteSettingsDefaults";
 import { getSiteSettings, saveSiteSettings, SITE_ROUTES } from "@/lib/siteSettings";
 import { deleteUnusedCloudinaryImagesStrict } from "@/lib/cloudinaryAssets";
+import { deleteUnusedCloudinaryPdfsStrict } from "@/lib/cloudinaryPdfs";
+import { getAcademicCalendar, saveAcademicCalendar } from "@/lib/academicCalendar";
 import { faUser } from "@fortawesome/free-solid-svg-icons/faUser";
 
 export const metadata = {
@@ -121,6 +125,15 @@ function preservedPublicId(finalImage, existingItem = {}, imageKey = "image") {
   return finalImage && finalImage === existingItem?.[imageKey]
     ? existingItem?.[`${imageKey}PublicId`] || ""
     : "";
+}
+
+function syllabusPdfAssets(programmes = []) {
+  return programmes.flatMap((programme) =>
+    (programme.syllabus || []).map((item) => ({
+      href: item.href,
+      pdfPublicId: item.pdfPublicId,
+    }))
+  );
 }
 
 async function updatePlacedStudents(formData) {
@@ -248,6 +261,8 @@ async function updateUgProgrammes(formData) {
         label,
         detail: value(formData, `${syllabusPrefix}-detail`),
         href: value(formData, `${syllabusPrefix}-href`),
+        pdfPublicId: value(formData, `${syllabusPrefix}-pdfPublicId`),
+        pdfTitle: value(formData, `${syllabusPrefix}-pdfTitle`) || label,
         status: value(formData, `${syllabusPrefix}-status`) || "Not Available",
       });
     }
@@ -278,6 +293,10 @@ async function updateUgProgrammes(formData) {
     programmes,
     documentsRequired: lines(formData, "ug-documents-required"),
   });
+  await deleteUnusedCloudinaryPdfsStrict(
+    syllabusPdfAssets(existingProgrammes.programmes),
+    syllabusPdfAssets(programmes)
+  );
 
   revalidatePath("/academics");
   redirect("/admin?ugProgrammesSaved=1#ug-programmes");
@@ -336,6 +355,8 @@ async function updatePgProgrammes(formData) {
         label,
         detail: value(formData, `${syllabusPrefix}-detail`),
         href: value(formData, `${syllabusPrefix}-href`),
+        pdfPublicId: value(formData, `${syllabusPrefix}-pdfPublicId`),
+        pdfTitle: value(formData, `${syllabusPrefix}-pdfTitle`) || label,
         status: value(formData, `${syllabusPrefix}-status`) || "Not Available",
       });
     }
@@ -366,9 +387,41 @@ async function updatePgProgrammes(formData) {
     programmes,
     documentsRequired: lines(formData, "pg-documents-required"),
   });
+  await deleteUnusedCloudinaryPdfsStrict(
+    syllabusPdfAssets(existingProgrammes.programmes),
+    syllabusPdfAssets(programmes)
+  );
 
   revalidatePath("/academics");
   redirect("/admin?pgProgrammesSaved=1#pg-programmes");
+}
+
+async function updateAcademicCalendar(formData) {
+  "use server";
+
+  const session = await auth();
+
+  if (!session?.user) {
+    redirect("/admin/login");
+  }
+
+  const existingCalendar = await getAcademicCalendar();
+  const nextCalendar = {
+    title:
+      value(formData, "academic-calendar-title") ||
+      value(formData, "academic-calendar-pdfUploadTitle"),
+    pdfUrl: value(formData, "academic-calendar-pdfUrl"),
+    pdfPublicId: value(formData, "academic-calendar-pdfUrlPublicId"),
+  };
+
+  await saveAcademicCalendar(nextCalendar);
+  await deleteUnusedCloudinaryPdfsStrict(
+    [{ href: existingCalendar.pdfUrl, pdfPublicId: existingCalendar.pdfPublicId }],
+    [{ href: nextCalendar.pdfUrl, pdfPublicId: nextCalendar.pdfPublicId }]
+  );
+
+  revalidatePath("/academics");
+  redirect("/admin?academicCalendarSaved=1#academic-calendar");
 }
 
 async function updateCampusSections(formData) {
@@ -1134,6 +1187,7 @@ export default async function AdminPage({ searchParams }) {
   const campusSections = await getCampusSections();
   const ugProgrammeData = await getUgProgrammes();
   const pgProgrammeData = await getPgProgrammes();
+  const academicCalendar = await getAcademicCalendar();
   const aboutMessages = await getAboutMessages();
   const addOnCoursesPage = await getAddOnCoursesPage();
   const facilitiesPage = await getFacilitiesPage();
@@ -1152,6 +1206,7 @@ export default async function AdminPage({ searchParams }) {
   const campusSaved = resolvedSearchParams?.campusSaved === "1";
   const ugProgrammesSaved = resolvedSearchParams?.ugProgrammesSaved === "1";
   const pgProgrammesSaved = resolvedSearchParams?.pgProgrammesSaved === "1";
+  const academicCalendarSaved = resolvedSearchParams?.academicCalendarSaved === "1";
   const placedStudentsSaved = resolvedSearchParams?.placedStudentsSaved === "1";
   const campusImageSaved = resolvedSearchParams?.campusImageSaved === "1";
   const contactSettingsSaved = resolvedSearchParams?.contactSettingsSaved === "1";
@@ -1222,6 +1277,7 @@ export default async function AdminPage({ searchParams }) {
 
               <AdminCmsNavLink id="ug-programmes" label="UG Programmes" icon={faGraduationCap} />
               <AdminCmsNavLink id="pg-programmes" label="PG Programmes" icon={faGraduationCap} />
+              <AdminCmsNavLink id="academic-calendar" label="Academic Calendar" icon={faFilePdf} />
 
 
               <AdminCmsNavLink id="placed-students" label="Placed Students" icon={faBriefcase} />
@@ -1330,6 +1386,11 @@ export default async function AdminPage({ searchParams }) {
             {pgProgrammesSaved ? (
               <div className="mt-5 rounded-lg border border-[#bdebdc] bg-[#effdf8] px-4 py-3 text-sm font-bold text-[#12826f]">
                 PG programmes saved successfully.
+              </div>
+            ) : null}
+            {academicCalendarSaved ? (
+              <div className="mt-5 rounded-lg border border-[#bdebdc] bg-[#effdf8] px-4 py-3 text-sm font-bold text-[#12826f]">
+                Academic calendar saved successfully.
               </div>
             ) : null}
             {placedStudentsSaved ? (
@@ -1744,6 +1805,39 @@ export default async function AdminPage({ searchParams }) {
                   documentsRequired={pgProgrammeData.documentsRequired}
                   programmeRowCount={pgProgrammeRowCount}
                 />
+              </form>
+            </AdminCmsSection>
+
+            <AdminCmsSection id="academic-calendar">
+              <form action={updateAcademicCalendar}>
+                <Panel
+                  id="academic-calendar"
+                  title="Academic Calendar"
+                  description="Upload, replace, or delete the official academic calendar PDF shown on the Academics page."
+                  icon={faFilePdf}
+                >
+                  <div className="grid gap-4 md:grid-cols-2">
+                    <Field
+                      label="PDF Title"
+                      name="academic-calendar-title"
+                      defaultValue={academicCalendar.title || ""}
+                      icon={faPenToSquare}
+                      placeholder="eg: Academic Calendar 2024-25"
+                    />
+                    <PDFUploadField
+                      label="Academic Calendar PDF"
+                      name="academic-calendar-pdfUrl"
+                      defaultValue={academicCalendar.pdfUrl || ""}
+                      defaultPublicId={academicCalendar.pdfPublicId || ""}
+                      defaultTitle={academicCalendar.title || ""}
+                      publicIdName="academic-calendar-pdfUrlPublicId"
+                      titleName="academic-calendar-pdfUploadTitle"
+                      deleteName="academic-calendar-pdfDelete"
+                      folder="kmm-college/academic-calendar"
+                    />
+                  </div>
+                  <AdminStickySave label="Save academic calendar" />
+                </Panel>
               </form>
             </AdminCmsSection>
 

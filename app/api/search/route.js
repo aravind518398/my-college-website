@@ -6,6 +6,7 @@ import { defaultLatestUpdates } from "@/lib/latestUpdatesDefaults";
 import { defaultPlacedStudents } from "@/lib/placementDefaults";
 import { defaultPgProgrammes } from "@/lib/pgProgrammeDefaults";
 import { defaultUgProgrammes } from "@/lib/ugProgrammeDefaults";
+import { defaultAcademicCalendar } from "@/lib/academicCalendar";
 
 export const runtime = "nodejs";
 
@@ -86,13 +87,6 @@ const staticResults = [
     category: "Document",
     href: "/documents/AICTE-APPROVALS.pdf",
     keywords: ["aicte", "approval", "document"],
-  },
-  {
-    title: "Academic Calendar 2024-25",
-    description: "Academic calendar PDF for the 2024-25 academic year.",
-    category: "Document",
-    href: "/documents/Academic-Calendar_2024-25.pdf",
-    keywords: ["academic calendar", "2024", "2025", "document"],
   },
 ];
 
@@ -216,9 +210,10 @@ async function readData(importPath, exportName, fallback) {
 }
 
 async function buildSearchIndex() {
-  const [ugData, pgData, departments, facilitiesPage, addOnCoursesPage, updates, placedStudents] = await Promise.all([
+  const [ugData, pgData, academicCalendar, departments, facilitiesPage, addOnCoursesPage, updates, placedStudents] = await Promise.all([
     readData("@/lib/ugProgrammes", "getUgProgrammes", { programmes: defaultUgProgrammes }),
     readData("@/lib/pgProgrammes", "getPgProgrammes", { programmes: defaultPgProgrammes }),
+    readData("@/lib/academicCalendar", "getAcademicCalendar", defaultAcademicCalendar),
     readData("@/lib/departments", "getDepartments", defaultDepartments),
     readData("@/lib/facilities", "getFacilitiesPage", defaultFacilitiesPage),
     readData("@/lib/addOnCourses", "getAddOnCoursesPage", defaultAddOnCoursesPage),
@@ -259,6 +254,18 @@ async function buildSearchIndex() {
       keywords: [programme.title, programme.shortName, programme.department],
     })),
   ]);
+
+  const academicCalendarResults = academicCalendar.pdfUrl
+    ? [
+        {
+          title: academicCalendar.title || "Academic Calendar PDF",
+          description: "Official academic calendar PDF.",
+          category: "Document",
+          href: academicCalendar.pdfUrl,
+          keywords: ["academic calendar", "document", "pdf"],
+        },
+      ]
+    : [];
 
   const departmentResults = departments.map((department) => ({
     title: `Department of ${department.name}`,
@@ -313,6 +320,7 @@ async function buildSearchIndex() {
     ...staticResults,
     ...ugResults,
     ...pgResults,
+    ...academicCalendarResults,
     ...departmentResults,
     ...facilityResults,
     ...addOnResults,
