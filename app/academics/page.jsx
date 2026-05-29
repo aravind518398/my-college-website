@@ -147,7 +147,7 @@ function ProgrammeSection({ title, description, programmes, accent, accentSoft, 
                 <div className="flex items-start justify-between gap-3">
                   <div>
                     <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-400">
-                      Programme {row.id}
+                      {row.shortName} ({row.programType})
                     </p>
                     <h3 className="mt-1 text-lg font-bold text-[#18213b]">{row.program}</h3>
                   </div>
