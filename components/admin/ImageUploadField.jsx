@@ -94,6 +94,8 @@ export default function ImageUploadField({
   label,
   name,
   defaultValue = "",
+  defaultPublicId = "",
+  publicIdName = `${name}PublicId`,
   previewAlt = "Uploaded image preview",
   variant = "default",
 }) {
@@ -115,6 +117,7 @@ export default function ImageUploadField({
   const inputId = useId();
   const fileInputRef = useRef(null);
   const [imageUrl, setImageUrl] = useState(defaultValue);
+  const [publicId, setPublicId] = useState(defaultPublicId);
   const [status, setStatus] = useState("idle");
   const [message, setMessage] = useState("");
 
@@ -158,6 +161,7 @@ export default function ImageUploadField({
       }
 
       setImageUrl(data.imageUrl);
+      setPublicId(data.publicId || "");
       setStatus("success");
       setMessage("Image uploaded successfully! Don't forget to save your changes.");
     } catch (error) {
@@ -179,6 +183,7 @@ export default function ImageUploadField({
       </span>
 
       <input type="hidden" name={name} value={imageUrl} />
+      <input type="hidden" name={publicIdName} value={publicId} />
 
       <div className="flex flex-col gap-3 items-center mt-2 rounded-lg border border-[#d9e6f1] bg-white p-3">
         {hasPreview ? (

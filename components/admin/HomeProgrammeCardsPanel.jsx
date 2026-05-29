@@ -88,6 +88,7 @@ function CardRows({ title, cards, prefix, canAdd }) {
               label="Image Path" 
               name={`${rowPrefix}-img`} 
               defaultValue={card.img || ""} 
+              defaultPublicId={card.imgPublicId || ""}
               icon={faImage} 
               variant="placedStudents"
               />

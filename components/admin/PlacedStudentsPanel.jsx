@@ -89,6 +89,7 @@ export default function PlacedStudentsPanel({ students, studentRowCount }) {
                   label="Image"
                   name={`${prefix}-image`}
                   defaultValue={student.image || ""}
+                  defaultPublicId={student.imagePublicId || ""}
                   previewAlt={student.title || "Placed student image preview"}
                   variant="placedStudents"
                 />

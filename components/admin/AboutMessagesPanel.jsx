@@ -156,6 +156,7 @@ export default function AboutMessagesPanel({
                     label="Photo Path"
                     name={`${prefix}-image`}
                     defaultValue={message.image || ""}
+                    defaultPublicId={message.imagePublicId || ""}
                     icon={faPenToSquare}
                     className="h-full w-full object-cover"
                     variant="person"

@@ -27,6 +27,11 @@ const CarouselSlideSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    imagePublicId: {
+      type: String,
+      default: "",
+      trim: true,
+    },
     alt: {
       type: String,
       default: "",

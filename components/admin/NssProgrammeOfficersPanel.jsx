@@ -210,6 +210,7 @@ export default function NssProgrammeOfficersPanel({
                   label="Officer Image"
                   name={`${prefix}-image`}
                   defaultValue={officer.image || ""}
+                  defaultPublicId={officer.imagePublicId || ""}
                   previewAlt={officer.name || "Officer image preview"}
                   variant="person"
                 />
@@ -244,4 +245,3 @@ export default function NssProgrammeOfficersPanel({
     </Panel>
   );
 }
-

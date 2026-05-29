@@ -88,6 +88,7 @@ import { getUgProgrammes, saveUgProgrammes } from "@/lib/ugProgrammes";
 import { getNssProgrammeOfficers, MAX_NSS_PROGRAMME_OFFICERS, saveNssProgrammeOfficers, } from "@/lib/nssProgrammeOfficers";
 import { buildWhatsappUrl } from "@/lib/siteSettingsDefaults";
 import { getSiteSettings, saveSiteSettings, SITE_ROUTES } from "@/lib/siteSettings";
+import { deleteUnusedCloudinaryImagesStrict } from "@/lib/cloudinaryAssets";
 import { faUser } from "@fortawesome/free-solid-svg-icons/faUser";
 
 export const metadata = {
@@ -107,6 +108,19 @@ function lines(formData, key) {
     .split("\n")
     .map((item) => item.trim())
     .filter(Boolean);
+}
+
+function imageAsset(item = {}, imageKey = "image") {
+  return {
+    imageUrl: item?.[imageKey],
+    publicId: item?.[`${imageKey}PublicId`],
+  };
+}
+
+function preservedPublicId(finalImage, existingItem = {}, imageKey = "image") {
+  return finalImage && finalImage === existingItem?.[imageKey]
+    ? existingItem?.[`${imageKey}PublicId`] || ""
+    : "";
 }
 
 async function updatePlacedStudents(formData) {
@@ -151,11 +165,18 @@ async function updatePlacedStudents(formData) {
       id: value(formData, `${prefix}-id`) || `placed-${Date.now()}-${studentIndex}`,
       title,
       image: finalImage,
+      imagePublicId:
+        value(formData, `${prefix}-imagePublicId`) ||
+        preservedPublicId(finalImage, existingStudents?.[studentIndex]),
       alt: value(formData, `${prefix}-alt`),
     });
   }
 
   await savePlacedStudents(students);
+  await deleteUnusedCloudinaryImagesStrict(
+    existingStudents.map((student) => imageAsset(student)),
+    students.map((student) => imageAsset(student))
+  );
 
   // If any new image was uploaded in this save, persist it to site settings
   if (firstSubmittedImage) {
@@ -385,12 +406,19 @@ async function updateCampusSections(formData) {
       title,
       label: value(formData, `${prefix}-label`),
       img: finalImg,
+      imgPublicId:
+        value(formData, `${prefix}-imgPublicId`) ||
+        preservedPublicId(finalImg, currentSections?.[sectionIndex], "img"),
       alt: value(formData, `${prefix}-alt`),
       description: value(formData, `${prefix}-description`),
     });
   }
 
   await saveCampusSections(sections.slice(0, MAX_CAMPUS_SECTIONS));
+  await deleteUnusedCloudinaryImagesStrict(
+    currentSections.map((section) => imageAsset(section, "img")),
+    sections.map((section) => imageAsset(section, "img"))
+  );
 
   revalidatePath("/");
   redirect("/admin?campusSaved=1#campus-sections");
@@ -423,12 +451,6 @@ async function updateCarousel(formData) {
     // fallback to existing slide image when the submitted image value is empty
     const finalImage = image || (currentSlides?.[slideIndex]?.image || "");
 
-    // debug: log received image values for troubleshooting
-    try {
-      // eslint-disable-next-line no-console
-      console.log(`updateCarousel: slide ${slideIndex} image received ->`, image, "final ->", finalImage);
-    } catch (err) { }
-
     if (!title || !finalImage) {
       continue;
     }
@@ -439,11 +461,18 @@ async function updateCarousel(formData) {
       eyebrow: value(formData, `${prefix}-eyebrow`),
       description: value(formData, `${prefix}-description`),
       image: finalImage,
+      imagePublicId:
+        value(formData, `${prefix}-imagePublicId`) ||
+        preservedPublicId(finalImage, currentSlides?.[slideIndex]),
       alt: value(formData, `${prefix}-alt`),
     });
   }
 
   await saveCarouselSlides(slides.slice(0, MAX_CAROUSEL_SLIDES));
+  await deleteUnusedCloudinaryImagesStrict(
+    currentSlides.map((slide) => imageAsset(slide)),
+    slides.map((slide) => imageAsset(slide))
+  );
 
   revalidatePath("/");
   redirect("/admin?carouselSaved=1#carousel");
@@ -522,6 +551,7 @@ function parseHomeProgrammeCardsFromForm(formData, prefix) {
       course,
       detail: value(formData, `${rowPrefix}-detail`),
       img,
+      imgPublicId: value(formData, `${rowPrefix}-imgPublicId`),
       programId: value(formData, `${rowPrefix}-programId`),
     });
   }
@@ -538,10 +568,21 @@ async function updateHomeProgrammeCards(formData) {
     redirect("/admin/login");
   }
 
-  await saveHomeProgrammeCards({
+  const currentCards = await getHomeProgrammeCards();
+  const nextCards = {
     ugCards: parseHomeProgrammeCardsFromForm(formData, "home-ug-card"),
     pgCards: parseHomeProgrammeCardsFromForm(formData, "home-pg-card"),
-  });
+  };
+
+  await saveHomeProgrammeCards(nextCards);
+  await deleteUnusedCloudinaryImagesStrict(
+    [...currentCards.ugCards, ...currentCards.pgCards].map((card) =>
+      imageAsset(card, "img")
+    ),
+    [...nextCards.ugCards, ...nextCards.pgCards].map((card) =>
+      imageAsset(card, "img")
+    )
+  );
 
   revalidatePath("/");
   redirect("/admin?homeProgrammeCardsSaved=1#home-programme-cards");
@@ -648,6 +689,7 @@ async function updateAboutMessages(formData) {
   }
 
   const rowCount = Number(formData.get("about-message-row-count") || 0);
+  const currentMessages = await getAboutMessages();
   const messages = [];
 
   for (let messageIndex = 0; messageIndex < rowCount; messageIndex += 1) {
@@ -671,6 +713,7 @@ async function updateAboutMessages(formData) {
       name,
       role: value(formData, `${prefix}-role`),
       image: value(formData, `${prefix}-image`),
+      imagePublicId: value(formData, `${prefix}-imagePublicId`),
       quote: value(formData, `${prefix}-quote`),
       author: value(formData, `${prefix}-author`),
       paragraphs: lines(formData, `${prefix}-paragraphs`),
@@ -680,6 +723,10 @@ async function updateAboutMessages(formData) {
 
 
   await saveAboutMessages(messages.slice(0, MAX_ABOUT_MESSAGES));
+  await deleteUnusedCloudinaryImagesStrict(
+    currentMessages.map((message) => imageAsset(message)),
+    messages.map((message) => imageAsset(message))
+  );
 
   revalidatePath("/about");
   redirect("/admin?aboutMessagesSaved=1#about-messages");
@@ -703,6 +750,8 @@ async function updateNssProgrammeOfficers(formData) {
   );
 
   const officers = [];
+  const currentOfficers =
+    await getNssProgrammeOfficers();
 
   for (
     let officerIndex = 0;
@@ -747,6 +796,11 @@ async function updateNssProgrammeOfficers(formData) {
 
       image: value(formData, `${prefix}-image`),
 
+      imagePublicId: value(
+        formData,
+        `${prefix}-imagePublicId`
+      ),
+
       alt: value(formData, `${prefix}-alt`),
 
       description: value(
@@ -758,6 +812,10 @@ async function updateNssProgrammeOfficers(formData) {
 
   await saveNssProgrammeOfficers(
     officers.slice(0, MAX_NSS_PROGRAMME_OFFICERS)
+  );
+  await deleteUnusedCloudinaryImagesStrict(
+    currentOfficers.map((officer) => imageAsset(officer)),
+    officers.map((officer) => imageAsset(officer))
   );
 
   revalidatePath("/co-curricular");
@@ -802,6 +860,7 @@ async function updateDepartments(formData) {
         qualification: value(formData, `${prefix}-qualification`),
         experience: value(formData, `${prefix}-experience`),
         photo: value(formData, `${prefix}-photo`),
+        photoPublicId: value(formData, `${prefix}-photoPublicId`),
       });
     }
 
@@ -819,6 +878,14 @@ async function updateDepartments(formData) {
   });
 
   await saveDepartments(departments);
+  await deleteUnusedCloudinaryImagesStrict(
+    currentDepartments
+      .flatMap((department) => department.faculty || [])
+      .map((member) => imageAsset(member, "photo")),
+    departments
+      .flatMap((department) => department.faculty || [])
+      .map((member) => imageAsset(member, "photo"))
+  );
 
   revalidatePath("/departments");
   redirect("/admin?departmentsSaved=1#departments");
@@ -837,15 +904,23 @@ async function updateCollegeCampusImage(formData) {
 
   const submittedImage = value(formData, "collegeCampusImage");
   const finalImage = submittedImage || (current.images && current.images.collegeCampusImage) || "";
+  const finalPublicId =
+    value(formData, "collegeCampusImagePublicId") ||
+    preservedPublicId(finalImage, current.images, "collegeCampusImage");
 
   await saveSiteSettings({
     ...current,
     images: {
       ...current.images,
       collegeCampusImage: finalImage,
+      collegeCampusImagePublicId: finalPublicId,
       collegeCampusAlt: value(formData, "collegeCampusAlt"),
     },
   });
+  await deleteUnusedCloudinaryImagesStrict(
+    [imageAsset(current.images, "collegeCampusImage")],
+    [{ imageUrl: finalImage, publicId: finalPublicId }]
+  );
 
   revalidatePath("/", "layout");
   revalidatePath("/about");
@@ -938,6 +1013,7 @@ async function updateSiteSettings(formData) {
       navLogo: value(formData, "navLogo"),
       footerLogo: value(formData, "footerLogo"),
       collegeCampusImage: value(formData, "collegeCampusImage"),
+      collegeCampusImagePublicId: value(formData, "collegeCampusImagePublicId"),
       collegeCampusAlt: value(formData, "collegeCampusAlt"),
       academicsLab: value(formData, "academicsLab"),
       admissionCampus: value(formData, "admissionCampus"),
@@ -1358,6 +1434,7 @@ export default async function AdminPage({ searchParams }) {
                               label="Image"
                               name={`${prefix}-image`}
                               defaultValue={slide.image || ""}
+                              defaultPublicId={slide.imagePublicId || ""}
                               previewAlt={slide.alt || slide.title || "Carousel image preview"}
                               variant="carousel"
                             />
@@ -1622,6 +1699,7 @@ export default async function AdminPage({ searchParams }) {
                       label="Image"
                       name="collegeCampusImage"
                       defaultValue={settings.images.collegeCampusImage}
+                      defaultPublicId={settings.images.collegeCampusImagePublicId || ""}
                       previewAlt="College campus image preview"
                       variant="campus"
                     />
@@ -1731,6 +1809,7 @@ export default async function AdminPage({ searchParams }) {
                               label="Image"
                               name={`${prefix}-img`}
                               defaultValue={section.img || ""}
+                              defaultPublicId={section.imgPublicId || ""}
                               previewAlt={section.title || "Campus section image preview"}
                               variant="campus"
                             />
@@ -1871,6 +1950,7 @@ export default async function AdminPage({ searchParams }) {
                                       label="Photo"
                                       name={`${prefix}-photo`}
                                       defaultValue={faculty.photo || ""}
+                                      defaultPublicId={faculty.photoPublicId || ""}
                                       previewAlt={faculty.name || "Faculty photo preview"}
                                       variant="faculty"
                                     />

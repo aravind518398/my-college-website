@@ -8,6 +8,8 @@ const ImageSchema = new mongoose.Schema(
     },
     publicId: {
       type: String,
+      required: true,
+      trim: true,
       index: true,
     },
     format: String,

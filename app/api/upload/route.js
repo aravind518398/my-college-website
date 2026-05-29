@@ -1,5 +1,6 @@
 import { connectDB } from "@/lib/mongodb";
 import cloudinary from "@/lib/cloudinary";
+import { deleteCloudinaryImage } from "@/lib/cloudinaryAssets";
 import { auth } from "@/auth";
 import Image from "@/models/Image";
 
@@ -129,5 +130,36 @@ export async function POST(req) {
   } catch (error) {
     console.error("Cloudinary upload failed:", error);
     return Response.json({ error: "Upload failed" }, { status: 500 });
+  }
+}
+
+export async function DELETE(req) {
+  try {
+    const session = await auth();
+
+    if (!session?.user) {
+      return Response.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const body = await req.json().catch(() => ({}));
+    const publicId = String(body.publicId || "").trim();
+    const imageUrl = String(body.imageUrl || "").trim();
+
+    if (!publicId && !imageUrl) {
+      return Response.json(
+        { error: "publicId or imageUrl is required." },
+        { status: 400 }
+      );
+    }
+
+    const result = await deleteCloudinaryImage({ publicId, imageUrl });
+
+    return Response.json({ success: true, ...result });
+  } catch (error) {
+    console.error("Cloudinary delete failed:", error);
+    return Response.json(
+      { error: error.message || "Delete failed" },
+      { status: 500 }
+    );
   }
 }
