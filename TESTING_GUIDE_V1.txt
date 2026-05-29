@@ -1,0 +1,140 @@
+KMM College Website - Testing Guide
+Version 1
+
+Website Link:
+[Paste hosted website link here]
+
+
+Purpose
+-------
+This is a college information website for KMM College. It is designed to help visitors quickly find details about the college, academic programmes, departments, facilities, admissions, placements, contact information, and other important updates.
+
+
+How To Test
+-----------
+Please open the website link on your phone, tablet, or computer and browse it like a normal visitor.
+
+You do not need any technical knowledge. Just check whether the website feels easy to use, looks correct, and gives the information you expect.
+
+While testing, please note anything that feels confusing, broken, slow, missing, or difficult to read.
+
+
+Features To Test
+----------------
+1. Home Page
+   - Does the page load properly?
+   - Are images, banners, and text visible?
+   - Do sections look clean and readable?
+   - Are latest updates or announcements easy to notice?
+
+2. Navigation Menu
+   - Try opening all main menu items.
+   - Check dropdown menus if available.
+   - Make sure links go to the correct pages or sections.
+   - On mobile, open and close the menu and check if it works smoothly.
+
+3. Search Feature 🔍
+   - Click or tap the search icon/input.
+   - Try searching for different words such as:
+     - admission
+     - BCA
+     - MBA
+     - psychology
+     - facilities
+     - contact
+     - syllabus
+     - placement
+   - Check whether useful results appear below the search bar.
+   - Click a result and confirm it opens the correct page or document.
+   - Try an empty search and check if a helpful message appears.
+   - Try a random word like "abcdxyz" and check if a "no results found" message appears.
+
+4. Pages To Visit
+   - About
+   - Academics
+   - Departments
+   - Co-Curricular
+   - Facilities
+   - Placements
+   - Add-On Courses
+   - Admission
+   - Contact
+
+5. Mobile Responsiveness 📱
+   - Test on a mobile phone if possible.
+   - Check whether text fits properly on the screen.
+   - Make sure buttons and links are easy to tap.
+   - Confirm that images do not overlap with text.
+   - Check that the mobile menu and search work correctly.
+
+6. Desktop / Laptop View 💻
+   - Check the website on a larger screen if possible.
+   - Make sure layout, spacing, menus, and images look neat.
+   - Try scrolling through long pages.
+
+7. Contact And Enquiry
+   - Check phone numbers, email links, and contact details.
+   - If there is an enquiry form, check whether the fields are understandable.
+   - Do not submit fake personal information unless asked.
+
+8. Documents And Downloads
+   - Try opening syllabus PDFs or other document links.
+   - Check whether the documents open correctly.
+
+9. Admin Section 🔐
+   - Open the admin login page:
+     [Paste admin login link here]
+   - Use only the test/admin login details shared separately.
+   - Check whether login works correctly.
+   - Check whether the admin dashboard opens after login.
+   - Browse the admin menu and check if sections are easy to understand.
+   - Check forms, buttons, image upload areas, and save/update options.
+   - If you are asked to test editing, try making a small sample change only.
+   - Do not delete real content unless specifically asked.
+   - After saving any change, check the public website to confirm whether the update appears correctly.
+   - Check whether logout works properly.
+
+
+What To Report
+--------------
+Please report anything that looks or feels wrong, such as:
+
+- Page not loading
+- Broken link
+- Search not showing correct results
+- Search result opening the wrong page
+- Typing mistakes or grammar issues
+- Missing information
+- Images not loading
+- Text overlapping or getting cut off
+- Buttons not working
+- Menu not opening or closing properly
+- Website looking bad on mobile
+- Very slow loading
+- Admin login not working
+- Admin page errors
+- Admin changes not saving
+- Admin changes not appearing on the public website
+- Any confusing section or wording
+- Suggestions to improve the website
+
+
+How To Send Feedback
+--------------------
+Please send feedback by message or WhatsApp.
+
+Helpful feedback includes:
+
+- A short description of the issue
+- The page where you found it
+- The phone/computer/browser you used, if you know it
+- A screenshot or screen recording, if possible
+- Suggestions for improvement
+
+Example:
+"On mobile, the search results are hard to read on the home page. I used Chrome on Android. Screenshot attached."
+
+
+Thank You
+---------
+Thank you for taking the time to test Version 1 of the college website. Your feedback will help improve the website and make it easier for students, parents, staff, and visitors to use.

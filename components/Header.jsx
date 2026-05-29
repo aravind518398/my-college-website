@@ -384,19 +384,181 @@ function DesktopMenuItem({ group, compact = false }) {
 }
 
 function DesktopSearch({ compact = false }) {
+  return <SiteSearch compact={compact} />;
+}
+
+function SiteSearch({ compact = false, mobile = false, onResultClick }) {
   const [display, setDisplay] = useState(false);
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState([]);
+  const [message, setMessage] = useState("");
+  const [status, setStatus] = useState("idle");
+  const inputRef = useRef(null);
+  const wrapperRef = useRef(null);
+  const isOpen = mobile || display;
+  const showPanel = isOpen && (status !== "idle" || message || results.length > 0);
+
+  useEffect(() => {
+    if (!display || mobile) {
+      return;
+    }
+
+    inputRef.current?.focus();
+  }, [display, mobile]);
+
+  useEffect(() => {
+    const handlePointerDown = (event) => {
+      if (!wrapperRef.current?.contains(event.target)) {
+        setDisplay(false);
+        setMessage("");
+        setStatus("idle");
+      }
+    };
+
+    document.addEventListener("mousedown", handlePointerDown);
+
+    return () => {
+      document.removeEventListener("mousedown", handlePointerDown);
+    };
+  }, []);
+
+  const runSearch = async () => {
+    const trimmedQuery = query.trim();
+
+    if (!isOpen) {
+      setDisplay(true);
+      return;
+    }
+
+    if (!trimmedQuery) {
+      setResults([]);
+      setMessage("Type something to search.");
+      setStatus("empty");
+      inputRef.current?.focus();
+      return;
+    }
+
+    setStatus("loading");
+    setMessage("");
+
+    try {
+      const response = await fetch(`/api/search?q=${encodeURIComponent(trimmedQuery)}`);
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data?.message || "Search failed");
+      }
+
+      setResults(Array.isArray(data.results) ? data.results : []);
+      setMessage(data.message || "");
+      setStatus("done");
+    } catch {
+      setResults([]);
+      setMessage("Search is temporarily unavailable.");
+      setStatus("error");
+    }
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    runSearch();
+  };
+
+  const handleResultClick = () => {
+    setDisplay(false);
+    setMessage("");
+    setStatus("idle");
+    onResultClick?.();
+  };
+
+  if (mobile) {
+    return (
+      <div ref={wrapperRef} className="relative z-[80] mt-4">
+        <form onSubmit={handleSubmit} className="flex items-center rounded-full bg-gray-100 px-3 py-2 text-[#18213b] ring-1 ring-gray-200">
+          <FontAwesomeIcon icon={faMagnifyingGlass} className="relative z-[90] text-[#179BD7]" />
+          <input
+            ref={inputRef}
+            type="search"
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder="Search"
+            className="min-w-0 flex-1 bg-transparent px-3 py-2 text-sm font-medium outline-none placeholder:text-gray-500"
+            aria-label="Search website"
+          />
+          <button type="submit" className="flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full bg-[#18213b] text-white transition-colors duration-300 hover:bg-[#179BD7]" aria-label="Search">
+            <FontAwesomeIcon icon={faMagnifyingGlass} />
+          </button>
+        </form>
+        <SearchResultsPanel
+          show={showPanel}
+          status={status}
+          message={message}
+          results={results}
+          onResultClick={handleResultClick}
+          mobile
+        />
+      </div>
+    );
+  }
 
   return (
-    <div className={`relative z-[80] flex shrink-0 items-center rounded-full bg-white/10 px-2 ring-1 ring-white/15 transition-all duration-300 ${compact ? "py-1" : "py-1.5"}`}>
+    <div ref={wrapperRef} className="relative z-[80] shrink-0">
+      <form onSubmit={handleSubmit} className={`flex items-center rounded-full bg-white/10 px-2 ring-1 ring-white/15 transition-all duration-300 ${compact ? "py-1" : "py-1.5"}`}>
       <input
+        ref={inputRef}
         type="search"
+        value={query}
+        onChange={(event) => setQuery(event.target.value)}
         className={`bg-transparent text-sm text-white outline-none placeholder:text-white/55 transition-all duration-300 ${display ? "w-44 px-2 opacity-100" : "w-0 opacity-0"
           }`}
         placeholder="Search"
+        aria-label="Search website"
       />
-      <button type="button" onClick={() => setDisplay(!display)} className="relative z-[90] flex h-8 w-8 cursor-pointer items-center justify-center rounded-full transition-colors duration-300 hover:bg-white hover:text-[#18213b]" aria-label="Toggle search">
+      <button type="submit" className="relative z-[90] flex h-8 w-8 cursor-pointer items-center justify-center rounded-full transition-colors duration-300 hover:bg-white hover:text-[#18213b]" aria-label="Search">
         <FontAwesomeIcon icon={faMagnifyingGlass} className="relative z-[100]" />
       </button>
+      </form>
+      <SearchResultsPanel
+        show={showPanel}
+        status={status}
+        message={message}
+        results={results}
+        onResultClick={handleResultClick}
+      />
+    </div>
+  );
+}
+
+function SearchResultsPanel({ show, status, message, results, onResultClick, mobile = false }) {
+  if (!show) {
+    return null;
+  }
+
+  return (
+    <div className={`absolute top-full mt-3 overflow-hidden rounded-lg bg-white text-[#18213b] shadow-2xl ring-1 ring-black/10 ${mobile ? "left-0 right-0" : "right-0 w-80"}`}>
+      {status === "loading" ? (
+        <div className="px-4 py-4 text-sm font-semibold text-slate-600">Searching...</div>
+      ) : results.length ? (
+        <ul className="max-h-96 overflow-y-auto py-2">
+          {results.map((result) => (
+            <li key={`${result.href}-${result.title}`}>
+              <Link href={result.href} onClick={onResultClick} className="block px-4 py-3 transition-colors duration-200 hover:bg-[#179BD7]/10">
+                <div className="flex items-center justify-between gap-3">
+                  <span className="min-w-0 truncate text-sm font-bold text-[#18213b]">{result.title}</span>
+                  <span className="shrink-0 rounded-full bg-[#1ab69d]/10 px-2 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-[#087a68]">
+                    {result.category}
+                  </span>
+                </div>
+                {result.description && (
+                  <p className="mt-1 line-clamp-2 text-xs leading-5 text-slate-600">{result.description}</p>
+                )}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <div className="px-4 py-4 text-sm font-semibold text-slate-600">{message || "No results found."}</div>
+      )}
     </div>
   );
 }
@@ -471,10 +633,7 @@ export function MobileHeader({ settings }) {
             </div>
           </div>
 
-          <div className="relative z-[80] mt-4 flex items-center rounded-full bg-gray-100 px-4 py-2 text-[#18213b] ring-1 ring-gray-200">
-            <FontAwesomeIcon icon={faMagnifyingGlass} className="relative z-[90] text-[#179BD7]" />
-            <input type="search" placeholder="Search" className="min-w-0 flex-1 bg-transparent px-3 py-2 text-sm font-medium outline-none placeholder:text-gray-500" />
-          </div>
+          <SiteSearch mobile onResultClick={closeMenu} />
 
           <div className="mt-5 overflow-hidden rounded-2xl border border-gray-100 bg-white text-sm font-bold text-[#18213b] shadow-sm">
             {[...primaryLinks, ...quickLinks].map((link) => {
