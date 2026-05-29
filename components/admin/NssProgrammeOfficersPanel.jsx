@@ -9,6 +9,7 @@ import {
 
 import { AdminStickySave } from "./AdminCmsLayout";
 import ImageUploadField from "./ImageUploadField";
+import { MAX_NSS_PROGRAMME_OFFICERS } from "@/lib/nssProgrammeOfficersDefaults";
 
 function Field({
   label,
@@ -105,7 +106,7 @@ export default function NssProgrammeOfficersPanel({
 
       <div className="mb-4 flex items-center justify-between gap-3 rounded-lg border border-[#dce7f0] bg-[#fbfdff] px-4 py-3">
         <p className="text-sm font-semibold text-[#40506f]">
-          {officers.length} of {officerRowCount} officers in use
+          {officers.length} of {MAX_NSS_PROGRAMME_OFFICERS} officers in use
         </p>
 
         {canAddOfficer ? (
