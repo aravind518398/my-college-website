@@ -261,10 +261,12 @@ export default async function CoCurricular() {
                             </h3>
 
 
-                            <p className="mt-2 text-xs font-semibold text-[#364565] sm:text-sm">
-                                KMM College, Kumbalam -{" "}
-                                {[...new Set(officers.map((officer) => officer.unit))].join(", ")}
-                            </p>
+                            {officers.length > 0 ? (
+                                <p className="mt-2 text-xs font-semibold text-[#364565] sm:text-sm">
+                                    KMM College, Kumbalam -{" "}
+                                    {[...new Set(officers.map((officer) => officer.unit))].join(", ")}
+                                </p>
+                            ) : null}
 
 
 
@@ -332,18 +334,20 @@ export default async function CoCurricular() {
 
 
 
-                        <p className="mt-8 text-xs font-semibold text-[#2f3d5f] sm:text-sm">
-                            {[...new Set(officers.map((officer) => officer.unit))].join(", ")} -{" "}
+                        {officers.length > 0 ? (
+                            <p className="mt-8 text-xs font-semibold text-[#2f3d5f] sm:text-sm">
+                                {[...new Set(officers.map((officer) => officer.unit))].join(", ")} -{" "}
 
-                            <a
-                                href="http://www.nssvoice.org/"
-                                target="_blank"
-                                rel="noreferrer"
-                                className="text-[#12826f] underline decoration-[#12826f]/40 underline-offset-4 transition hover:decoration-[#12826f]"
-                            >
-                                www.nssvoice.org
-                            </a>
-                        </p>
+                                <a
+                                    href="http://www.nssvoice.org/"
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="text-[#12826f] underline decoration-[#12826f]/40 underline-offset-4 transition hover:decoration-[#12826f]"
+                                >
+                                    www.nssvoice.org
+                                </a>
+                            </p>
+                        ) : null}
 
 
                     </div>
