@@ -25,7 +25,7 @@ export const ADMIN_CMS_SECTIONS = [
 
 export function AdminCmsProvider({ children, defaultSection = "carousel" }) {
   const [activeSection, setActiveSection] = useState(defaultSection);
-  const [navOpen, setNavOpen] = useState(true);
+  const [navOpen, setNavOpen] = useState(false);
   const [uploadingCount, setUploadingCount] = useState(0);
 
   useEffect(() => {

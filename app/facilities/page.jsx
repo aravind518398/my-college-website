@@ -50,7 +50,7 @@ export default async function FacilitiesPage() {
         <section className="relative overflow-hidden min-h-[480px] sm:min-h-[560px] lg:min-h-[680px]">
   {/* Background Image */}
   <Image
-    src="/images/college2.png"
+    src="/images/kmm_college_kumbalam.webp"
     alt="KMM College campus facilities"
     fill
     priority

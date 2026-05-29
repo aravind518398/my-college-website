@@ -74,75 +74,84 @@ const quickLinks = [
 ];
 
 const menuGroups = [
-  // {
-  //   title: "Committees",
-  //   items: ["Anti Ragging", "Grievance Redressal Committee", "Internal Complaints Committee", "Energy Monitoring Committee"],
-  //   href: "/committees",
-  // },
+  {
+    title: "Committees",
+    items: ["Anti Ragging", "Grievance Redressal Committee", "Internal Complaints Committee", "Energy Monitoring Committee"],
+    href: "/committees",
+    status: "disabled"
+  },
 
-  // {
-  //   title: "Clubs",
-  //   items: [
-  //     "Nature Club",
-  //     "Literary Club",
-  //     "Media Club",
-  //     "Staff Recreation Club",
-  //     "KMM Veranda",
-  //     "Sports Club",
-  //     "Entrepreneurship Development Club",
-  //     "Social Outreach Club",
-  //     "Scholarship Support Club",
-  //     "Quiz Club",
-  //     "Yoga Club",
-  //     "Electoral Literacy Club",
-  //     "Arts Club",
-  //   ],
-  //   href: "/clubs",
-  // },
-  // {
-  //   title: "Cells",
-  //   items: [
-  //     "Internal Exam and Test Paper",
-  //     "OBC Cell",
-  //     "SC/ST Cell",
-  //     "RTI Act Cell",
-  //     "Women's Cell",
-  //     "Anti Drug Narcotic Cell",
-  //     "Minority Cell",
-  //     "Research Cell",
-  //     "Placement and Training Cell",
-  //     "IPR Cell",
-  //     "Counseling Cell",
-  //   ],
-  //   href: "/cells",
-  // },
+  {
+    title: "Clubs",
+    items: [
+      "Nature Club",
+      "Literary Club",
+      "Media Club",
+      "Staff Recreation Club",
+      "KMM Veranda",
+      "Sports Club",
+      "Entrepreneurship Development Club",
+      "Social Outreach Club",
+      "Scholarship Support Club",
+      "Quiz Club",
+      "Yoga Club",
+      "Electoral Literacy Club",
+      "Arts Club",
+    ],
+    href: "/clubs",
+    status: "disabled"
+  },
+  {
+    title: "Cells",
+    items: [
+      "Internal Exam and Test Paper",
+      "OBC Cell",
+      "SC/ST Cell",
+      "RTI Act Cell",
+      "Women's Cell",
+      "Anti Drug Narcotic Cell",
+      "Minority Cell",
+      "Research Cell",
+      "Placement and Training Cell",
+      "IPR Cell",
+      "Counseling Cell",
+    ],
+    href: "/cells",
+    status: "disabled"
+  },
 
-  // {
-  //   title: "Research",
-  //   items: ["Research Cell", "IIC", "IEDC"],
-  //   href: "/research",
-  // },
-  // {
-  //   title: "Student Support",
-  //   items: ["SQAC"],
-  //   href: "/student-support",
-  // },
-  // {
-  //   title: "IQAC",
-  //   href: "/iqac",
-  // },
+  {
+    title: "Research",
+    items: ["Research Cell", "IIC", "IEDC"],
+    href: "/research",
+    status: "disabled"
+  },
+  {
+    title: "Student Support",
+    items: ["SQAC"],
+    href: "/student-support",
+    status: "disabled"
+  },
+  {
+    title: "IQAC",
+    href: "/iqac",
+    status: "disabled"
+  },
   {
     title: "Facilities",
     href: "/facilities",
+    status: "active",
   },
   {
     title: "Events",
     href: "/events",
+    status: "disabled"
   },
   {
     title: "Approved Fee Structure",
     href: "https://cap.mgu.ac.in/collegeinfo/fees_view_unaided.jsp",
     target: "_blank",
+    status: "active",
   },
 ];
 
@@ -359,19 +368,53 @@ function DesktopPrimaryMenuItem({ link }) {
 
 function DesktopMenuItem({ group, compact = false }) {
   const hasItems = group.items?.length;
+  const isDisabled = group.status === "disabled";
 
   return (
     <li className="group relative">
-      <Link href={group.href} target={group.target} className={`flex items-center gap-1 rounded-full whitespace-nowrap transition-colors duration-300 hover:bg-white/10 hover:text-[#1ab69d] ${compact ? "px-2.5 py-2" : "px-2.5 py-2.5 2xl:px-3.5"}`}>
-        {group.title}
-        {hasItems && <FontAwesomeIcon icon={faChevronDown} className="text-xs transition-transform duration-300 group-hover:rotate-180" />}
-      </Link>
+      {isDisabled ? (
+        <span
+          className={`flex items-center gap-1 rounded-full whitespace-nowrap transition-colors duration-300 
+          text-gray-400 opacity-60 cursor-not-allowed 
+          ${compact ? "px-2.5 py-2" : "px-2.5 py-2.5 2xl:px-3.5"}`}
+        >
+          {group.title}
+          {hasItems && (
+            <FontAwesomeIcon
+              icon={faChevronDown}
+              className="text-xs"
+            />
+          )}
+        </span>
+      ) : (
+        <Link
+          href={group.href}
+          target={group.target}
+          className={`flex items-center gap-1 rounded-full whitespace-nowrap transition-colors duration-300 hover:bg-white/10 hover:text-[#1ab69d]
+          ${compact ? "px-2.5 py-2" : "px-2.5 py-2.5 2xl:px-3.5"}`}
+        >
+          {group.title}
+          {hasItems && (
+            <FontAwesomeIcon
+              icon={faChevronDown}
+              className="text-xs transition-transform duration-300 group-hover:rotate-180"
+            />
+          )}
+        </Link>
+      )}
+
       {hasItems && (
-        <div className="invisible absolute left-0 top-full z-50 w-72 translate-y-3 rounded-2xl bg-white p-3 text-[#18213b] opacity-0 shadow-2xl ring-1 ring-black/5 transition-all duration-300 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
+        <div
+          className={`invisible absolute left-0 top-full z-50 w-72 translate-y-3 rounded-2xl bg-white p-3 text-[#18213b] opacity-0 shadow-2xl ring-1 ring-black/5 transition-all duration-300 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100
+          ${isDisabled ? "hidden" : ""}`}
+        >
           <ul className="grid max-h-[420px] gap-1 overflow-y-auto">
             {group.items.map((item) => (
               <li key={typeof item === "string" ? item : item.label}>
-                <Link href={typeof item === "string" ? "#" : item.href} className="block rounded-xl px-3 py-2 text-sm font-semibold transition-colors duration-300 hover:bg-[#179BD7]/10 hover:text-[#179BD7]">
+                <Link
+                  href={typeof item === "string" ? "#" : item.href}
+                  className="block rounded-xl px-3 py-2 text-sm font-semibold transition-colors duration-300 hover:bg-[#179BD7]/10 hover:text-[#179BD7]"
+                >
                   {typeof item === "string" ? item : item.label}
                 </Link>
               </li>
@@ -679,30 +722,65 @@ export function MobileHeader({ settings }) {
             {menuGroups.map((group) => {
               const hasItems = group.items?.length;
               const isActive = activeGroup === group.title;
+              const isDisabled = group.status === "disabled";
 
               return (
                 <div key={group.title} className="border-b border-gray-100 last:border-b-0">
+
+                  {/* 🔥 CASE 1: Has dropdown items */}
                   {hasItems ? (
                     <button
                       type="button"
-                      onClick={() => setActiveGroup(isActive ? null : group.title)}
-                      className="flex w-full cursor-pointer items-center justify-between px-4 py-3.5 text-left text-sm font-bold text-[#18213b] transition-colors duration-300 hover:text-[#179BD7]"
+                      disabled={isDisabled}
+                      onClick={() => {
+                        if (isDisabled) return;
+                        setActiveGroup(isActive ? null : group.title);
+                      }}
+                      className={`flex w-full items-center justify-between px-4 py-3.5 text-left text-sm font-bold transition-colors duration-300
+              ${isDisabled
+                          ? "text-gray-400 opacity-60 cursor-not-allowed"
+                          : "text-[#18213b] hover:text-[#179BD7]"
+                        }`}
                     >
                       {group.title}
-                      <FontAwesomeIcon icon={faChevronDown} className={`text-xs transition-transform duration-300 ${isActive ? "rotate-180" : ""}`} />
+
+                      <FontAwesomeIcon
+                        icon={faChevronDown}
+                        className={`text-xs transition-transform duration-300 ${isActive ? "rotate-180" : ""
+                          }`}
+                      />
                     </button>
+                  ) : isDisabled ? (
+                    /* 🔥 CASE 2: Disabled single link */
+                    <span className="block px-4 py-3.5 text-sm font-bold text-gray-400 opacity-60 cursor-not-allowed">
+                      {group.title}
+                    </span>
                   ) : (
-                    <Link href={group.href} target={group.target} onClick={closeMenu} className="block px-4 py-3.5 text-sm font-bold text-[#18213b] transition-colors duration-300 hover:text-[#179BD7]">
+                    /* 🔥 CASE 3: Normal link */
+                    <Link
+                      href={group.href}
+                      target={group.target}
+                      onClick={closeMenu}
+                      className="block px-4 py-3.5 text-sm font-bold text-[#18213b] transition-colors duration-300 hover:text-[#179BD7]"
+                    >
                       {group.title}
                     </Link>
                   )}
 
+                  {/* Dropdown */}
                   {hasItems && (
-                    <div className={`overflow-hidden bg-gray-50 transition-all duration-300 ${isActive ? "max-h-[28rem]" : "max-h-0"}`}>
+                    <div
+                      className={`overflow-hidden bg-gray-50 transition-all duration-300 ${isActive ? "max-h-[28rem]" : "max-h-0"
+                        }`}
+                    >
                       <ul className="grid gap-1 p-3">
                         {group.items.map((item) => (
                           <li key={typeof item === "string" ? item : item.label}>
-                            <Link href={typeof item === "string" ? "#" : item.href} onClick={closeMenu} className="block rounded-xl px-3 py-2 text-sm font-semibold text-[#343434] transition-colors duration-300 hover:bg-white hover:text-[#179BD7]">
+                            <Link
+                              href={typeof item === "string" ? "#" : item.href}
+                              onClick={closeMenu}
+                              className="block rounded-xl px-3 py-2 text-sm font-semibold text-[#343434] transition-colors duration-300 hover:bg-white hover:text-[#179BD7]"
+                            >
                               {typeof item === "string" ? item : item.label}
                             </Link>
                           </li>
