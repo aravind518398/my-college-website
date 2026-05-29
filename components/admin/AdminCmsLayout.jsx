@@ -20,6 +20,7 @@ export const ADMIN_CMS_SECTIONS = [
   { id: "pg-programmes", label: "PG Programmes" },
   { id: "placed-students", label: "Placed Students" },
   { id: "departments", label: "Departments" },
+  { id: "nss-programme-officers", label: "NSS Programme Officers" },
 ];
 
 export function AdminCmsProvider({ children, defaultSection = "carousel" }) {
