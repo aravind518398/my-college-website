@@ -252,86 +252,98 @@ export default async function CoCurricular() {
 
                         {/* Program Officers */}
                         <div
-  id="nss-officers"
-  className="mt-10 scroll-mt-[90px] rounded-2xl border border-[#dceae5] bg-[#fcfefd] p-6 sm:p-7 lg:scroll-mt-28 lg:p-8"
->
-  {/* Header Section */}
-  <h3 className="text-lg font-bold text-[#18213b] sm:text-xl">
-    Program Officers
-  </h3>
-  
-
-<p className="mt-2 text-xs font-semibold text-[#364565] sm:text-sm">
-  KMM College, Kumbalam -{" "}
-  {[...new Set(officers.map((officer) => officer.unit))].join(", ")}
-</p>
+                            id="nss-officers"
+                            className="mt-10 scroll-mt-[90px] rounded-2xl border border-[#dceae5] bg-[#fcfefd] p-6 sm:p-7 lg:scroll-mt-28 lg:p-8"
+                        >
+                            {/* Header Section */}
+                            <h3 className="text-lg font-bold text-[#18213b] sm:text-xl">
+                                Program Officers
+                            </h3>
 
 
+                            <p className="mt-2 text-xs font-semibold text-[#364565] sm:text-sm">
+                                KMM College, Kumbalam -{" "}
+                                {[...new Set(officers.map((officer) => officer.unit))].join(", ")}
+                            </p>
 
 
 
-  {/* Officers Grid */}
-  <div className="mt-8 grid gap-6 sm:grid-cols-2">
-    {officers.map((officer) => (
-      <article
-        key={officer.id}
-        className="group flex flex-col items-center rounded-2xl border border-[#dceae5] bg-white p-6 shadow-sm transition hover:shadow-xl sm:p-8"
-      >
-        {/* Profile Image with Glow Effect */}
-        <div className="relative">
-          <div className="absolute -inset-1 opacity-80 blur transition duration-300 rounded-full bg-gradient-to-br from-[#1ab69d]/20 to-[#12826f]/10 group-hover:opacity-100" />
-          <Image
-            src={officer.image}
-            width={180}
-            height={180}
-            alt={officer.alt || officer.name}
-            className="relative h-32 w-32 object-cover border-4 border-white rounded-full shadow-lg sm:h-40 sm:w-40"
-          />
-        </div>
-
-        {/* content Section */}
-        <div className="mt-6 text-center">
-          <h3 className="text-xl font-bold text-[#18213b]">{officer.name}</h3>
-          
-          <p className="mt-2 text-sm font-semibold uppercase tracking-[0.12em] text-[#1ab69d]">
-            {officer.designation}
-          </p>
-          
-          <p className="mt-3 text-sm text-[#4b5875]">
-            {officer.department}
-          </p>
-          
-          <p className="mt-4 max-w-xs text-sm leading-6 text-[#667085]">
-            {officer.description}
-          </p>
-        </div>
-
-        {/* Unit Badge */}
-        <div className="mt-5 flex gap-2">
-          <span className="inline-flex px-4 py-1.5 text-xs font-semibold text-[#12826f] bg-[#e9f8f4] rounded-full">
-            {officer.unit}
-          </span>
-        </div>
-      </article>
-    ))}
-  </div>
-</div>
 
 
+                            {/* Officers Grid */}
+                            <div className="mt-8 grid gap-6 sm:grid-cols-2">
+                                {officers.length === 0 ? (
+                                    <div className="col-span-full flex flex-col items-center justify-center rounded-2xl border border-dashed border-[#dceae5] bg-[#f9fdfc] p-10 text-center">
+                                        <h3 className="text-lg font-bold text-[#18213b]">
+                                            No Programme Officers Added
+                                        </h3>
 
-                        
-<p className="mt-8 text-xs font-semibold text-[#2f3d5f] sm:text-sm">
-  {[...new Set(officers.map((officer) => officer.unit))].join(", ")} -{" "}
+                                        <p className="mt-2 text-sm text-[#667085]">
+                                            Officer details will appear here once they are added.
+                                        </p>
+                                    </div>
+                                ) : (
+                                    officers.map((officer) => (
+                                        <article
+                                            key={officer.id}
+                                            className="group flex flex-col items-center rounded-2xl border border-[#dceae5] bg-white p-6 shadow-sm transition hover:shadow-xl sm:p-8"
+                                        >
+                                            {/* Profile Image with Glow Effect */}
+                                            <div className="relative">
+                                                <div className="absolute -inset-1 opacity-80 blur transition duration-300 rounded-full bg-gradient-to-br from-[#1ab69d]/20 to-[#12826f]/10 group-hover:opacity-100" />
+                                                <Image
+                                                    src={officer.image}
+                                                    width={180}
+                                                    height={180}
+                                                    alt={officer.alt || officer.name}
+                                                    className="relative h-32 w-32 object-cover border-4 border-white rounded-full shadow-lg sm:h-40 sm:w-40"
+                                                />
+                                            </div>
 
-  <a
-    href="http://www.nssvoice.org/"
-    target="_blank"
-    rel="noreferrer"
-    className="text-[#12826f] underline decoration-[#12826f]/40 underline-offset-4 transition hover:decoration-[#12826f]"
-  >
-    www.nssvoice.org
-  </a>
-</p>
+                                            {/* content Section */}
+                                            <div className="mt-6 text-center">
+                                                <h3 className="text-xl font-bold text-[#18213b]">{officer.name}</h3>
+
+                                                <p className="mt-2 text-sm font-semibold uppercase tracking-[0.12em] text-[#1ab69d]">
+                                                    {officer.designation}
+                                                </p>
+
+                                                <p className="mt-3 text-sm text-[#4b5875]">
+                                                    {officer.department}
+                                                </p>
+
+                                                <p className="mt-4 max-w-xs text-sm leading-6 text-[#667085]">
+                                                    {officer.description}
+                                                </p>
+                                            </div>
+
+                                            {/* Unit Badge */}
+                                            <div className="mt-5 flex gap-2">
+                                                <span className="inline-flex px-4 py-1.5 text-xs font-semibold text-[#12826f] bg-[#e9f8f4] rounded-full">
+                                                    {officer.unit}
+                                                </span>
+                                            </div>
+                                        </article>
+                                    ))
+                                )}
+                            </div>
+                        </div>
+
+
+
+
+                        <p className="mt-8 text-xs font-semibold text-[#2f3d5f] sm:text-sm">
+                            {[...new Set(officers.map((officer) => officer.unit))].join(", ")} -{" "}
+
+                            <a
+                                href="http://www.nssvoice.org/"
+                                target="_blank"
+                                rel="noreferrer"
+                                className="text-[#12826f] underline decoration-[#12826f]/40 underline-offset-4 transition hover:decoration-[#12826f]"
+                            >
+                                www.nssvoice.org
+                            </a>
+                        </p>
 
 
                     </div>

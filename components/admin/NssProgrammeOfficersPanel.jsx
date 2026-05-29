@@ -17,7 +17,7 @@ function Field({
   icon,
   multiline = false,
   placeholder = "",
-  
+
 }) {
   const inputClass =
     "mt-2 w-full rounded-lg border border-[#d9e6f1] bg-white px-3 py-2.5 text-sm font-medium text-[#18213b] outline-none transition focus:border-[#179BD7] focus:ring-4 focus:ring-[#179BD7]/10";
@@ -46,7 +46,7 @@ function Field({
           defaultValue={defaultValue}
           className={inputClass}
           placeholder={placeholder}
-          
+
         />
       )}
     </label>
@@ -79,9 +79,12 @@ function Panel({ id, title, description, icon, children }) {
 }
 
 export default function NssProgrammeOfficersPanel({
- officers = [],
-officerRowCount = 0,
+  officers = [],
+  officerRowCount = 0,
 }) {
+
+  const canAddOfficer =
+    officers.length < officerRowCount;
   return (
     <Panel
       id="nss-programme-officers"
@@ -100,8 +103,28 @@ officerRowCount = 0,
         {officers.length === 1 ? "" : "s"} saved
       </p>
 
+      <div className="mb-4 flex items-center justify-between gap-3 rounded-lg border border-[#dce7f0] bg-[#fbfdff] px-4 py-3">
+        <p className="text-sm font-semibold text-[#40506f]">
+          {officers.length} of {officerRowCount} officers in use
+        </p>
+
+        {canAddOfficer ? (
+          <span className="text-xs font-bold uppercase tracking-[0.16em] text-[#12826f]">
+            Add officer row available
+          </span>
+        ) : (
+          <span className="text-xs font-bold uppercase tracking-[0.16em] text-[#a33c3c]">
+            Maximum reached
+          </span>
+        )}
+      </div>
+
       <div className="space-y-5">
-        {[...officers, {}].map((officer, officerIndex) => {
+
+        {[
+          ...officers,
+          ...(canAddOfficer ? [{}] : []),
+        ].map((officer, officerIndex) => {
           const isNewRow = officerIndex >= officers.length;
 
           const prefix = `nss-officer-${officerIndex}`;
@@ -179,7 +202,7 @@ officerRowCount = 0,
                   name={`${prefix}-unit`}
                   defaultValue={officer.unit || ""}
                   icon={faIdBadge}
-                  placeholder="eg: NSS Unit 252"
+                  placeholder="eg: Unit 252"
                 />
 
                 <ImageUploadField
