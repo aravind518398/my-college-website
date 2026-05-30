@@ -611,6 +611,8 @@ export function MobileHeader({ settings }) {
   const [open, setOpen] = useState(false);
   const [activeGroup, setActiveGroup] = useState(null);
 
+
+
   useEffect(() => {
     if (!open) {
       return;
@@ -619,6 +621,34 @@ export function MobileHeader({ settings }) {
     menuScrollRef.current?.scrollTo({ top: 0, behavior: "auto" });
   }, [open]);
 
+
+  useEffect(() => {
+  const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
+
+  if (open && !isDesktop) {
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.overflow = "";
+  }
+
+  return () => {
+    document.body.style.overflow = "";
+  };
+}, [open]);
+
+
+useEffect(() => {
+  const mediaQuery = window.matchMedia("(min-width: 1024px)");
+
+  const handleResize = (e) => {
+    if (e.matches) {
+      setOpen(false);
+    }
+  };
+
+  mediaQuery.addEventListener("change", handleResize);
+  return () => mediaQuery.removeEventListener("change", handleResize);
+}, []);
 
   const closeMenu = () => {
     setOpen(false);

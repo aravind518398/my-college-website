@@ -9,7 +9,7 @@ export default function AdminSidebar({ children }) {
     <>
       {/* overlay */}
       <div
-        className={`fixed  inset-0 z-20 bg-black/10 transition-opacity lg:hidden ${navOpen ? "opacity-100 visible" : "opacity-0 invisible"}`}
+        className={`fixed  inset-0 z-20 bg-black/20 backdrop-blur-[2px] transition-opacity lg:hidden ${navOpen ? "opacity-100 visible" : "opacity-0 invisible"}`}
         onClick={closeNav}
         aria-hidden
       />

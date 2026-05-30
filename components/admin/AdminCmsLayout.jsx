@@ -4,6 +4,7 @@ import { faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { createContext, useContext, useEffect, useState } from "react";
 
+
 const AdminCmsContext = createContext(null);
 
 export const ADMIN_CMS_SECTIONS = [
@@ -129,11 +130,11 @@ export function AdminStickySave({ label = "Save changes" }) {
   const { uploadingCount } = useAdminCms();
 
   return (
-    <div className="sticky bottom-1  z-20 mt-3 flex justify-end rounded-xl border border-[#dce7f0] bg-white/10 p-3 shadow-xs backdrop-blur">
+    <div className="sticky bottom-1  z-20 mt-3 flex justify-start rounded-xl border border-[#dce7f0] bg-white/10 p-3 shadow-xs backdrop-blur">
       <button
         type="submit"
         disabled={uploadingCount > 0}
-        className={`inline-flex h-12 items-center  gap-3 rounded-lg px-6 text-sm font-bold text-white shadow-lg transition ${
+        className={`inline-flex h-12 items-center gap-3 rounded-lg px-6 text-sm font-bold text-white shadow-lg transition ${
           uploadingCount > 0
             ? "bg-gray-400 cursor-not-allowed"
             : "bg-gradient-to-r from-[#179BD7] to-[#1ab69d] hover:-translate-y-0.5 shadow-[#179BD7]/20"

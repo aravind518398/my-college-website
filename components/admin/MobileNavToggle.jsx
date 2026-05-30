@@ -3,9 +3,24 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useAdminCms } from "./AdminCmsLayout";
+import { useEffect } from "react";
 
 export default function MobileNavToggle() {
   const { navOpen, toggleNav } = useAdminCms();
+
+useEffect(() => {
+  const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
+
+  if (navOpen && !isDesktop) {
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.overflow = "";
+  }
+
+  return () => {
+    document.body.style.overflow = "";
+  };
+}, [navOpen]);
 
   return (
     <button

@@ -40,7 +40,7 @@ function CardRows({ title, cards, prefix, canAdd }) {
 
   return (
     <div className="space-y-5">
-      <div className="sticky top-1 flex items-center justify-between gap-3 rounded-lg border border-[#1ab69d] bg-[#fbfdff]/10 px-4 py-3 backdrop-blur">
+      <div className="sticky top-1 z-50 flex items-center justify-between gap-3 rounded-lg border border-[#1ab69d] bg-[#fbfdff]/10 px-4 py-3 backdrop-blur">
         <p className="text-sm font-bold text-[#1ab69d]">{title}</p>
         <p className="text-sm font-semibold text-[#40506f]">{cards.length} card(s)</p>
       </div>
