@@ -109,7 +109,7 @@ export async function POST(req) {
     const collegePhone = siteSettings.contact.primaryPhone;
     const secondaryPhone = siteSettings.contact.secondaryPhone;
     const fromAddress = process.env.GMAIL_USER;
-    const recipient = process.env.ENQUIRY_TO_EMAIL || siteSettings.contact.enquiryEmail || collegeEmail;
+    const recipient = siteSettings.contact.enquiryEmail || process.env.ENQUIRY_TO_EMAIL || collegeEmail;
     const submittedAt = new Intl.DateTimeFormat("en-IN", {
       dateStyle: "medium",
       timeStyle: "short",
