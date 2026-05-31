@@ -138,7 +138,7 @@ export default function BugReportButton() {
         disabled={capturing}
         title="Report an issue"
         className={`
-          fixed bottom-5 right-12 z-50
+          fixed bottom-5 right-12 z-20
           flex items-center justify-center gap-2
           w-12 h-12 md:w-auto md:h-auto
           md:px-4 md:py-2.5
@@ -206,7 +206,7 @@ export default function BugReportButton() {
 
       {/* ── Modal ── */}
       {open && (
-        <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-[calc(100%-2rem)] max-w-lg mx-4 bg-white rounded-2xl shadow-2xl p-4 sm:p-6 max-h-[90vh] overflow-y-auto">
+        <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-[calc(100%-2rem)] max-w-lg  bg-white rounded-2xl shadow-2xl p-4 sm:p-6 max-h-[90vh] overflow-y-auto">
 
           {/* Header */}
           <div className="flex items-start justify-between mb-5">
@@ -216,7 +216,7 @@ export default function BugReportButton() {
             </div>
             <button
               onClick={() => setOpen(false)}
-              className="p-2 -m-2 text-gray-400 hover:text-gray-600 text-xl leading-none transition-colors"
+              className="flex items-center justify-center w-12 h-12 text-gray-500 hover:text-gray-700 text-3xl sm:text-2xl transition-colors"
             >
               ×
             </button>

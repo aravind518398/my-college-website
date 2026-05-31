@@ -40,7 +40,7 @@ function CardRows({ title, cards, prefix, canAdd }) {
 
   return (
     <div className="space-y-5">
-      <div className="sticky top-1 z-50 flex items-center justify-between gap-3 rounded-lg border border-[#1ab69d] bg-[#fbfdff]/10 px-4 py-3 backdrop-blur">
+      <div className="sticky top-20 lg:top-1 z-20 flex items-center justify-between gap-3 rounded-lg border border-[#1ab69d] bg-[#fbfdff]/10 px-4 py-3 backdrop-blur">
         <p className="text-sm font-bold text-[#1ab69d]">{title}</p>
         <p className="text-sm font-semibold text-[#40506f]">{cards.length} card(s)</p>
       </div>
@@ -135,7 +135,7 @@ export default function HomeProgrammeCardsPanel({
         <CardRows title="PG Programmes" cards={pgCards} prefix="home-pg-card" canAdd={canAddPg} />
       </div>
 
-      <AdminStickySave label="Save home programme cards" />
+      <AdminStickySave label="Save programme cards" />
     </section>
   );
 }
