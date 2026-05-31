@@ -162,7 +162,7 @@ const defaultSiteSettings = {
   contact: sharedDefaults.contact,
   social: sharedDefaults.social,
   images: {
-    navLogo: "/images/kmm-nav-logo.png",
+    navLogo: "/images/kmm-nav-logo.webp",
   },
 };
 
