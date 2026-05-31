@@ -3,6 +3,7 @@
 import { faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { createContext, useContext, useEffect, useState } from "react";
+import { useFormStatus } from "react-dom";
 
 
 const AdminCmsContext = createContext(null);
@@ -128,6 +129,7 @@ export function AdminCmsSection({ id, children }) {
 
 export function AdminStickySave({ label = "Save changes" }) {
   const { uploadingCount } = useAdminCms();
+  const { pending } = useFormStatus();
 
   return (
     <div className="sticky bottom-1  z-20 mt-3 flex justify-start rounded-xl border border-[#dce7f0] bg-white/10 p-3 shadow-xs backdrop-blur">
@@ -135,17 +137,16 @@ export function AdminStickySave({ label = "Save changes" }) {
   type="submit"
   disabled={uploadingCount > 0}
   className={`inline-flex h-12 items-center gap-1 lg:gap-3 rounded-lg px-4 sm:px-6 text-sm font-bold text-white shadow-lg transition ${
-    uploadingCount > 0
+    pending || uploadingCount > 0
       ? "bg-gray-400 cursor-not-allowed"
       : "bg-gradient-to-r from-[#179BD7] to-[#1ab69d] hover:-translate-y-0.5 shadow-[#179BD7]/20"
   }`}
 >
   <FontAwesomeIcon icon={faFloppyDisk} />
 
-  {uploadingCount > 0 ? (
+  {pending || uploadingCount > 0 ? (
     <>
-      <span className="sm:hidden">Uploading...</span>
-      <span className="hidden sm:inline">Uploading images...</span>
+      <span>Saving....</span>
     </>
   ) : (
     <>
