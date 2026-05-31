@@ -298,40 +298,49 @@ export default async function AcademicsPage() {
           {/* Content */}
           <div className="relative z-10 mx-auto flex min-h-[480px] sm:min-h-[560px] lg:min-h-[680px] max-w-7xl items-center px-4 sm:px-6 lg:px-8">
             <div className="max-w-3xl">
-              {/* Tag */}
-              <div className="mb-6 inline-flex items-center rounded-full border border-white/15 bg-white/10 px-4 py-1.5 backdrop-blur-md">
-                <span className="text-xs font-semibold uppercase tracking-[0.28em] text-[#1ab69d]">
-                  KMM College
-                </span>
-              </div>
+  {/* Tag */}
+  <div className="mb-4 inline-flex items-center rounded-full border border-white/15 bg-white/10 px-3 py-1.5 backdrop-blur-md sm:mb-6 sm:px-4">
+    <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#1ab69d] sm:text-xs sm:tracking-[0.28em]">
+      KMM College
+    </span>
+  </div>
 
-              {/* Heading */}
-              <h1 className="text-4xl font-extrabold leading-tight tracking-tight text-white sm:text-5xl lg:text-7xl">
-                Academic Excellence
-                <span className="mt-2 block bg-gradient-to-l from-[#179BD7] to-[#1ab69d] bg-clip-text text-transparent">
-                  For Your Future
-                </span>
-              </h1>
+  {/* Heading */}
+  <h1 className="text-3xl font-extrabold leading-tight tracking-tight text-white xs:text-4xl sm:text-5xl lg:text-7xl">
+    Academic Excellence
+    <span className="mt-1 block bg-gradient-to-l from-[#179BD7] to-[#1ab69d] bg-clip-text text-transparent sm:mt-2">
+      For Your Future
+    </span>
+  </h1>
 
-              {/* Description */}
-              <p className="mt-6 max-w-2xl text-base leading-8 text-white/80 sm:text-lg">
-                Explore undergraduate and postgraduate programmes, semester
-                schedules, academic resources, holidays, and the official
-                academic calendar designed to support your educational journey.
-              </p>
+  {/* Description */}
+  <p className="mt-4 max-w-2xl text-sm leading-7 text-white/80 sm:mt-6 sm:text-lg sm:leading-8">
+    Explore undergraduate and postgraduate programmes, semester schedules,
+    academic resources, holidays, and the official academic calendar designed
+    to support your educational journey.
+  </p>
 
-              {/* Buttons */}
-              <div className="mt-10 flex flex-wrap gap-4">
-                <Link href="/academics#ug-programme-details" className="group inline-flex w-fit cursor-pointer items-center gap-2 rounded-br-2xl rounded-tl-2xl bg-gradient-to-r from-[#179BD7] to-[#1ab69d] px-5 py-3 text-sm font-bold text-white shadow-xl shadow-[#179BD7]/25 transition-all duration-300 hover:-translate-y-1">
-                  Explore Programmes
-                  <FontAwesomeIcon icon={faArrowRight} className="text-xs transition-transform duration-300 group-hover:translate-x-1" />
-                </Link>
+  {/* Buttons */}
+  <div className="mt-6 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:flex-wrap sm:gap-4">
+    <Link
+      href="/academics#ug-programme-details"
+      className="group inline-flex w-full sm:w-fit items-center justify-center gap-2 rounded-br-2xl rounded-tl-2xl bg-gradient-to-r from-[#179BD7] to-[#1ab69d] px-5 py-3 text-sm font-bold text-white shadow-xl shadow-[#179BD7]/25 transition-all duration-300 hover:-translate-y-1"
+    >
+      Explore Programmes
+      <FontAwesomeIcon
+        icon={faArrowRight}
+        className="text-xs transition-transform duration-300 group-hover:translate-x-1"
+      />
+    </Link>
 
-                <Link href="/academics#academic-calendar" className="inline-flex w-fit cursor-pointer items-center gap-2 rounded-br-2xl rounded-tl-2xl bg-white/12 px-5 py-3 text-sm font-bold text-white ring-1 ring-white/25 backdrop-blur transition-all duration-300 hover:bg-white hover:text-[#18213b]">
-                  Academic Calendar
-                </Link>
-              </div>
-            </div>
+    <Link
+      href="/academics#academic-calendar"
+      className="inline-flex w-full sm:w-fit items-center justify-center gap-2 rounded-br-2xl rounded-tl-2xl bg-white/12 px-5 py-3 text-sm font-bold text-white ring-1 ring-white/25 backdrop-blur transition-all duration-300 hover:bg-white hover:text-[#18213b]"
+    >
+      Academic Calendar
+    </Link>
+  </div>
+</div>
           </div>
         </section>
         <div id="ug-programmes" className="scroll-mt-14">
