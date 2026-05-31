@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { domToPng } from "modern-screenshot";
+import { usePathname } from "next/navigation";
 
 const ISSUE_TYPES = [
   { value: "bug", label: "🐞 Bug" },
@@ -11,6 +12,12 @@ const ISSUE_TYPES = [
 ];
 
 export default function BugReportButton() {
+    const pathname = usePathname();
+
+  // Hide on login page
+  if (pathname === "/admin/login") {
+    return null;
+  }
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({ type: "bug", title: "", description: "", steps: "" });
   const [screenshot, setScreenshot] = useState(null);
