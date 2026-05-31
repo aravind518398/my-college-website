@@ -33,8 +33,8 @@ export default function PDFUploadField({
   const [status, setStatus] = useState("idle");
   const [message, setMessage] = useState("");
 
-  let startUpload = () => {};
-  let finishUpload = () => {};
+  let startUpload = () => { };
+  let finishUpload = () => { };
 
   try {
     const cms = useAdminCms();
@@ -100,7 +100,7 @@ export default function PDFUploadField({
   };
 
   return (
-    <div className="block">
+    <div className="block overflow-hidden">
       <span className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.14em] text-[#63708a]">
         <FontAwesomeIcon icon={faFilePdf} className="text-[#179BD7]" />
         {label}
@@ -140,14 +140,13 @@ export default function PDFUploadField({
           </div>
         )}
 
-        <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-3 flex  min-w-0  flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <label
             htmlFor={inputId}
-            className={`inline-flex h-11 cursor-pointer items-center justify-center gap-2 rounded-lg px-4 text-sm font-bold text-white shadow-lg shadow-[#179BD7]/15 transition ${
-              status === "uploading"
+            className={`inline-flex h-11 w-full sm:w-auto cursor-pointer items-center justify-center gap-2 rounded-lg px-4 text-sm font-bold text-white shadow-lg shadow-[#179BD7]/15 transition ${status === "uploading"
                 ? "bg-[#7aaec8]"
                 : "bg-gradient-to-r from-[#179BD7] to-[#1ab69d] hover:-translate-y-0.5"
-            }`}
+              }`}
           >
             <FontAwesomeIcon
               icon={status === "uploading" ? faSpinner : faUpload}
@@ -160,7 +159,7 @@ export default function PDFUploadField({
             <button
               type="button"
               onClick={clearPdf}
-              className="inline-flex h-11 items-center justify-center gap-2 rounded-lg border border-[#ffd7d7] bg-[#fff6f6] px-4 text-sm font-bold text-[#a33c3c] transition hover:bg-[#ffecec]"
+              className="inline-flex h-11 w-full sm:w-auto items-center justify-center gap-2 rounded-lg border border-[#ffd7d7] bg-[#fff6f6] px-4 text-sm font-bold text-[#a33c3c] transition hover:bg-[#ffecec]"
             >
               <FontAwesomeIcon icon={faTrash} />
               Delete PDF
@@ -179,28 +178,27 @@ export default function PDFUploadField({
         />
 
         {message ? (
-  <div
-    className={`mt-2 rounded-lg p-3 text-center text-xs font-semibold ${
-      status === "error"
-        ? "border border-[#ffd7d7] bg-[#fff6f6] text-[#a33c3c]"
-        : "border border-[#cdeee6] bg-[#f3fffb] text-[#12826f]"
-    }`}
-  >
-    <p>{message}</p>
+          <div
+            className={`mt-2 rounded-lg p-3 text-center text-xs font-semibold ${status === "error"
+              ? "border border-[#ffd7d7] bg-[#fff6f6] text-[#a33c3c]"
+              : "border border-[#cdeee6] bg-[#f3fffb] text-[#12826f]"
+              }`}
+          >
+            <p>{message}</p>
 
-    {status === "error" && (
-      <a
-        href="https://www.ilovepdf.com/compress_pdf"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="mt-2 inline-flex items-center gap-2 text-[#179BD7] underline hover:text-[#1ab69d]"
-      >
-        <FontAwesomeIcon icon={faFilePdf} />
-        Compress PDF with iLovePDF
-      </a>
-    )}
-  </div>
-) : null}
+            {status === "error" && (
+              <a
+                href="https://www.ilovepdf.com/compress_pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-2 inline-flex items-center gap-2 text-[#179BD7] underline hover:text-[#1ab69d]"
+              >
+                <FontAwesomeIcon icon={faFilePdf} />
+                Compress PDF with iLovePDF
+              </a>
+            )}
+          </div>
+        ) : null}
       </div>
     </div>
   );

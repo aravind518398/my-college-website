@@ -12,7 +12,7 @@ function Field({
   multiline = false,
   options = null,
   placeholder = "",
-  min="",
+  min = "",
 }) {
   const inputClass =
     "mt-2 w-full rounded-lg border border-[#d9e6f1] bg-white px-3 py-2.5 text-sm font-medium text-[#18213b] outline-none transition focus:border-[#179BD7] focus:ring-4 focus:ring-[#179BD7]/10";
@@ -139,8 +139,17 @@ export default function PgProgrammesPanel({
                       name={`${prefix}-delete`}
                       className="h-4 w-4 accent-[#a33c3c]"
                     />
-                    <FontAwesomeIcon icon={faTrash} />
-                    Delete programme
+                    {/* Mobile */}
+                    <span className="sm:hidden">
+                      <FontAwesomeIcon icon={faTrash} />
+                      Delete
+                    </span>
+
+                    {/* Tablet & Desktop */}
+                    <span className="hidden sm:inline">
+                      <FontAwesomeIcon icon={faTrash} />
+                      Delete programme
+                    </span>
                   </label>
                 ) : null}
               </div>
@@ -149,7 +158,7 @@ export default function PgProgrammesPanel({
 
               <div className="grid gap-4 md:grid-cols-2">
                 <Field label="Slug ID (must be unique)" name={`${prefix}-id`} defaultValue={programme.id || ""} icon={faPenToSquare} placeholder="eg: integrated-mca" />
-                <Field label="Short Name" name={`${prefix}-shortName`} defaultValue={programme.shortName || ""} icon={faPenToSquare} placeholder="eg:MCA"/>
+                <Field label="Short Name" name={`${prefix}-shortName`} defaultValue={programme.shortName || ""} icon={faPenToSquare} placeholder="eg:MCA" />
                 <div className="md:col-span-2">
                   <Field label="Full Title" name={`${prefix}-title`} defaultValue={programme.title || ""} icon={faPenToSquare} placeholder="eg: Master of Computer Applications (Regular)" />
                 </div>
@@ -164,10 +173,10 @@ export default function PgProgrammesPanel({
                 ]} />
                 <Field label="Department" name={`${prefix}-department`} defaultValue={programme.department || ""} icon={faPenToSquare} placeholder="eg: Computer Applications" />
 
-                <Field label="Seats" name={`${prefix}-seats`} defaultValue={programme.seats ?? ""} icon={faPenToSquare} type="number"  min={0}/>
+                <Field label="Seats" name={`${prefix}-seats`} defaultValue={programme.seats ?? ""} icon={faPenToSquare} type="number" min={0} />
                 <Field label="Duration" name={`${prefix}-duration`} defaultValue={programme.duration || ""} icon={faPenToSquare} type="number" min={0} />
-                <Field label="Semesters" name={`${prefix}-semesters`} defaultValue={programme.semesters ?? ""} icon={faPenToSquare} type="number"  min={0}/>
-                <Field label="Fees (per semester)" name={`${prefix}-fees`} defaultValue={programme.fees ?? ""} icon={faPenToSquare} type="number" min={0}/>
+                <Field label="Semesters" name={`${prefix}-semesters`} defaultValue={programme.semesters ?? ""} icon={faPenToSquare} type="number" min={0} />
+                <Field label="Fees (per semester)" name={`${prefix}-fees`} defaultValue={programme.fees ?? ""} icon={faPenToSquare} type="number" min={0} />
                 <Field label="Eligibility (one per line)" name={`${prefix}-eligibility`} defaultValue={(programme.eligibility || []).join("\n")} icon={faPenToSquare} multiline />
                 <Field label="Specialisations (one per line)" name={`${prefix}-specialisations`} defaultValue={(programme.specialisations || []).join("\n")} icon={faPenToSquare} multiline />
               </div>
@@ -179,20 +188,43 @@ export default function PgProgrammesPanel({
                   const syllabusPrefix = `${prefix}-syllabus-${syllabusIndex}`;
 
                   return (
-                    <div key={`${programme.id || "new"}-syllabus-${syllabusIndex}`} className="rounded-lg border border-[#e1ebf4] bg-white p-4">
-                      <div className="mb-3 flex items-center justify-between gap-3">
-                        <p className="text-sm font-bold text-[#18213b]">
+                    <div
+                      key={`${programme.id || "new"}-syllabus-${syllabusIndex}`}
+                      className="w-full rounded-lg border border-[#e1ebf4] bg-white p-4"
+                    >
+                      <div className="mb-3 flex w-full items-start justify-between gap-3 sm:items-center">
+                        <p className="flex-1 min-w-0 break-words text-sm font-bold text-[#18213b]">
                           {isNewSyllabus ? "Add syllabus row" : item.label}
                         </p>
-                        {!isNewSyllabus ? (
-                          <label className="inline-flex items-center gap-2 rounded-lg border border-[#ffd7d7] bg-[#fff6f6] px-3 py-2 text-xs font-bold text-[#a33c3c]">
-                            <input type="checkbox" name={`${syllabusPrefix}-delete`} className="h-4 w-4 accent-[#a33c3c]" />
-                            Delete
+
+                        {!isNewSyllabus && (
+                          <label className="inline-flex shrink-0 items-center gap-2 rounded-lg border border-[#ffd7d7] bg-[#fff6f6] px-3 py-2 text-xs font-bold text-[#a33c3c]">
+                            <input
+                              type="checkbox"
+                              name={`${syllabusPrefix}-delete`}
+                              className="h-4 w-4 accent-[#a33c3c]"
+                            />
+
+                            {/* Mobile */}
+                            <span className="sm:hidden">
+                              <FontAwesomeIcon icon={faTrash} />
+                            </span>
+
+                            {/* Tablet & Desktop */}
+                            <span className="hidden sm:inline">Delete</span>
                           </label>
-                        ) : null}
+                        )}
                       </div>
+
                       <div className="grid gap-4 md:grid-cols-2">
-                        <Field label="Label" name={`${syllabusPrefix}-label`} defaultValue={item.label || ""} icon={faPenToSquare} placeholder={"eg: MCA Full Syllabus"} />
+                        <Field
+                          label="Label"
+                          name={`${syllabusPrefix}-label`}
+                          defaultValue={item.label || ""}
+                          icon={faPenToSquare}
+                          placeholder="eg: MCA Full Syllabus"
+                        />
+
                         <Field
                           label="Status"
                           name={`${syllabusPrefix}-status`}
@@ -200,9 +232,18 @@ export default function PgProgrammesPanel({
                           icon={faPenToSquare}
                           options={["Available", "Coming soon"]}
                         />
+
                         <div className="md:col-span-2">
-                          <Field label="Detail" name={`${syllabusPrefix}-detail`} defaultValue={item.detail || ""} icon={faPenToSquare} multiline placeholder="eg:Describe the syllabus content, core subjects, practical training, project work, and learning outcomes for this semester."/>
+                          <Field
+                            label="Detail"
+                            name={`${syllabusPrefix}-detail`}
+                            defaultValue={item.detail || ""}
+                            icon={faPenToSquare}
+                            multiline
+                            placeholder="eg: Describe the syllabus content, core subjects, practical training, project work, and learning outcomes for this semester."
+                          />
                         </div>
+
                         <div className="md:col-span-2">
                           <PDFUploadField
                             label="Syllabus PDF"

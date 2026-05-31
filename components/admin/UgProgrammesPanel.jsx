@@ -13,7 +13,7 @@ function Field({
   options = null,
   placeholder = "",
   disabled = false,
-  min=""
+  min = ""
 }) {
   const inputClass =
     "mt-2 w-full rounded-lg border border-[#d9e6f1] bg-white px-3 py-2.5 text-sm font-medium text-[#18213b] outline-none transition focus:border-[#179BD7] focus:ring-4 focus:ring-[#179BD7]/10";
@@ -142,8 +142,17 @@ export default function UgProgrammesPanel({
                       name={`${prefix}-delete`}
                       className="h-4 w-4 accent-[#a33c3c]"
                     />
-                    <FontAwesomeIcon icon={faTrash} />
-                    Delete programme
+                    {/* Mobile */}
+                    <span className="sm:hidden">
+                      <FontAwesomeIcon icon={faTrash} />
+                      Delete
+                    </span>
+
+                    {/* Tablet & Desktop */}
+                    <span className="hidden sm:inline">
+                      <FontAwesomeIcon icon={faTrash} />
+                      Delete programme
+                      </span>
                   </label>
                 ) : null}
               </div>
@@ -165,9 +174,9 @@ export default function UgProgrammesPanel({
 
                 <Field label="Department" name={`${prefix}-department`} defaultValue={programme.department || ""} icon={faPenToSquare} placeholder={"eg: Computer Application"} />
 
-                <Field label="Seats" name={`${prefix}-seats`} defaultValue={programme.seats ?? ""} icon={faPenToSquare} type="number" min={0}/>
+                <Field label="Seats" name={`${prefix}-seats`} defaultValue={programme.seats ?? ""} icon={faPenToSquare} type="number" min={0} />
                 <Field label="Duration" name={`${prefix}-duration`} defaultValue={programme.duration || ""} icon={faPenToSquare} type="number" min={0} />
-                <Field label="Semesters" name={`${prefix}-semesters`} defaultValue={programme.semesters ?? ""} icon={faPenToSquare} type="number" min={0}/>
+                <Field label="Semesters" name={`${prefix}-semesters`} defaultValue={programme.semesters ?? ""} icon={faPenToSquare} type="number" min={0} />
                 <Field label="Fees (per semester)" name={`${prefix}-fees`} defaultValue={programme.fees ?? ""} icon={faPenToSquare} type="number" min={0} />
                 <Field label="Eligibility (one per line)" name={`${prefix}-eligibility`} defaultValue={(programme.eligibility || []).join("\n")} icon={faPenToSquare} multiline />
                 <Field label="Specialisations (one per line)" name={`${prefix}-specialisations`} defaultValue={(programme.specialisations || []).join("\n")} icon={faPenToSquare} multiline />
@@ -187,8 +196,19 @@ export default function UgProgrammesPanel({
                         </p>
                         {!isNewSyllabus ? (
                           <label className="inline-flex items-center gap-2 rounded-lg border border-[#ffd7d7] bg-[#fff6f6] px-3 py-2 text-xs font-bold text-[#a33c3c]">
-                            <input type="checkbox" name={`${syllabusPrefix}-delete`} className="h-4 w-4 accent-[#a33c3c]" />
-                            Delete
+                            <input
+                              type="checkbox"
+                              name={`${syllabusPrefix}-delete`}
+                              className="h-4 w-4 accent-[#a33c3c]"
+                            />
+
+                            {/* Mobile */}
+                            <span className="sm:hidden">
+                              <FontAwesomeIcon icon={faTrash} />
+                            </span>
+
+                            {/* Tablet & Desktop */}
+                            <span className="hidden sm:inline">Delete</span>
                           </label>
                         ) : null}
                       </div>
