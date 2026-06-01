@@ -26,6 +26,7 @@ export default function BugReportButton() {
   const [submitting, setSubmitting] = useState(false);
   const [status, setStatus] = useState(null); // "success" | "error"
   const fileInputRef = useRef(null);
+  const [errorMessage, setErrorMessage] = useState(null);
 
 
   // ── Auto-capture FULL PAGE ──────────────────────────────────────────────
@@ -86,44 +87,48 @@ export default function BugReportButton() {
 
   // ── Submit ─────────────────────────────────────────────────────────────────
   const handleSubmit = async () => {
-    if (!form.title.trim()) return;
-    setSubmitting(true);
-    setStatus(null);
+  if (!form.title.trim()) return;
+  setSubmitting(true);
+  setStatus(null);
 
-    try {
-      let screenshotUrl = null;
-      if (screenshotFile) {
-        screenshotUrl = await uploadToCloudinary(screenshotFile);
-      }
-
-      const res = await fetch("/api/report-bug", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...form,
-          screenshotUrl,
-          pageUrl: window.location.href,
-          reportedAt: new Date().toISOString(),
-        }),
-      });
-
-      if (!res.ok) throw new Error("Failed to send");
-
-      setStatus("success");
-      setTimeout(() => {
-        setOpen(false);
-        setForm({ type: "bug", title: "", description: "", steps: "" });
-        setScreenshot(null);
-        setScreenshotFile(null);
-        setStatus(null);
-      }, 2000);
-    } catch (err) {
-      console.error(err);
-      setStatus("error");
-    } finally {
-      setSubmitting(false);
+  try {
+    let screenshotUrl = null;
+    if (screenshotFile) {
+      screenshotUrl = await uploadToCloudinary(screenshotFile);
     }
-  };
+
+    const res = await fetch("/api/report-bug", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        ...form,
+        screenshotUrl,
+        pageUrl: window.location.href,
+        reportedAt: new Date().toISOString(),
+      }),
+    });
+
+    if (!res.ok) {
+      const errBody = await res.text(); // 👈 read the actual error
+      throw new Error(`API error ${res.status}: ${errBody}`);
+    }
+
+    setStatus("success");
+    setTimeout(() => {
+      setOpen(false);
+      setForm({ type: "bug", title: "", description: "", steps: "" });
+      setScreenshot(null);
+      setScreenshotFile(null);
+      setStatus(null);
+    }, 2000);
+  } catch (err) {
+    console.error("Submit failed:", err); // 👈 check browser console
+    setStatus("error");
+    setErrorMessage(err.message); // 👈 show real message in UI
+  } finally {
+    setSubmitting(false);
+  }
+};
 
   useEffect(() => {
     if (open) {
@@ -361,10 +366,10 @@ export default function BugReportButton() {
           )}
 
           {status === "error" && (
-            <p className="text-center text-xs text-red-500 mt-2">
-              Something went wrong. Please try again.
-            </p>
-          )}
+  <p className="text-center text-xs text-red-500 mt-2">
+    {errorMessage || "Something went wrong. Please try again."}
+  </p>
+)}
 
         </div>
       )}

@@ -135,7 +135,7 @@ export function AdminStickySave({ label = "Save changes" }) {
       <button
   type="submit"
   disabled={uploadingCount > 0}
-  className={`inline-flex h-12 items-center gap-1 lg:gap-3 rounded-lg px-4 sm:px-6 text-sm font-bold text-white shadow-lg transition ${
+  className={`inline-flex h-12 items-center gap-1 lg:gap-3 cursor-pointer rounded-lg px-4 sm:px-6 text-sm font-bold text-white shadow-lg transition ${
     uploadingCount > 0
       ? "bg-gray-400 cursor-not-allowed"
       : "bg-gradient-to-r from-[#179BD7] to-[#1ab69d] hover:-translate-y-0.5 shadow-[#179BD7]/20"
