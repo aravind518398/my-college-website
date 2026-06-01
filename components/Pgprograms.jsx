@@ -3,6 +3,7 @@
 import { defaultPgDocumentsRequired, defaultPgProgrammes } from "@/lib/pgProgrammeDefaults";
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import DownloadPdfButton from "./DownloadPdfButton";
 
 const FALLBACK_PROGRAMMES = defaultPgProgrammes;
 const FALLBACK_DOCUMENTS = defaultPgDocumentsRequired;
@@ -54,14 +55,7 @@ function SyllabusItem({ item, programme }) {
       </div>
 
       {isAvailable ? (
-        <a
-          href={item.href}
-          download
-          className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#18213b] px-4 py-3 text-sm font-bold text-white transition-colors duration-200 hover:bg-[#1ab69d]"
-        >
-          <Icon name="download" className="h-4 w-4" />
-          Download
-        </a>
+        <DownloadPdfButton pdfUrl={item.pdfUrl} title={item.label} />
       ) : (
         <span className="inline-flex items-center justify-center rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-bold text-slate-400">
           Awaiting PDF

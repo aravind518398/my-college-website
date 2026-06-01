@@ -70,6 +70,7 @@ export async function POST(req) {
           {
             folder,
             resource_type: "raw",
+            fileType: "pdf",
             overwrite: false,
           },
           (error, result) => {

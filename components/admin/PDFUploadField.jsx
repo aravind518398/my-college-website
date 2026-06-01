@@ -10,6 +10,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useId, useRef, useState } from "react";
 import { useAdminCms } from "@/components/admin/AdminCmsLayout";
+import { DownloadPdfLink } from "../DownloadPdfButton";
 
 const ACCEPTED_PDF_TYPES = "application/pdf,.pdf";
 
@@ -60,6 +61,14 @@ export default function PDFUploadField({
 
       startUpload();
 
+      if (publicId) {
+      await fetch("/api/pdf-upload", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ publicId }),
+      });
+    }
+
       const formData = new FormData();
       formData.append("file", file);
       formData.append("folder", folder);
@@ -90,7 +99,19 @@ export default function PDFUploadField({
     }
   };
 
-  const clearPdf = () => {
+  const clearPdf = async () => {
+
+    if (publicId) {
+    try {
+      await fetch("/api/pdf-upload", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ publicId }),
+      });
+    } catch (error) {
+      console.error("Failed to delete PDF from Cloudinary:", error);
+    }
+  }
     setDeleteRequested(true);
     setPdfUrl("");
     setPublicId("");
@@ -122,15 +143,8 @@ export default function PDFUploadField({
                 <p className="truncate text-sm font-bold text-[#18213b]">
                   {title || "Uploaded PDF"}
                 </p>
-                <a
-                  href={pdfUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-1 inline-flex items-center gap-2 text-xs font-bold text-[#179BD7] hover:text-[#1ab69d]"
-                >
-                  <FontAwesomeIcon icon={faDownload} />
-                  Preview / download current PDF
-                </a>
+                <DownloadPdfLink pdfUrl={pdfUrl} title={title} />
+                  
               </div>
             </div>
           </div>
