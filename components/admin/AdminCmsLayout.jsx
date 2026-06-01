@@ -129,14 +129,14 @@ export function AdminCmsSection({ id, children }) {
 
 export function AdminStickySave({ label = "Save changes" }) {
   const { uploadingCount } = useAdminCms();
-
+  const { pending } = useFormStatus();
   return (
     <div className="sticky bottom-1  z-20 mt-3 flex justify-start rounded-xl border border-[#dce7f0] bg-white/10 p-3 shadow-xs backdrop-blur">
       <button
   type="submit"
   disabled={uploadingCount > 0}
   className={`inline-flex h-12 items-center gap-1 lg:gap-3 cursor-pointer rounded-lg px-4 sm:px-6 text-sm font-bold text-white shadow-lg transition ${
-    uploadingCount > 0
+    pending
       ? "bg-gray-400 cursor-not-allowed"
       : "bg-gradient-to-r from-[#179BD7] to-[#1ab69d] hover:-translate-y-0.5 shadow-[#179BD7]/20"
   }`}
