@@ -2,9 +2,15 @@ import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import GitHub from "next-auth/providers/github";
 import bcrypt from "bcryptjs";
+import { cookies } from "next/headers";
 import { z } from "zod";
 
 import { connectDB } from "@/lib/mongodb";
+import {
+  hashLoginToken,
+  OTP_LOGIN_TOKEN_COOKIE,
+  timingSafeEqualHex,
+} from "@/lib/otp";
 import User from "@/models/User";
 
 
@@ -13,6 +19,10 @@ const loginSchema = z.object({
   email: z.string().email().trim().toLowerCase(),
   password: z.string().min(1),
 });
+
+function getAdminEmail() {
+  return process.env.ADMIN_EMAIL?.trim().toLowerCase();
+}
 
 function getAllowedGitHubEmails() {
   return new Set(
@@ -24,6 +34,8 @@ function getAllowedGitHubEmails() {
 }
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
+  secret: process.env.AUTH_SECRET || process.env.AUTH_SECRET,
+
   session: {
     strategy: "jwt",
     maxAge: 8 * 60 * 60, // 8 hours
@@ -54,10 +66,15 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         }
 
         const { email, password } = parsedCredentials.data;
+        const adminEmail = getAdminEmail();
+
+        if (!adminEmail || email !== adminEmail) {
+          return null;
+        }
 
         await connectDB();
 
-        const user = await User.findOne({ email }).lean();
+        const user = await User.findOne({ email });
 
         if (!user?.password) {
           return null;
@@ -70,6 +87,41 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         if (!isPasswordValid) {
           return null;
+        }
+
+        const cookieStore = await cookies();
+        const loginToken = cookieStore.get(OTP_LOGIN_TOKEN_COOKIE)?.value;
+
+        if (!loginToken || !user.otpLoginToken || !user.otpLoginTokenExpires) {
+          return null;
+        }
+
+        if (user.otpLoginTokenExpires.getTime() <= Date.now()) {
+          user.otpLoginToken = null;
+          user.otpLoginTokenExpires = null;
+          await user.save();
+
+          return null;
+        }
+
+        const loginTokenHash = hashLoginToken(loginToken);
+        const isOtpVerified = timingSafeEqualHex(
+          user.otpLoginToken,
+          loginTokenHash
+        );
+
+        if (!isOtpVerified) {
+          return null;
+        }
+
+        user.otpLoginToken = null;
+        user.otpLoginTokenExpires = null;
+        await user.save();
+
+        try {
+          cookieStore.delete(OTP_LOGIN_TOKEN_COOKIE);
+        } catch {
+          // The database token is already single-use, so cookie deletion is best-effort.
         }
 
         return {
