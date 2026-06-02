@@ -1,3 +1,6 @@
+export const revalidate = 86400; // Cache the entire layout for 24 hours to optimize performance and reduce server load
+
+
 import { Geist, Geist_Mono, Montserrat } from "next/font/google";
 
 import "@fortawesome/fontawesome-svg-core/styles.css";

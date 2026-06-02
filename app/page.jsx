@@ -1,6 +1,5 @@
 // app/page.jsx
 
-export const revalidate = 3600; // Keep your 1-hour static regeneration rule
 
 import { pickCollegeCampusImage } from "@/lib/collegeImageDefaults";
 import { defaultCampusSections } from "@/lib/campusSectionDefaults";
@@ -38,9 +37,7 @@ async function getCarouselSlides() {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
     // IMPORTANT: Match the page revalidation rule so Next.js doesn't throw a build conflict
-    const response = await fetch(`${baseUrl}/api/carousel`, {
-      next: { revalidate: 3600 }, 
-    });
+    const response = await fetch(`${baseUrl}/api/carousel`);
 
     if (!response.ok) return defaultCarouselSlides;
     const data = await response.json();
