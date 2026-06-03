@@ -7,7 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 export const metadata = {
-  title: "Add-On Courses | KMM College Kumbalam",
+  title: "Add-On Courses | KMM COLLEGE KUMBALAM",
   description:
     "Industry-focused add-on courses at K.M.M. College, Kumbalam alongside UG and PG programmes.",
 };

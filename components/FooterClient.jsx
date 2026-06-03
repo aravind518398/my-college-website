@@ -10,37 +10,6 @@ import Link from "next/link";
 import { defaultSiteSettings as sharedDefaults } from "@/lib/siteSettingsDefaults";
 import { useMemo } from "react";
 
-// const departments = [
-//   { label: "Department of Commerce", href: "/departments#commerce" },
-//   { label: "Department of Computer Applications", href: "/departments#computer-application" },
-//   { label: "Department of Psychology", href: "/departments#psychology" },
-//   { label: "Department of Business Administration", href: "/departments#business-administration" },
-//   { label: "Department of Mathematics", href: "/departments#mathematics" },
-//   { label: "Department of Languages", href: "/departments#languages" },
-// ];
-
-// const ugProgrammes = [
-//   { label: "B.Com Finance and Taxation", href: "academics?program=bcom#ug-programme-details" },
-//   { label: "BSc Psychology", href: "academics?program=bsc-psychology#ug-programme-details" },
-//   { label: "BBA", href: "academics?program=bba#ug-programme-details" },
-//   { label: "BCA", href: "academics?program=bca#ug-programme-details" },
-
-// ];
-
-// const pgProgrammes = [
-//   { label: "MBA", href: "academics?program=mba#pg-programme-details" },
-//   { label: "MCA", href: "academics?program=mca#pg-programme-details" },
-//   { label: "M.Sc Psychology", href: "academics?program=msc-psychology#pg-programme-details" },
-// ];
-
-
-
-
-
-
-
-
-
 
 const defaultSiteSettings = {
   identity: {
@@ -135,8 +104,8 @@ export default function FooterClient({
                 <Image src={settings.images.footerLogo} width={84} height={84} alt="KMM College logo" className="h-full w-full object-contain" />
               </span>
               <span>
-                <span className="block text-xl font-bold leading-tight">{settings.identity.shortName}</span>
-                <span className="mt-1 block text-sm font-semibold text-[#1ab69d]">{settings.identity.tagline}</span>
+                <span className="block text-xl font-bold leading-tight uppercase">{settings.identity.shortName}</span>
+                <span className="mt-1 block text-sm font-semibold text-[#1ab69d] uppercase">{settings.identity.tagline}</span>
               </span>
             </Link>
 

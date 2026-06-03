@@ -32,7 +32,7 @@ export default function HomeContent({
               <div className="h-12 w-1.5 shrink-0 rounded-full bg-[#179BD7]"></div>
               <div className="ml-4">
                 <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#1ab69d]">Welcome to</p>
-                <h2 className="text-2xl font-bold leading-tight text-[#18213b] sm:text-3xl">KMM College Kumbalam</h2>
+                <h2 className="text-2xl font-bold leading-tight text-[#18213b] sm:text-3xl uppercase">KMM College Kumbalam</h2>
               </div>
             </div>
 
@@ -115,7 +115,7 @@ export default function HomeContent({
               <div className="h-12 w-1.5 shrink-0 rounded-full bg-[#179BD7]"></div>
               <div className="ml-4">
                 <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#1ab69d]">Facilities</p>
-                <h2 className="text-2xl font-bold leading-tight text-[#18213b] sm:text-3xl">Campus overview</h2>
+                <h2 className="text-2xl font-bold leading-tight text-[#18213b] sm:text-3xl uppercase">Campus overview</h2>
               </div>
             </div>
 
@@ -146,7 +146,7 @@ export default function HomeContent({
                 <div className="h-12 w-1.5 shrink-0 rounded-full bg-[#179BD7]"></div>
                 <div className="ml-4">
                   <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#1ab69d]">Academics</p>
-                  <h2 className="text-2xl font-bold leading-tight text-[#18213b] sm:text-3xl">Programmes offered</h2>
+                  <h2 className="text-2xl font-bold leading-tight text-[#18213b] sm:text-3xl uppercase">Programmes offered</h2>
                 </div>
               </div>
               <p className="max-w-xl text-sm leading-7 text-[#343434] sm:text-base">Choose from career-focused undergraduate and postgraduate programmes designed to build strong fundamentals, practical skills, and professional confidence.</p>
