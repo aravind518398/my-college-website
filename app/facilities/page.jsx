@@ -16,7 +16,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 export const metadata = {
-  title: "Facilities | KMM College Kumbalam",
+  title: "Facilities | KMM COLLEGE KUMBALAM",
   description:
     "Campus infrastructure and student facilities at K.M.M. College, Kumbalam.",
 };

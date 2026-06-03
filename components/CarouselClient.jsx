@@ -90,7 +90,7 @@ export default function CarouselClient({ initialSlides }) {
             <span className="h-11 w-1.5 rounded-full bg-[#1ab69d]"></span>
             <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#1ab69d] sm:text-sm">{currentSlide?.eyebrow}</p>
           </div>
-          <h1 className="max-w-3xl text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl">{currentSlide?.title}</h1>
+          <h1 className="max-w-3xl text-4xl font-bold uppercase leading-tight sm:text-5xl lg:text-6xl">{currentSlide?.title}</h1>
           <p className="mt-5 max-w-2xl text-sm leading-7 text-white/82 sm:text-base lg:text-lg lg:leading-8">{currentSlide?.description}</p>
         
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">

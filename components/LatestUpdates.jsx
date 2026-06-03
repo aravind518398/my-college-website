@@ -11,28 +11,11 @@ import {
 
 const VISIBLE_COUNT = 3;
 
-export default function LatestUpdates() {
+export default function LatestUpdates({ initialUpdates = defaultLatestUpdates }) {
   const [showAll, setShowAll] = useState(false);
-  const [allUpdates, setAllUpdates] = useState(defaultLatestUpdates);
+  const [allUpdates, setAllUpdates] = useState(initialUpdates);
   const listRef = useRef(null);
   const [listHeight, setListHeight] = useState(0);
-
-  useEffect(() => {
-    let isMounted = true;
-
-    fetch("/api/latest-updates")
-      .then((response) => (response.ok ? response.json() : null))
-      .then((data) => {
-        if (isMounted && Array.isArray(data?.updates) && data.updates.length) {
-          setAllUpdates(data.updates);
-        }
-      })
-      .catch(() => {});
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
 
   useEffect(() => {
     if (listRef.current) {

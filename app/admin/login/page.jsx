@@ -13,7 +13,7 @@ import { auth } from "@/auth";
 import AdminLoginForm from "@/components/admin/AdminLoginForm";
 
 export const metadata = {
-  title: "Admin Login | KMM College Kumbalam",
+  title: "Admin Login | KMM COLLEGE KUMBALAM",
   description: "Secure administrator sign in for KMM College Kumbalam.",
 };
 

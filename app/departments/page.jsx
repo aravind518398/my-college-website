@@ -10,9 +10,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { getDepartments } from "@/lib/departments";
 
-export const dynamic = "force-dynamic";
+// Use Incremental Static Regeneration so admin can call `revalidatePath("/departments")`
+export const revalidate = 60;
 
-function SectionHeader({ eyebrow, title, description, align = "center" }) {
+   
+
+function SectionHeader({ eyebrow, title , description, align = "center" }) {
   const centered = align === "center";
 
   return (

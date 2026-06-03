@@ -13,11 +13,6 @@ const ISSUE_TYPES = [
 
 export default function BugReportButton() {
     const pathname = usePathname();
-
-  // Hide on login page
-  if (pathname === "/admin/login") {
-    return null;
-  }
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({ type: "bug", title: "", description: "", steps: "" });
   const [screenshot, setScreenshot] = useState(null);
@@ -27,6 +22,8 @@ export default function BugReportButton() {
   const [status, setStatus] = useState(null); // "success" | "error"
   const fileInputRef = useRef(null);
   const [errorMessage, setErrorMessage] = useState(null);
+
+  const hideOnLogin = pathname === "/admin/login";
 
 
   // ── Auto-capture FULL PAGE ──────────────────────────────────────────────
@@ -161,6 +158,7 @@ export default function BugReportButton() {
           shadow-lg shadow-red-500/30
           transition-all duration-150
           ${capturing ? "opacity-90 cursor-not-allowed" : ""}
+            ${hideOnLogin ? "hidden" : ""}
         `}
       >
         {capturing ? (
@@ -209,7 +207,7 @@ export default function BugReportButton() {
       </button>
 
       {/* ── Backdrop ── */}
-      {open && (
+      {open && !hideOnLogin && (
         <div
           onClick={() => setOpen(false)}
           className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm"
@@ -217,7 +215,7 @@ export default function BugReportButton() {
       )}
 
       {/* ── Modal ── */}
-      {open && (
+      {open && !hideOnLogin && (
         <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-[calc(100%-2rem)] max-w-lg  bg-white rounded-2xl shadow-2xl p-4 sm:p-6 max-h-[90vh] overflow-y-auto">
 
           {/* Header */}

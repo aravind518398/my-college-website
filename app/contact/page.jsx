@@ -2,6 +2,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ContactClientContent from "@/components/ContactClientContent";
 import { defaultSiteSettings } from "@/lib/siteSettingsDefaults";
+import { getSiteSettings } from "@/lib/siteSettings";
 
 
 
@@ -19,16 +20,8 @@ function mergeContactSettings(saved = {}) {
 
 async function getContactSettings() {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
-    const response = await fetch(`${baseUrl}/api/site-settings`);
-
-    if (!response.ok) return defaultSiteSettings.contact;
-    const data = await response.json();
-
-    if (data?.settings?.contact) {
-      return mergeContactSettings(data.settings.contact);
-    }
-    return defaultSiteSettings.contact;
+    const settings = await getSiteSettings();
+    return mergeContactSettings(settings.contact || {});
   } catch (error) {
     console.warn("Using fallback defaults for contact page details during server build pass:", error.message);
     return defaultSiteSettings.contact;

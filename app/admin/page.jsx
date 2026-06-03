@@ -96,7 +96,7 @@ import { getAcademicCalendar, saveAcademicCalendar } from "@/lib/academicCalenda
 import { faUser } from "@fortawesome/free-solid-svg-icons/faUser";
 
 export const metadata = {
-  title: "Admin Dashboard | KMM College Kumbalam",
+  title: "Admin Dashboard | KMM COLLEGE KUMBALAM",
   description: "Administrator workspace for KMM College Kumbalam.",
 };
 
