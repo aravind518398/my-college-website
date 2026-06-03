@@ -1,5 +1,3 @@
-"use client";
-
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import {
@@ -15,7 +13,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import { defaultPlacedStudents } from "@/lib/placementDefaults";
-import { useEffect, useState } from "react";
+import { getPlacedStudents } from "@/lib/placements";
 
 const highlights = [
   { value: "Career", label: "guidance and mentoring", icon: faRoute },
@@ -76,30 +74,15 @@ function SectionTitle({ kicker, title, description }) {
   );
 }
 
-export default function Placements() {
-  const [placedStudents, setPlacedStudents] = useState([]);
-
-  useEffect(() => {
-    let isMounted = true;
-
-    fetch("/api/placed-students")
-      .then((response) => (response.ok ? response.json() : null))
-      .then((data) => {
-        if (isMounted && Array.isArray(data?.students)) {
-          setPlacedStudents(data.students);
-        }
-      })
-      .catch(() => {
-        if (isMounted) {
-          setPlacedStudents([]);
-        }
-      });
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
-
+export default async function Placements() {
+  const placedStudents = await (async () => {
+    try {
+      const data = await getPlacedStudents();
+      return data;
+    } catch {
+      return defaultPlacedStudents;
+    }
+  })();
   return (
     <>
       <Header />

@@ -55,7 +55,7 @@ function SyllabusItem({ item, programme }) {
       </div>
 
       {isAvailable ? (
-        <DownloadPdfButton pdfUrl={item.pdfUrl} title={item.label} />
+        <DownloadPdfButton pdfUrl={item.href || item.pdfUrl || ""} title={item.label} />
       ) : (
         <span className="inline-flex items-center justify-center rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-bold text-slate-400">
           Awaiting PDF
@@ -65,32 +65,11 @@ function SyllabusItem({ item, programme }) {
   );
 }
 
-export default function PGProgramme() {
-  const [programmes, setProgrammes] = useState(FALLBACK_PROGRAMMES);
-  const [documentsRequired, setDocumentsRequired] = useState(FALLBACK_DOCUMENTS);
+export default function PGProgramme({ initialProgrammes = FALLBACK_PROGRAMMES, initialDocumentsRequired = FALLBACK_DOCUMENTS }) {
+  const [programmes, setProgrammes] = useState(initialProgrammes);
+  const [documentsRequired, setDocumentsRequired] = useState(initialDocumentsRequired);
   const searchParams = useSearchParams();
   const programParam = searchParams.get("program");
-
-  useEffect(() => {
-    let isMounted = true;
-
-    fetch("/api/pg-programmes")
-      .then((response) => (response.ok ? response.json() : null))
-      .then((data) => {
-        if (!isMounted) return;
-        if (Array.isArray(data?.programmes) && data.programmes.length) {
-          setProgrammes(data.programmes);
-        }
-        if (Array.isArray(data?.documentsRequired) && data.documentsRequired.length) {
-          setDocumentsRequired(data.documentsRequired);
-        }
-      })
-      .catch(() => { });
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
 
   const initialActiveId = programmes.some((programme) => programme.id === programParam)
     ? programParam
@@ -98,21 +77,15 @@ export default function PGProgramme() {
 
   const [activeId, setActiveId] = useState(initialActiveId);
 
-  useEffect(() => {
-    if (!programmes.some((programme) => programme.id === activeId)) {
-      setActiveId(programmes[0]?.id || "");
-    }
-  }, [programmes, activeId]);
-
-  useEffect(() => {
-    if (programParam && programmes.some((programme) => programme.id === programParam)) {
-      setActiveId(programParam);
-    }
-  }, [programParam, programmes]);
+  const effectiveActiveId = programParam && programmes.some((p) => p.id === programParam)
+    ? programParam
+    : programmes.some((p) => p.id === activeId)
+      ? activeId
+      : programmes[0]?.id || "";
 
   const activeProgramme = useMemo(
-    () => programmes.find((programme) => programme.id === activeId) || programmes[0],
-    [activeId, programmes]
+    () => programmes.find((programme) => programme.id === effectiveActiveId) || programmes[0],
+    [effectiveActiveId, programmes]
   );
 
   if (!activeProgramme) {

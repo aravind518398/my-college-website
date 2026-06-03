@@ -270,8 +270,10 @@ export default async function AcademicsPage() {
   
 
 
-  const { tableRows: ugProgrammes } = await getUgProgrammes();
-  const { tableRows: pgProgrammes } = await getPgProgrammes();
+  const ugData = await getUgProgrammes();
+  const { tableRows: ugProgrammes } = ugData;
+  const pgData = await getPgProgrammes();
+  const { tableRows: pgProgrammes } = pgData;
   const academicCalendar = await getAcademicCalendar();
   const hasAcademicCalendarPdf = Boolean(academicCalendar.pdfUrl);
 
@@ -361,7 +363,7 @@ export default async function AcademicsPage() {
         </div>
 
         <Suspense fallback={<div className="h-96 bg-white" />}>
-          <UGProgramme />
+          <UGProgramme initialProgrammes={ugData.programmes} initialDocumentsRequired={ugData.documentsRequired} />
         </Suspense>
 
         <div className="scroll-mt-14 bg-white" id="pg-programmes">
@@ -376,7 +378,7 @@ export default async function AcademicsPage() {
         </div>
 
         <Suspense fallback={<div className="h-96 bg-white" />}>
-          <PGProgramme />
+          <PGProgramme initialProgrammes={pgData.programmes} initialDocumentsRequired={pgData.documentsRequired} />
         </Suspense>
 
         <section className=" px-4 py-14 sm:px-6 lg:py-20 scroll-mt-14" id="academic-calendar">

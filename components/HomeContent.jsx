@@ -14,6 +14,7 @@ export default function HomeContent({
   ugProgrammeCards,
   pgProgrammeCards,
   initialCarouselSlides, // <-- FIXED: Added this here to receive the array from app/page.jsx
+  initialLatestUpdates,
 }) {
   return (
     <div className="flex min-h-screen flex-col cursor-default">
@@ -75,7 +76,7 @@ export default function HomeContent({
                 </div>
               </div>
 
-              <LatestUpdates />
+              <LatestUpdates initialUpdates={initialLatestUpdates} />
             </div>
 
             <div className="mt-6 grid gap-4 sm:grid-cols-2 w-full">
