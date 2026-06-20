@@ -221,7 +221,7 @@ export default function AdminLoginForm() {
 
           <div className="rounded-2xl border border-[#d5dfeb] bg-[#f8fafc] px-4 py-3 text-sm leading-6 text-[#40506f]">
             A 6-digit verification code was sent to{" "}
-            <span className="font-semibold  text-[#18213b] wrap-break-word">{email}</span>.
+            <span className="font-semibold  text-[#18213b] wrap-break-word">{email}</span>
           </div>
 
           <div className="space-y-2">

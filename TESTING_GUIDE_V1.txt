@@ -24,117 +24,252 @@ Features To Test
 1. Home Page
    - Does the page load properly?
    - Are images, banners, and text visible?
-   - Do sections look clean and readable?
-   - Are latest updates or announcements easy to notice?
+   KMM College Website — Testing Guide
 
-2. Navigation Menu
-   - Try opening all main menu items.
-   - Check dropdown menus if available.
-   - Make sure links go to the correct pages or sections.
-   - On mobile, open and close the menu and check if it works smoothly.
+   Cover Page
+   ----------
+   K.M.M. College Website — Testing Guide
 
-3. Search Feature 🔍
-   - Click or tap the search icon/input.
-   - Try searching for different words such as:
-     - admission
-     - BCA
-     - MBA
-     - psychology
-     - facilities
-     - contact
-     - syllabus
-     - placement
-   - Check whether useful results appear below the search bar.
-   - Click a result and confirm it opens the correct page or document.
-   - Try an empty search and check if a helpful message appears.
-   - Try a random word like "abcdxyz" and check if a "no results found" message appears.
+   Version: 2.1
+   Date: 2026-06-09
+   Author: Project Documentation Team
 
-4. Pages To Visit
-   - About
-   - Academics
-   - Departments
-   - Co-Curricular
-   - Facilities
-   - Placements
-   - Add-On Courses
-   - Admission
-   - Contact
+   Purpose
+   -------
+   This guide helps classmates, staff, and testers check the K.M.M. College website. It uses simple language and clear steps. You do not need technical knowledge.
 
-5. Mobile Responsiveness 📱
-   - Test on a mobile phone if possible.
-   - Check whether text fits properly on the screen.
-   - Make sure buttons and links are easy to tap.
-   - Confirm that images do not overlap with text.
-   - Check that the mobile menu and search work correctly.
+   How this guide is organised
+   - Basic setup (how to run the site locally)
+   - Public website test cases (what to check on every page)
+   - Search, downloads and responsiveness tests
+   - Admin testing and 2FA instructions
+   - How to report bugs (templates and severity levels)
+   - Final checklist and sign-off
 
-6. Desktop / Laptop View 💻
-   - Check the website on a larger screen if possible.
-   - Make sure layout, spacing, menus, and images look neat.
-   - Try scrolling through long pages.
+   Contact for admin OTP and access
+   --------------------------------
+   If you need an admin OTP, contact the project owner:
 
-7. Contact And Enquiry
-   - Check phone numbers, email links, and contact details.
-   - If there is an enquiry form, check whether the fields are understandable.
-   - Do not submit fake personal information unless asked.
+   - Name: Aravind
+   - Email: aravindrkrishnan280@gmail.com
 
-8. Documents And Downloads
-   - Try opening syllabus PDFs or other document links.
-   - Check whether the documents open correctly.
+   Do not try to bypass the OTP step — the owner must provide the current code.
 
-9. Admin Section 🔐
-   - Open the admin login page:
-     [Paste admin login link here]
-   - Use only the test/admin login details shared separately.
-   - Check whether login works correctly.
-   - Check whether the admin dashboard opens after login.
-   - Browse the admin menu and check if sections are easy to understand.
-   - Check forms, buttons, image upload areas, and save/update options.
-   - If you are asked to test editing, try making a small sample change only.
-   - Do not delete real content unless specifically asked.
-   - After saving any change, check the public website to confirm whether the update appears correctly.
-   - Check whether logout works properly.
+   ADMIN LOGIN (for testing only)
+   - Email: aravindrkrishnan280@gmail.com
+   - Password: 123456
+
+   Important: After entering these, the system sends a One-Time Password (OTP) to Aravind's email. Testers must contact Aravind to receive the OTP. The OTP changes frequently.
 
 
-What To Report
---------------
-Please report anything that looks or feels wrong, such as:
+   1) Testing Instructions (high level)
+   -----------------------------------
+   - Read each test case and follow the steps.
+   - Mark PASS if the feature works as described, FAIL if it does not.
+   - Take screenshots when you see problems.
+   - For admin tests, follow the OTP instructions above.
 
-- Page not loading
-- Broken link
-- Search not showing correct results
-- Search result opening the wrong page
-- Typing mistakes or grammar issues
-- Missing information
-- Images not loading
-- Text overlapping or getting cut off
-- Buttons not working
-- Menu not opening or closing properly
-- Website looking bad on mobile
-- Very slow loading
-- Admin login not working
-- Admin page errors
-- Admin changes not saving
-- Admin changes not appearing on the public website
-- Any confusing section or wording
-- Suggestions to improve the website
+   2) Public Website Test Cases
+   ----------------------------
+   For each page below, open the page and check the listed items. 
+   If you cannot access a page, note the URL and the error.
 
+   a) Home page (`/`)
+   - Page loads and images appear.
+   - Carousel slides advance and links work.
+   - Programme cards show title and image.
+   - Latest updates section shows recent items.
 
-How To Send Feedback
---------------------
-Please send feedback by message or WhatsApp.
+   b) About pages (`/about` and `/about/rti`)
+   - Leadership messages and contact details are visible.
+   - RTI page shows statutory information.
 
-Helpful feedback includes:
+   c) Academics (`/academics`)
+   - UG and PG sections listed.
+   - Documents or syllabus links open or download.
+   - Academic calendar PDF link works.
 
-- A short description of the issue
-- The page where you found it
-- The phone/computer/browser you used, if you know it
-- A screenshot or screen recording, if possible
-- Suggestions for improvement
+   d) Departments (`/departments`)
+   - Department sections load and anchors jump correctly.
 
-Example:
-"On mobile, the search results are hard to read on the home page. I used Chrome on Android. Screenshot attached."
+   e) Co-Curricular (`/co-curricular`)
+   - Activities and NSS section visible.
 
+   f) Facilities (`/facilities`)
+   - Facility cards show icon, title, and description.
+   - Contact CTA navigates to the Contact page.
 
-Thank You
----------
-Thank you for taking the time to test Version 1 of the college website. Your feedback will help improve the website and make it easier for students, parents, staff, and visitors to use.
+   g) Placements (`/placements`)
+   - Placed student cards show image and caption.
+
+   h) Add-On Courses (`/add-on-courses`)
+   - Course groups and lists visible.
+
+   i) Admission (`/admission`)
+   - Admission phone is shown and contact CTA works.
+
+   j) Contact (`/contact`)
+   - Contact details visible.
+   - Enquiry form fields: name, email, type, message.
+   - Submit shows a success message (if configured, email is sent).
+
+   3) Search Testing
+   -----------------
+   - Open the search box and search for:
+      - "admission", "BCA", "psychology", "placements", "contact"
+   - Verify results are useful and links open correct pages.
+   - Try an unknown word (e.g., "abcdxyz") — verify a friendly "no results" message appears.
+
+   4) Downloads and Documents
+   --------------------------
+   - Click PDF links (syllabus, mandatory disclosures). The PDF should open or download.
+   - If a PDF fails to open, note the URL and the error.
+
+   5) Mobile Testing
+   -----------------
+   Use a mobile device or browser device emulator.
+   - Open the menu and navigate to pages.
+   - Check that text fits and buttons are big enough to tap.
+   - Ensure images do not overlap text.
+
+   6) Desktop Testing
+   ------------------
+   - Open pages on a larger screen.
+   - Check layout, spacing, and that no elements overflow or break.
+
+   7) Accessibility and Readability
+   --------------------------------
+   - Images should have meaningful alt text.
+   - Try tabbing through the page with keyboard — you should be able to reach links and buttons.
+   - Text must be readable (font size and color contrast).
+
+   8) Admin Testing (detailed)
+   ---------------------------
+   Important: Admin area uses 2FA (OTP). Follow the 2FA instructions above.
+
+   Login process
+   - Go to `/admin/login`.
+   - Enter the ADMIN Email and Password above.
+   - Ask Aravind for the OTP sent to his email.
+   - Enter the OTP to complete login.
+
+   Once logged in, verify:
+   - Dashboard opens and shows panels.
+   - Navigation menu links to each CMS section.
+   - Panels listed: Carousel, Latest Updates, Home Programme Cards, Facilities, Add-On Courses, About Messages, UG/PG Programmes, Placed Students, Departments, NSS Officers, Academic Calendar, Contact & Social.
+
+   Admin actions to test (do small sample changes only)
+   - Edit a text field (e.g., hero title) and click Save.
+      - PASS: The CMS confirms save and public page shows the update.
+   - Add a new list item using the blank row (e.g., Add a Latest Update). Save and confirm item appears publicly.
+   - Upload an image (JPG/PNG/WebP/AVIF) via the image control. File limit: 5 MB.
+      - PASS: Preview shows, and after Save the image appears on public page.
+   - Upload a PDF via the PDF control. File limit: 20 MB.
+      - PASS: Download link is shown and persists after Save.
+   - Try Delete checkbox on a non-critical entry and Save — confirm it is removed.
+
+   Admin safety rules
+   - Make only small sample changes that are easy to revert.
+   - Do not delete important content or production data.
+   - If unsure, ask Aravind before changing.
+
+   9) Two-Factor Authentication (2FA) — detailed instructions
+   -------------------------------------------------------
+   1. Go to `/admin/login`.
+   2. Enter the admin email: aravindrkrishnan280@gmail.com and password: 123456.
+   3. The system will send a 6-digit OTP to Aravind's email.
+   4. Contact Aravind and request the current OTP.
+   5. Enter the OTP on the verification screen and submit.
+   6. If the OTP is correct, you will be redirected to the admin dashboard.
+
+   Notes:
+   - The OTP is time-limited. If it fails, ask Aravind for a fresh code.
+   - Do not try to bypass or share the OTP.
+
+   10) Bug Reporting Guide
+   ----------------------
+   When you find an issue, include clear steps so the team can reproduce it.
+
+   Severity levels
+   - Critical: site is down or core workflows (admissions/enquiry/admin login) broken.
+   - High: important feature broken (file uploads fail, pages missing content).
+   - Medium: visual issues or non-blocking functional problems.
+   - Low: typos, small UI suggestions.
+
+   Bug report template
+   - Title: Short summary
+   - Severity: Critical / High / Medium / Low
+   - Steps to reproduce: 1, 2, 3
+   - Expected result
+   - Actual result
+   - Page URL
+   - Device / browser
+   - Screenshot(s)
+   - Time & date
+
+   Example
+   -------
+   Title: "Contact form submit shows success but no email"
+   Severity: High
+   Steps:
+   1. Open `/contact` on localhost
+   2. Fill the form and submit
+   Expected: Email arrives to college contact
+   Actual: Success shown, no email received
+   Page URL: http://localhost:3000/contact
+   Device: Chrome on macOS
+   Screenshot: attached
+
+   11) Feedback Template (quick form)
+   ---------------------------------
+   - Your name:
+   - Your role (student/staff/tester):
+   - Page URL:
+   - Problem observed:
+   - Steps to reproduce:
+   - Severity (C/H/M/L):
+   - Screenshot: (attach file)
+
+   12) Testing Checklist (for sign-off)
+   -----------------------------------
+   Use this list to mark tests as done. Provide comments for any FAIL.
+
+   - [ ] Home page loads and carousel works
+   - [ ] About / RTI content visible
+   - [ ] Academics UG/PG and PDFs load
+   - [ ] Departments sections work
+   - [ ] Facilities and contact CTA
+   - [ ] Placements list loads
+   - [ ] Add-On courses visible
+   - [ ] Admission contact and CTA
+   - [ ] Contact form submits (server response)
+   - [ ] Search returns relevant results
+   - [ ] Mobile view checks done
+   - [ ] Desktop view checks done
+   - [ ] Admin login (with OTP) verified
+   - [ ] Admin content edit and save verified
+   - [ ] Image/PDF uploads tested
+   - [ ] Accessibility basic checks completed
+
+   13) Final Sign-Off
+   ------------------
+   After all PASS items, the tester signs here:
+
+   Tester name: ______________________
+   Date: _____________________________
+   Comments:
+
+   Appendix: Quick commands for developers (optional)
+   -----------------------------------------------
+   Install dependencies and run dev server:
+
+   ```bash
+   npm install
+   npm run dev
+   ```
+
+   Notes and next steps
+   - If you want, I can run the dev server here and capture screenshots for every page and embed them in the manual.
+   - I can also create a small automated test suite (Playwright) for smoke tests.
+
+   Thank you for testing — your feedback helps improve the site.
