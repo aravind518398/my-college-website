@@ -1,7 +1,7 @@
 "use client";
 
 import { defaultPgDocumentsRequired, defaultPgProgrammes } from "@/lib/pgProgrammeDefaults";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import DownloadPdfButton from "./DownloadPdfButton";
 
@@ -66,26 +66,20 @@ function SyllabusItem({ item, programme }) {
 }
 
 export default function PGProgramme({ initialProgrammes = FALLBACK_PROGRAMMES, initialDocumentsRequired = FALLBACK_DOCUMENTS }) {
-  const [programmes, setProgrammes] = useState(initialProgrammes);
-  const [documentsRequired, setDocumentsRequired] = useState(initialDocumentsRequired);
+  const programmes = initialProgrammes;
+  const documentsRequired = initialDocumentsRequired;
   const searchParams = useSearchParams();
   const programParam = searchParams.get("program");
 
-  const initialActiveId = programmes.some((programme) => programme.id === programParam)
-    ? programParam
-    : programmes[0]?.id;
-
-  const [activeId, setActiveId] = useState(initialActiveId);
-
-  const effectiveActiveId = programParam && programmes.some((p) => p.id === programParam)
-    ? programParam
-    : programmes.some((p) => p.id === activeId)
-      ? activeId
-      : programmes[0]?.id || "";
+  const [activeId, setActiveId] = useState(() =>
+    programmes.some((programme) => programme.id === programParam)
+      ? programParam
+      : programmes[0]?.id || ""
+  );
 
   const activeProgramme = useMemo(
-    () => programmes.find((programme) => programme.id === effectiveActiveId) || programmes[0],
-    [effectiveActiveId, programmes]
+    () => programmes.find((programme) => programme.id === activeId) || programmes[0],
+    [activeId, programmes]
   );
 
   if (!activeProgramme) {
@@ -116,13 +110,13 @@ export default function PGProgramme({ initialProgrammes = FALLBACK_PROGRAMMES, i
                 type="button"
                 key={programme.id}
                 onClick={() => setActiveId(programme.id)}
-                className={`rounded-md px-3 py-3 text-left transition-all duration-200 ${activeId === programme.id
+                className={`rounded-md px-3 py-3 text-left transition-all duration-200 ${activeProgramme.id === programme.id
                     ? `${programme.accent} text-white shadow-lg shadow-slate-300/50`
                     : "bg-white text-slate-600 hover:text-[#18213b]"
                   }`}
               >
                 <span className="block text-sm font-bold">{programme.shortName}</span>
-                <span className={`mt-1 block text-[11px] font-semibold ${activeId === programme.id ? "text-white/70" : "text-slate-400"}`}>
+                <span className={`mt-1 block text-[11px] font-semibold ${activeProgramme.id === programme.id ? "text-white/70" : "text-slate-400"}`}>
                   {programme.programType ? programme.programType : "Regular"}
                 </span>
               </button>
