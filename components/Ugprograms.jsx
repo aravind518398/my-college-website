@@ -80,8 +80,8 @@ export default function UGProgramme({ initialProgrammes = FALLBACK_PROGRAMMES, i
   );
 
   const activeProgramme = useMemo(
-    () => programmes.find((programme) => programme.id === effectiveActiveId) || programmes[0],
-    [effectiveActiveId, programmes]
+     () => programmes.find((programme) => programme.id === activeId) || programmes[0],
+    [activeId, programmes]
   );
 
   if (!activeProgramme) {
