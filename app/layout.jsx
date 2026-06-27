@@ -1,4 +1,4 @@
-export const revalidate = 86400; // Cache the entire layout for 24 hours to optimize performance and reduce server load
+export const revalidate = 2592000; // cache for 30 days
 
 
 import { Geist, Geist_Mono, Montserrat } from "next/font/google";
