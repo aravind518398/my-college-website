@@ -191,18 +191,18 @@ async function updatePlacedStudents(formData) {
     students.map((student) => imageAsset(student))
   );
 
-  // If any new image was uploaded in this save, persist it to site settings
-  if (firstSubmittedImage) {
-    await saveSiteSettings({
-      ...currentSettings,
-      images: {
-        ...currentSettings.images,
-        collegeCampusImage: firstSubmittedImage,
-      },
-    });
-    revalidatePath("/", "layout");
-    revalidatePath("/about");
-  }
+  // // If any new image was uploaded in this save, persist it to site settings
+  // if (firstSubmittedImage) {
+  //   await saveSiteSettings({
+  //     ...currentSettings,
+  //     images: {
+  //       ...currentSettings.images,
+  //       collegeCampusImage: firstSubmittedImage,
+  //     },
+  //   });
+  //   revalidatePath("/", "layout");
+  //   revalidatePath("/about");
+  // }
 
   revalidatePath("/placements");
   redirect("/admin?placedStudentsSaved=1#placed-students");
