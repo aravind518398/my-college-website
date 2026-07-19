@@ -11,7 +11,7 @@ import Link from "next/link";
 import { getDepartments } from "@/lib/departments";
 
 // Use Incremental Static Regeneration so admin can call `revalidatePath("/departments")`
-export const revalidate = 60;
+export const revalidate = 2592000;
 
    
 

@@ -1,4 +1,4 @@
-export const revalidate = 86400; // Cache the entire layout for 24 hours to optimize performance and reduce server load
+export const revalidate = 2592000; // cache for 30 days
 
 
 import { Geist, Geist_Mono, Montserrat } from "next/font/google";
@@ -29,7 +29,11 @@ const geistMono = Geist_Mono({
 export const metadata = {
   title: "KMM COLLEGE KUMBALAM",
   description: "KMM College Kumbalam offers quality education in Arts, Science, and Commerce with modern facilities and experienced faculty.",
+  verification: {
+    google: 'iSqXwVcdOKlrYOmXJgNj3YlMAY7euGeGI2WEsPXXoow', // Paste your Google code string here
+  },
 };
+
 
 export default function RootLayout({ children }) {
   return (
