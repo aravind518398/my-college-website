@@ -29,7 +29,11 @@ const geistMono = Geist_Mono({
 export const metadata = {
   title: "KMM COLLEGE KUMBALAM",
   description: "KMM College Kumbalam offers quality education in Arts, Science, and Commerce with modern facilities and experienced faculty.",
+  verification: {
+    google: 'iSqXwVcdOKlrYOmXJgNj3YlMAY7euGeGI2WEsPXXoow', // Paste your Google code string here
+  },
 };
+
 
 export default function RootLayout({ children }) {
   return (
